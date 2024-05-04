@@ -9,9 +9,11 @@ const TopBar = () => {
   return (
     <div className={styles.topbar}>
       <div className={styles.topbarContainer}>
+      <div className={styles.logoContainer}>
       <Link to="/contestcreationpage">
         <img src={logoImage} alt="Dank My Meme Logo" className={styles.logo} />
       </Link>
+      </div>
       <Link to="/">
         <img src={logoTitle} alt="Dank My Meme Title" className={styles.title} />
       </Link>
@@ -21,7 +23,7 @@ const TopBar = () => {
 
       <div className={styles.navlinksContainer}>
         <Link to="/submissions" className={styles.navButton}>Submissions</Link>
-        <Link to="/contests" className={styles.navButton}>Contests</Link>
+        <Link to="/" className={styles.navButton}>Contests</Link>
         <Link to="/votes" className={styles.navButton}>Votes</Link>
       </div>
     </div>
