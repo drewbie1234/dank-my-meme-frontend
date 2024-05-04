@@ -63,7 +63,7 @@
 
 .dropdownContent {
   position: absolute;
-  top: 140px; /* Position it directly below the topbar */
+  top: 130px; /* Position it directly below the topbar */
   right: 0; /* Aligns the dropdown's right edge with the topbar's right edge */
   display: none; /* Initially hidden */
   width: 250px;

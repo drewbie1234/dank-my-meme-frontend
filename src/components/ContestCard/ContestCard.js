@@ -60,11 +60,11 @@ const ContestCard = ({ contest }) => {
                 {/* ... other items ... */}
                 <div className={styles.button} onClick={handleUploadClick}>
                     <img src={submitIcon} alt="Submit" />
-                    SUBMIT ({contest.entryFee} ETH)
+                    SUBMIT - {contest.entryFee}
                 </div>
                 <div className={styles.button} onClick={handleVoteClick}>
                     <img src={voteIcon} alt="Vote" />
-                    VOTE ({contest.votingFee} ETH)
+                    VOTE -  {contest.votingFee} ETH
                 </div>
             </div>
             {showUploadForm && <MemeUploadForm contest={contest} />}

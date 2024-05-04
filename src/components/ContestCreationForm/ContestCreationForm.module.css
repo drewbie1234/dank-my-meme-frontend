@@ -1,7 +1,7 @@
 .formContainer {
     display: flex;          /* Enables Flexbox layout */
     justify-content: center; /* Center content horizontally */
-    align-items: center;     /* Center content vertically */
+    align-items: start;     /* Center content vertically */
     height: 100vh;           /* Full height of the viewport */
     width: 100vw;            /* Full width of the viewport */
     background-color: #f4f4f4; /* Optional: Adds a background color */
@@ -10,7 +10,7 @@
 .contestCreationForm button {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:start;
     width: 100%;
     background-image: linear-gradient(to right, #ff007a, #ff007a); /* Bright pink gradient */
     color: #fff; /* White text */
@@ -53,6 +53,8 @@
     margin-bottom: 20px; /* Spacing between form fields */
     border: 1px solid #ccc;
     border-radius: 4px;
+    text-align: center;
+    font-family: "Comic Sans MS", cursive, sans-serif; /* Funky text font */
 }
 
 .contestCreationForm button {
@@ -63,4 +65,8 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.contestCreationForm {
+    text-align: center;
 }

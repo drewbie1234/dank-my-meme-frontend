@@ -70,11 +70,11 @@ const ContestCreationForm = ({ onCreate }) => {
                     <input type="datetime-local" name="endDateTime" value={formData.endDateTime} onChange={handleChange} />
                 </label>
                 <label>
-                    Entry Fee (ETH):
+                    Entry Fee:
                     <input type="number" step="0.01" name="entryFee" value={formData.entryFee} onChange={handleChange} />
                 </label>
                 <label>
-                    Voting Fee (ETH):
+                    Voting Fee:
                     <input type="number" step="0.01" name="votingFee" value={formData.votingFee} onChange={handleChange} />
                 </label>
                 <label>
