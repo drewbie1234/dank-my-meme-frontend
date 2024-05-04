@@ -3,12 +3,12 @@ import styles from './Footer.module.css';
 import xLogoSVG from "../../svgs/xLogoSVG.svg";
 
 // SVG imports for the social media icons
-import twitterLogo from "../../svgs/twitterLogo.svg";
-import coinMarketCapLogo from "../../svgs/coinMarketCapLogo.svg";
-import coinGeckoLogo from "../../svgs/coinGeckoLogo.svg";
-import dexToolsLogo from "../../svgs/dexToolsLogo.svg";
-import etherscanLogo from "../../svgs/etherscanLogo.svg";
-import duneAnalyticsLogo from "../../svgs/duneAnalyticsLogo.svg";
+import twitterLogo from "../../svgs/xLogo.svg";
+import coinMarketCapLogo from "../../svgs/coinMarketCapSVG.svg";
+import coinGeckoLogo from "../../svgs/coinGeckoSVG.svg";
+import dexToolsLogo from "../../svgs/dexToolsSVG.svg";
+import etherscanLogo from "../../svgs/etherscanSVG.svg";
+import duneAnalyticsLogo from "../../svgs/duneSVG.svg";
 
 const Footer = () => {
   return (
