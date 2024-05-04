@@ -15,7 +15,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.socialLinks}>
-          <h4>Follow Us</h4>
+          <h4>Follow the Memes 🐇</h4>
           <ul>
             <li>
               <a href="https://twitter.com/pond0x" target="_blank" rel="noopener noreferrer">
