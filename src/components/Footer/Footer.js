@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Footer.module.css';
-import xLogoSVG from "../../svgs/xLogoSVG.svg";
+
 
 // SVG imports for the social media icons
 import twitterLogo from "../../svgs/xLogo.svg";
