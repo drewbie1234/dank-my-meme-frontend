@@ -23,7 +23,7 @@ const ContestCard = ({ contest }) => {
 
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:3001/api/vote', {
+            const response = await fetch('http://194.124.43.95:3001/api/vote', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

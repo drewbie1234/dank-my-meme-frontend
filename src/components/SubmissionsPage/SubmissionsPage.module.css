@@ -1,18 +1,50 @@
+    /* HomePage.module.css */
 .submissionsPageContainer {
-    background-color: #f2e6ff;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    height: 160vh;
-}
-
-.contentContainer {
     width: auto;
+    background-color: #f2e6ff;
     z-index: -1000;
   }
+  
+  .contentContainer {
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+    z-index: -1000;
+  }
+  
+  .contestDisplayFeedContainer {
+    width: 500px;
+  }
+  
+  .sideMenu {
+    width: 360px;
+  }
+  
+  
+    
 
-  h1 {
-   margin: 0; 
+  
+  .feed {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+  
+  }
+  
+  .contestDisplayFeedContainer {
+    position: relative;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+    background-color: #f2e6ff;
+    padding: 10px;
+    width:300px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    display: block;
+    border-radius: 25px;
+    overflow: hidden; /* Ensures the shadows don't extend outside the container */
+    z-index: 0;
+    height: 70vh;
+    
   }
 
   
@@ -36,7 +68,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;    
     
-    width: 500px;
+    min-width: 300px;
 }
 
 .submission h2 {

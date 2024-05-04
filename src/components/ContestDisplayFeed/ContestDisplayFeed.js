@@ -18,7 +18,7 @@ const ContestDisplayFeed = () => {
 
   return (
     <>
-      <h2 className={styles.feed}>Contests</h2>
+      <h1 className={styles.feed}>Contests</h1>
       <div className={styles.contestDisplayFeedContainer}>
         <div className={styles.scrollableContests}>
           {contests.map((contest) => (

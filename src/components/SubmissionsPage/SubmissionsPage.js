@@ -1,13 +1,17 @@
 import React from "react";
-import styles from "./SubmissionsPage.module.css"; // Adjust path if needed
+import ContestDisplayFeed from "../ContestDisplayFeed/ContestDisplayFeed"; // Adjust the path as necessary
+import styles from "./SubmissionsPage.module.css"; // Using CSS Modules
 
-const SubmissionsPage = () => {
+// Assuming imports are correct and using CSS Modules
+function SubmissionsPage() {
   return (
     <div className={styles.submissionsPageContainer}>
-        <h1>Submissions Page</h1>
+      <div className={styles.contentContainer}>
+        <div className={styles.contestDisplayFeedContainer}>
+        <h1>Submissions</h1>
         <p>This is where users can view and submit their contributions.</p>
         <div className={styles.contentContainer}>
-            <div className={styles.contestDisplayFeedContainer} />
+            <div className={styles.feed} />
             <div className={styles.submissionsList}>
                 <div className={styles.submission}>
                     <h2>Submission 1</h2>
@@ -19,8 +23,12 @@ const SubmissionsPage = () => {
                 </div>
             </div>
       </div>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default SubmissionsPage;
+
+
