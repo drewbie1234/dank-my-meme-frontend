@@ -30,7 +30,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/contestcreationpage" element={<ContestCreationPage />} />
           <Route path="/votes" element={<VotesPage />} /> 
-          <Route path="/votes" element={<SubmissionsPage />} /> 
+          <Route path="/submissions" element={<SubmissionsPage />} /> 
           <Route path="*" element={<div>Not Found — <Link to="/">Go Home</Link></div>} />
         </Routes>
         <Footer />

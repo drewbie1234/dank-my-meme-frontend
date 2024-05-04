@@ -1,16 +1,50 @@
 /* TopBar.css */
 .topbar {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between left and right items */
+    padding: 5px; /* Add some padding around the top bar */
+    background-color: #822280;
+    box-sizing: border-box;
+  }
+
+  .topbarContainer {
     height: 90px;
     display: flex;
     align-items: center; /* Align items vertically in the center */
     justify-content: space-between; /* Space between left and right items */
     padding: 5px; /* Add some padding around the top bar */
     background-color: #822280;
-    box-sizing: border-box;
-  
-  
   }
 
+  .navlinksContainer {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: #822280;
+  }
+  
+  .navButton {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #942a94; /* Initial button color */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth color transition and hover effect */
+  }
+  
+  .navButton:hover {
+    background-color: #a73ea7; /* Slightly lighter shade on hover */
+    transform: scale(1.5); /* Slightly enlarge on hover */
+  }
+  
+  .activeNavButton {
+    background-color: #b950b9; /* Different shade to highlight the selected button */
+  }
+  
   .logo {
     width: 75px;
     margin: 20px;
