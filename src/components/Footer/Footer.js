@@ -3,7 +3,7 @@ import styles from './Footer.module.css';
 
 
 // SVG imports for the social media icons
-import twitterLogo from "../../svgs/xLogo.svg";
+import twitterLogo from "../../svgs/twitterSVG.svg";
 import coinMarketCapLogo from "../../svgs/coinMarketCapSVG.svg";
 import coinGeckoLogo from "../../svgs/coinGeckoSVG.svg";
 import dexToolsLogo from "../../svgs/dexToolsSVG.svg";
