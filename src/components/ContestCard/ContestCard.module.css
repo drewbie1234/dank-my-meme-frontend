@@ -1,0 +1,61 @@
+
+
+.contestDateContainer{
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* This ensures the container stretches across the full width of its parent */
+    font-size:10px;
+    color: #822280;
+  }
+  
+.contestCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white; /* Light grey background */
+  padding: 20px;
+  margin: 10px 0; /* Adds some space between the cards */
+  border-radius: 25px; /* Rounds the corners of the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  border: 2px solid transparent; /* Prepare for the border color change on hover */
+  transition: box-shadow 0.3s ease, transform 0.5s ease-in-out, border-color 0.3s ease; /* Adjust transition for smoother effect */
+}
+.contestCard:hover {
+  box-shadow: 0 2px 20px rgba(175, 38, 172, 0.3); /* Darker shadow on hover with reduced opacity */
+  border: 0.5px solid  rgba(175, 38, 172, 0.3);
+}
+
+
+.icon {
+  height: 15px
+}
+
+.gridLayout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  grid-template-rows: repeat(3, auto); /* 3 rows, auto height */
+  gap: 10px; /* Adjust gap as needed */
+  margin-top: 20px; /* Spacing from the content above */
+}
+
+.infoItem, .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #822280; /* Example button color */
+  color: white;
+  cursor: pointer;
+  border-radius: 25px;
+}
+
+.button img {
+  width: 20px;
+}

@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7ca1a3b6.css",
+    "main.js": "/static/js/main.c447e2c7.js",
+    "static/media/dank_my_meme.png": "/static/media/dank_my_meme.28c6f7c28e1ab3d4494d.png",
+    "static/media/dank_my_meme_title.png": "/static/media/dank_my_meme_title.38b40b59b1a58b2041af.png",
+    "static/media/vote.svg": "/static/media/vote.d3063ae8b49bf27a33488c7f3edee7ed.svg",
+    "static/media/wallet.svg": "/static/media/wallet.fc7d5d27eeb4aac21859f705fbe47d8c.svg",
+    "static/media/leftSlider.svg": "/static/media/leftSlider.bb37345cd70d0dfe9eb9ecb760950cf8.svg",
+    "static/media/rightSlider.svg": "/static/media/rightSlider.4752d98c36cb20cbe3ba1878098c0065.svg",
+    "static/media/submit.svg": "/static/media/submit.0659d492c0a4848f0603073b77c5823d.svg",
+    "index.html": "/index.html",
+    "main.7ca1a3b6.css.map": "/static/css/main.7ca1a3b6.css.map",
+    "main.c447e2c7.js.map": "/static/js/main.c447e2c7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7ca1a3b6.css",
+    "static/js/main.c447e2c7.js"
+  ]
+}

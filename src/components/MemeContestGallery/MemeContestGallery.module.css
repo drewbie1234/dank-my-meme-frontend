@@ -1,0 +1,143 @@
+.memeContestGalleryWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden; /* Hide overflow to ensure a clean look */
+  width: 100%; /* Adjust based on your layout needs */
+  max-width: 600px; /* Maximum width of the gallery, adjust as needed */
+  margin: auto; /* Center the gallery in its parent container */
+}
+
+.arrowButton {
+  width: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 10; /* Ensure the buttons are above the gallery items */
+  background-color: transparent; /* Optional: for styling */
+  border: none; /* Remove border for a cleaner look */
+}
+
+.arrowButton:first-of-type {
+  left: 10px; /* Distance from the left edge of the gallery */
+}
+
+.arrowButton:last-of-type {
+  right: 10px; /* Distance from the right edge of the gallery */
+}
+
+.scrollRegionLeft, .scrollRegionRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%; /* Adjust the width as needed for the clickable area */
+  z-index: 10;
+  cursor: pointer;
+}
+
+.scrollRegionLeft {
+  left: 0;
+}
+
+.scrollRegionRight {
+  right: 0;
+}
+
+
+.memeContestGallery {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory; /* Enable snapping */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS devices */
+  gap: 20px; /* Space between items */
+  padding: 20px; /* Padding inside the gallery for aesthetics */
+}
+
+.submissionDetail {
+  flex: 0 0 auto; /* Do not grow or shrink */
+  width: 400px; /* Fixed width for each submission */
+  scroll-snap-align: center; /* Ensure the snapping aligns items to the center */
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 14px;
+  text-decoration-line: none;
+}
+
+.detailText {
+  margin: 10px; /* Space between the text and the image */
+}
+
+.entryBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #822280;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.memeImageContainer{
+  background-color: #f1d7f0; /* Sets the background to white */
+  display: flex; /* Uses flexbox to center the image */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  overflow: hidden; /* Ensures the image doesn't spill out of the container */
+  /* Set a specific height or keep it responsive based on your design */
+  height: 100%;
+  
+}
+
+.memeImage {
+  width: 100%; /* Make the image fill the container */
+  max-width: 400px; /* Maximum width of the image */
+  /* Maintain aspect ratio */
+  max-height: 600px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.etherScanLink {
+  color: #fff; /* White text */
+  text-decoration: underline; /* Underlined text */
+  /* Ensure the link is visible against the background */
+  background-color: transparent;
+  color: white;
+  /* Additional styling as needed */
+  margin: 10px; /* Space between the text and the image */
+}
+
+.buttonWrapperLeft {
+  left: 10px;
+  padding: 20px; /* Invisible padding */
+  cursor: pointer;
+  overflow: hidden; /* Hide overflow to ensure a clean look */
+  position: relative;
+}
+.buttonWrapperRight {
+  right: 10px;
+  padding: 20px; /* Invisible padding */
+  cursor: pointer;
+  overflow: hidden; /* Hide overflow to ensure a clean look */
+  position: relative;
+}
+
+.etherScanLink {
+  /* Existing styles */
+  background-color: transparent;
+  margin: 10px; /* Space between the text and the image */
+}
+
+.etherScanLink a {
+  color: white; /* Set your desired color, white is just an example */
+  text-decoration: none; /* Removes underline, set to 'underline' if you want it */
+  transition: color 0.3s; /* Smooth color transition for hover effect, optional */
+}
+
+.etherScanLink a:hover {
+  color: #ccc; /* Lighter shade of white for hover effect, adjust as needed */
+}

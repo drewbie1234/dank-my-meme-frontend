@@ -1,0 +1,66 @@
+.formContainer {
+    display: flex;          /* Enables Flexbox layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: center;     /* Center content vertically */
+    height: 100vh;           /* Full height of the viewport */
+    width: 100vw;            /* Full width of the viewport */
+    background-color: #f4f4f4; /* Optional: Adds a background color */
+}
+
+.contestCreationForm button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-image: linear-gradient(to right, #ff007a, #ff007a); /* Bright pink gradient */
+    color: #fff; /* White text */
+    font-family: "Comic Sans MS", cursive, sans-serif; /* Funky text font */
+    font-size: 10px; /* Small font size */
+    text-align: center;
+    padding: 10px 20px; /* Padding inside the button */
+    margin: 20px 0; /* Vertical margin */
+    border: 3px solid black; /* Thick black border */
+    border-radius: 25px; /* Rounded edges */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover and click */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.contestCreationForm button:hover {
+    transform: translateY(-2px); /* Slightly raise the button on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+.contestCreationForm button:active {
+    transform: translateY(1px); /* Slightly depress the button on click */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Deeper shadow on click */
+}
+
+/* Styling inputs and labels for clarity */
+.contestCreationForm label {
+    margin-bottom: 10px;
+    display: block;
+    width: 100%; /* Ensures labels take full width of the form */
+    font-weight: bold;
+}
+
+.contestCreationForm input[type="text"],
+.contestCreationForm input[type="datetime-local"],
+.contestCreationForm input[type="number"] {
+    width: 100%; /* Make inputs take full width of the form */
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 20px; /* Spacing between form fields */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.contestCreationForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

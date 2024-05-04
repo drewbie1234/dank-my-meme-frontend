@@ -1,0 +1,22 @@
+/* HomePage.module.css */
+.homePageContainer {
+  width: auto;
+  background-color: #f2e6ff;
+  z-index: -1000;
+}
+
+.contentContainer {
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  z-index: -1000;
+}
+
+.contestDisplayFeedContainer {
+  width: 500px;
+}
+
+.sideMenu {
+  width: 360px;
+}
+
