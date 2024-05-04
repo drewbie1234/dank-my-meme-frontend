@@ -8,7 +8,8 @@ const Footer = () => {
         <div className={styles.socialLinks}>
           <h4>Follow Us</h4>
           <ul>
-            <img src={xLogoSVG} alt="Wallet" style={{ width: '15px', marginLeft: '8px', verticalAlign: 'middle' }} />
+          <a target="_blank" href="https://twitter.com/CryptoCrus58025"><img src={xLogoSVG} alt="Wallet" style={{ width: '15px', marginLeft: '8px', verticalAlign: 'middle' }} /></a>
+            
           </ul>
         </div>
       </div>
