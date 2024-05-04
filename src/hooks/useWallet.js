@@ -59,7 +59,7 @@ export const useWallet = () => {
 
     const fetchBalance = async (account) => {
         try {
-            const response = await fetch(`http://localhost:3001/api/getBalance?account=${account}`);
+            const response = await fetch(`http://194.124.43.95:3001/api/getBalance?account=${account}`);
             const data = await response.json();
             return response.ok ? data.balance : "Error";
         } catch (error) {
@@ -79,7 +79,7 @@ export const useWallet = () => {
 
     const fetchEnsName = async (account) => {
         try {
-            const response = await fetch(`http://localhost:3001/api/getEns?account=${account}`);
+            const response = await fetch(`http://194.124.43.95:3001/api/getEns?account=${account}`);
             const data = await response.json();
             return response.ok ? data.ensName : "Error";
         } catch (error) {
