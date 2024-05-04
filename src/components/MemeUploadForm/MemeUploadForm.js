@@ -59,7 +59,7 @@ function MemeUploadForm({ contest }) {
       console.log('Submission sent to blockchain:', ipfsHash);
 
       // Call the backend API to record the submission
-      const response = await axios.post('/api/submissions', {
+      const response = await axios.post('http://194.124.43.95:3001/api/submissions', {
         contest,
         userAddress: selectedAccount,
         ipfsHash
