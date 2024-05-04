@@ -13,6 +13,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [loading, setLoading] = useState(true);
     const [walletAddresses, setWalletAddresses] = useState({});
     const [currentSubmissionId, setCurrentSubmissionId] = useState(null);
+    const [ensLoading, setEnsLoading] = useState(true);
 
     useEffect(() => {
         const fetchAndSetSubmissions = async () => {
@@ -36,36 +37,36 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     }, [contest]);
     
     
-
     useEffect(() => {
         const fetchENSNames = async () => {
-            let addresses = {};
-
-            if (submissions && submissions.length > 0) {
+            if (submissions.length > 0) {
+                setEnsLoading(true);
+                let addresses = {};
                 try {
                     const responses = await Promise.all(submissions.map(async (submission) => {
-                        const wallet = submission.wallet;
-                        if (wallet.includes('.eth')) {
-                            return { wallet, ensName: wallet }; // If already an ENS name, use it directly
+                        if (submission.wallet.includes('.eth')) {
+                            return { wallet: submission.wallet, ensName: submission.wallet };
                         } else {
-                            const response = await fetch(`http://localhost:3001/api/getEns?account=${wallet}`);
+                            const response = await fetch(`http://194.124.43.95:3001/api/getEns?account=${submission.wallet}`);
                             const data = await response.json();
-                            return { wallet, ensName: data.ensName || wallet };
+                            return { wallet: submission.wallet, ensName: data.ensName || submission.wallet };
                         }
                     }));
-
                     responses.forEach(({ wallet, ensName }) => {
                         addresses[wallet] = ensName;
                     });
-                    setWalletAddresses(addresses);
                 } catch (error) {
                     console.error("Error fetching ENS names:", error);
+                } finally {
+                    setWalletAddresses(addresses);
+                    setEnsLoading(false);
                 }
             }
         };
-
+    
         fetchENSNames();
-    }, [submissions]);
+    }, []);
+    
 
     useEffect(() => {
         // Call the callback function when currentSubmissionId changes
@@ -95,6 +96,15 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         scrollToCenter(nextIndex);
     };
 
+    // Utility function to shorten an Ethereum address
+    const shortenAddress = (address, startChars = 7, endChars = 6) => {
+        if (!address || address.length !== 42) {
+        return address; // Return as-is if not a valid Ethereum address
+        }
+        return `${address.slice(0, startChars)}...${address.slice(-endChars)}`;
+    };
+  
+
     return (
         <div className={styles.memeContestGalleryWrapper}>
             {loading ? (
@@ -110,9 +120,11 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
                                     <div className={styles.etherScanLink}>
-                                        <a href={`https://etherscan.io/address/${walletAddresses[submission.wallet] || submission.wallet}`} target="_blank" rel="noopener noreferrer">
-                                            {walletAddresses[submission.wallet] || submission.wallet}
-                                        </a>
+                                    <a href={`https://etherscan.io/address/${walletAddresses[submission.wallet] || submission.wallet}`} target="_blank" rel="noopener noreferrer">
+                                    {ensLoading ? <span>Loading...</span> : (walletAddresses[submission.wallet] || shortenAddress(submission.wallet))}
+
+                                    </a>
+
                                     </div>
                                     <div className={styles.detailText}>👌 {submission.votes} </div>
                                 </div>
