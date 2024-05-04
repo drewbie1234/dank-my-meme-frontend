@@ -52,7 +52,7 @@ const Footer = () => {
       </div>
 
       <div className={styles.copyRight}>
-        <p>© {new Date().getFullYear()} YourCrypto. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} DankMyMeme All rights reserved.</p>
       </div>
     </footer>
   );
