@@ -11,7 +11,7 @@ const TopBar = () => {
       <div className={styles.topbarContainer}>
       <div className={styles.logoContainer}>
       <Link to="/contestcreationpage">
-        <img src={logoImage} alt="Dank My Meme Logo" className={styles.logo} />
+        <img src={logoImage} alt="6ACank My Meme Logo" className={styles.logo} />
       </Link>
       </div>
       <Link to="/">

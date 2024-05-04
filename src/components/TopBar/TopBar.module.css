@@ -17,6 +17,13 @@
 
   }
 
+  .title {
+    max-width: 150px; /* Restrict to a maximum width */
+    width: 100%; /* Automatically adjusts based on parent container */
+    height: auto;
+    cursor: pointer;
+  }
+  
   .topbarContainer {
     height: 90px;
     display: flex;
