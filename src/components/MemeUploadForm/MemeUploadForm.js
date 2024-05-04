@@ -28,7 +28,7 @@ function MemeUploadForm({ contest }) {
 
         try {
             setIsLoading(true);
-            const response = await axios.post('http://localhost:3001/api/pinFile', formData, {
+            const response = await axios.post('http://194.124.43.95:3001/api/pinFile', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
