@@ -14,10 +14,14 @@ const TopBar = () => {
         <img src={logoImage} alt="6ACank My Meme Logo" className={styles.logo} />
       </Link>
       </div>
+      <div className={styles.titleContainer}>
       <Link to="/">
         <img src={logoTitle} alt="Dank My Meme Title" className={styles.title} />
       </Link>
+      </div>
+      <div className={styles.logoContainer}>
       <LoginSection />
+      </div>
       </div>
 
 
