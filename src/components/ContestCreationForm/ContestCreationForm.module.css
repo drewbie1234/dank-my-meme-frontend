@@ -2,7 +2,7 @@
     display: flex;          /* Enables Flexbox layout */
     justify-content: center; /* Center content horizontally */
     align-items: start;     /* Center content vertically */
-    height: 100vh;           /* Full height of the viewport */
+    height: auto;           /* Full height of the viewport */
     width: 100vw;            /* Full width of the viewport */
     background-color: #f4f4f4; /* Optional: Adds a background color */
 }
@@ -47,7 +47,7 @@
 .contestCreationForm input[type="text"],
 .contestCreationForm input[type="datetime-local"],
 .contestCreationForm input[type="number"] {
-    width: 100%; /* Make inputs take full width of the form */
+    width: 250px; /* Make inputs take full width of the form */
     padding: 8px;
     margin-top: 5px;
     margin-bottom: 20px; /* Spacing between form fields */
