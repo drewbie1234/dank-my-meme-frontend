@@ -1,4 +1,3 @@
-/* Footer.module.css */
 @keyframes colorShift {
   0% {background-color: #ff7e5f;}
   50% {background-color: #feb47b;}
@@ -10,45 +9,41 @@ h4 {
 }
 
 .footer {
-    background-color: #822280;;
+    background-color: #822280;
     color: white;
     text-align: center;
     padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Horizontal offset, vertical offset, blur radius, color */
-  }
-  
-  .footerContent {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footerContent {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     margin-bottom: 20px;
-  }
-  
-  .socialLinks ul,
-  .footerLinks ul {
+}
+
+.socialLinks ul {
     list-style: none;
     padding: 0;
-  }
-  
-  .socialLinks h4,
-  .footerLinks h4 {
+    display: flex;
+    gap: 20px;
+}
+
+.socialLinks h4 {
     margin-bottom: 15px;
-  }
-  
-  .socialLinks li a,
-  .footerLinks li a {
-    color: white;
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    text-decoration: none;
-    font-size: 12px;
-  }
-  
-  .socialLinks li a:hover,
-  .footerLinks li a:hover {
-    text-decoration: underline;
-    color: white;
-  }
-  
-  .copyRight {
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+}
+
+.copyRight {
     font-size: 0.8rem;
-  }
-  
+}
