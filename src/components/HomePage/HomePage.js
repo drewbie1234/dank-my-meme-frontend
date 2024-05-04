@@ -14,7 +14,6 @@ function HomePage() {
           <ContestDisplayFeed />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

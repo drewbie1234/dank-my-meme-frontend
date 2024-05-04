@@ -9,7 +9,7 @@ import styles from "./App.module.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { WalletProvider } from './contexts/WalletContext';
-
+import Footer from "./components/Footer/Footer";
 const App = () => {
   return (
     <Router>
@@ -33,7 +33,9 @@ const App = () => {
           <Route path="/votes" element={<SubmissionsPage />} /> 
           <Route path="*" element={<div>Not Found — <Link to="/">Go Home</Link></div>} />
         </Routes>
+        <Footer />
       </WalletProvider>
+      
     </Router>
   );
 };

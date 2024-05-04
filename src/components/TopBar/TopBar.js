@@ -8,6 +8,7 @@ import logoTitle from "../../images/dank_my_meme_title.png";
 const TopBar = () => {
   return (
     <div className={styles.topbar}>
+      <div className={styles.topbarContainer}>
       <Link to="/contestcreationpage">
         <img src={logoImage} alt="Dank My Meme Logo" className={styles.logo} />
       </Link>
@@ -15,8 +16,10 @@ const TopBar = () => {
         <img src={logoTitle} alt="Dank My Meme Title" className={styles.title} />
       </Link>
       <LoginSection />
+      </div>
 
-      <div className={styles.bottomLinks}>
+
+      <div className={styles.navlinksContainer}>
         <Link to="/submissions" className={styles.navButton}>Submissions</Link>
         <Link to="/contests" className={styles.navButton}>Contests</Link>
         <Link to="/votes" className={styles.navButton}>Votes</Link>
