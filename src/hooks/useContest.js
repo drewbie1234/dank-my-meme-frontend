@@ -154,7 +154,7 @@ const useContest = (contest) => {
                     contestId: contest.id,
                     userAddress: selectedAccount,
                     submissionIndex,
-                    txHash: txReceipt.transactionHash
+                    txHash: await txReceipt.transactionHash
                 });
 
                 if (response.status === 200) {
