@@ -12,9 +12,9 @@ import { WalletProvider } from './contexts/WalletContext';
 import Footer from "./components/Footer/Footer";
 const App = () => {
   return (
-    <Router>
+    <Router className={styles.top}>
       <WalletProvider>
-        <TopBar className={styles.top} />
+        <TopBar  />
         <ToastContainer
           position="top-right"
           autoClose={5000}

@@ -4,14 +4,14 @@ h1 {
 }
 
 .feed {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  
   text-align: center;
 
 }
 
 .contestDisplayFeedContainer {
   position: relative;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  
   text-align: center;
   background-color: #f2e6ff;
   padding: 10px;
