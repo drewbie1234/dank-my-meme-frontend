@@ -134,6 +134,8 @@ const useContest = (contest) => {
             return;
         }
 
+        console.log(`Voting contract: ${contract}`)
+
         const isApproved = await approveToken();
         if (!isApproved) {
             console.log("Token not approved. Voting aborted.");
