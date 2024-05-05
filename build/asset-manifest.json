@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.d995ab55.css",
-    "main.js": "/static/js/main.3947d789.js",
+    "main.js": "/static/js/main.7f87ad72.js",
     "static/media/dank_my_meme.png": "/static/media/dank_my_meme.28c6f7c28e1ab3d4494d.png",
     "static/media/dank_my_meme_title.png": "/static/media/dank_my_meme_title.38b40b59b1a58b2041af.png",
     "static/media/dexToolsSVG.svg": "/static/media/dexToolsSVG.0a1cc7d126ec66c1d16ea64a34bdfe55.svg",
@@ -17,10 +17,10 @@
     "static/media/duneSVG.svg": "/static/media/duneSVG.bb42b4e2dfdefb8a51aa75212fe140be.svg",
     "static/media/twitterSVG.svg": "/static/media/twitterSVG.84239aa7897a885ceb1bb60a4c0b350b.svg",
     "main.d995ab55.css.map": "/static/css/main.d995ab55.css.map",
-    "main.3947d789.js.map": "/static/js/main.3947d789.js.map"
+    "main.7f87ad72.js.map": "/static/js/main.7f87ad72.js.map"
   },
   "entrypoints": [
     "static/css/main.d995ab55.css",
-    "static/js/main.3947d789.js"
+    "static/js/main.7f87ad72.js"
   ]
 }

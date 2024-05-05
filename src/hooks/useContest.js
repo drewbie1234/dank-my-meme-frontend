@@ -128,7 +128,7 @@ const useContest = (contest) => {
     const voteForSubmission = useCallback(async (submissionIndex) => {
         console.log(`Starting to vote for submission index: ${submissionIndex}`);
         console.log(`contest object after being passed into voteForSubmission: ${contest}`)
-        console.log(`Contest ID Check: ${contest ? contest.id : 'undefined'}`);
+        
 
 
         
@@ -166,10 +166,11 @@ const useContest = (contest) => {
                     contestId: contest._id,
                     voter: selectedAccount,
                     submissionIndex,
-                    txHash: txReceipt.hash // Don't use `await` here, it's a direct property
+                    txHash: txReceipt.hash // Access the hash property directly
                 });
-
-                if (response.status === 200) {
+            
+                // Directly check the success message
+                if (response.data && response.data.message === "Vote recorded successfully") {
                     console.log('Vote recorded successfully in the database:', response.data);
                 } else {
                     console.error('Error recording vote in the database:', response.data);
@@ -177,6 +178,7 @@ const useContest = (contest) => {
             } catch (apiError) {
                 console.error('Error recording vote to the database:', apiError);
             }
+            
 
             return txReceipt;
         } catch (error) {
