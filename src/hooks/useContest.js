@@ -74,30 +74,7 @@ const useContest = (contest) => {
     }, [contest]);
     
 
-    const submitEntry = useCallback(async (imageData, contest) => {
-        if (!contract) {
-            toast.error("Contract not initialized.");
-            return;
-        }
-
-        const isApproved = await approveToken(contest);
-        if (!isApproved) {
-            console.log("token not approved")
-            return;
-        }
-
-        try {
-            const txResponse = await contract.submitEntry(imageData);
-            const txReceipt = await txResponse.wait();
-            toast.success("Entry submitted successfully!");
-            return txReceipt;
-        } catch (error) {
-            console.error("Error submitting entry:", error);
-            toast.error("Failed to submit entry. Please try again.");
-        }
-    }, [contract, approveToken]);
-
-    const voteForSubmission = useCallback(async (submissionIndex) => {
+    const submitEntry = useCallback(async (imageData) => {
         if (!contract) {
             toast.error("Contract not initialized.");
             return;
@@ -105,21 +82,81 @@ const useContest = (contest) => {
     
         const isApproved = await approveToken();
         if (!isApproved) {
+            console.log("Token not approved");
             return;
         }
     
         try {
-            console.log(`Voting for submission ${submissionIndex}`)
-            const txResponse = await contract.voteForSubmission(submissionIndex);
+            // Submit the entry and log the response object directly
+            const txResponse = await contract.submitEntry(imageData);
+            console.log("Transaction response:", txResponse);
+    
+            // Wait for transaction confirmation and log detailed receipt information
             const txReceipt = await txResponse.wait();
-            toast.success("Vote cast successfully!");
+            toast.success("Entry submitted successfully!");
+    
+            // Detailed transaction receipt logs
+            console.log(`Transaction Receipt:`);
+            console.log(`  Transaction Hash: ${txReceipt.transactionHash}`);
+            console.log(`  Block Number: ${txReceipt.blockNumber}`);
+            console.log(`  Gas Used: ${txReceipt.gasUsed.toString()}`);
+            console.log(`  Status: ${txReceipt.status === 1 ? "Success" : "Failure"}`);
+            console.log(`  Logs: ${JSON.stringify(txReceipt.logs, null, 2)}`);
+            console.log(`  Events: ${JSON.stringify(txReceipt.events, null, 2)}`);
+    
+            // Optionally, return the entire receipt for further analysis
             return txReceipt;
         } catch (error) {
-            // Log more detailed error information
-            console.error("Error casting vote:", error);
-            toast.error(`Failed to cast vote: ${error.message}`);
+            // Log detailed error information to aid debugging
+            console.error("Error submitting entry:", error);
+            toast.error("Failed to submit entry. Please try again.");
         }
     }, [contract, approveToken]);
+    
+
+    const voteForSubmission = useCallback(async (submissionIndex) => {
+        if (!contract) {
+            toast.error("Contract not initialized.");
+            return;
+        }
+    
+        // Ensure token approval before casting the vote
+        const isApproved = await approveToken();
+        if (!isApproved) {
+            console.log("Token not approved");
+            return;
+        }
+    
+        try {
+            // Debug log indicating voting operation start
+            console.log(`Voting for submission index: ${submissionIndex}`);
+    
+            // Submit the vote and capture transaction response
+            const txResponse = await contract.voteForSubmission(submissionIndex);
+            console.log("Transaction response:", txResponse);
+    
+            // Wait for transaction confirmation and log detailed receipt information
+            const txReceipt = await txResponse.wait();
+            toast.success("Vote cast successfully!");
+    
+            // Detailed transaction receipt logs
+            console.log(`Transaction Receipt:`);
+            console.log(`  Transaction Hash: ${txReceipt.transactionHash}`);
+            console.log(`  Block Number: ${txReceipt.blockNumber}`);
+            console.log(`  Gas Used: ${txReceipt.gasUsed.toString()}`);
+            console.log(`  Status: ${txReceipt.status === 1 ? "Success" : "Failure"}`);
+            console.log(`  Logs: ${JSON.stringify(txReceipt.logs, null, 2)}`);
+            console.log(`  Events: ${JSON.stringify(txReceipt.events, null, 2)}`);
+    
+            // Optionally, return the entire receipt for further analysis
+            return txReceipt;
+        } catch (error) {
+            // Log detailed error information to aid debugging
+            console.error("Error casting vote:", error);
+            toast.error(`Failed to cast vote. Reason: ${error.message}`);
+        }
+    }, [contract, approveToken]);
+    
     
 
     return {
