@@ -127,6 +127,7 @@ const useContest = (contest) => {
     // Adjusted voteForSubmission function
 const voteForSubmission = useCallback(async (submissionIndex, contest) => {
     console.log(`Starting to vote for submission index: ${submissionIndex}`);
+    console.log(`contest object after being passed into voteForSubmission: ${contest}`)
     console.log(`Contest ID Check: ${contest ? contest.id : 'undefined'}`);
 
     if (!contest) {
