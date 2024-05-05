@@ -59,7 +59,7 @@ const ContestCard = ({ contest }) => {
                     <img src={submitIcon} alt="Submit" />
                     SUBMIT - {contest.entryFee}
                 </div>
-                <div className={styles.button} onClick={handleVoteClick(contest)}>
+                <div className={styles.button} onClick={handleVoteClick}>
                     <img src={voteIcon} alt="Vote" />
                     VOTE -  {contest.votingFee}
                 </div>

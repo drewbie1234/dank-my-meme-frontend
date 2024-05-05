@@ -174,7 +174,7 @@ const useContest = (contest) => {
             console.error("Error casting vote:", error);
             toast.error(`Failed to cast vote. Reason: ${error.message}`);
         }
-    }, [contract, approveToken, contest, selectedAccount]);
+    }, [contract, submitEntry]);
 
     // Submit meme (IPFS + Blockchain + DB)
     const submitMeme = useCallback(async (file, selectedAccount) => {
