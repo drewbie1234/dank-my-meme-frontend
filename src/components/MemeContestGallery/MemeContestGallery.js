@@ -65,7 +65,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         };
     
         fetchENSNames();
-    }, []);
+    }, [submissions]);
     
 
     useEffect(() => {
@@ -103,6 +103,35 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         }
         return `${address.slice(0, startChars)}...${address.slice(-endChars)}`;
     };
+
+    function formatTimeRemaining(endDateTime) {
+        // Calculate the difference in milliseconds
+        const now = new Date();
+        const endDate = new Date(endDateTime);
+        const diffMs = endDate - now;
+    
+        if (diffMs <= 0) {
+            return "Time expired ⏰";
+        }
+    
+        // Convert milliseconds to time units
+        const oneMinute = 60 * 1000;
+        const oneHour = 60 * oneMinute;
+        const oneDay = 24 * oneHour;
+    
+        const days = Math.floor(diffMs / oneDay);
+        const hours = Math.floor((diffMs % oneDay) / oneHour);
+        const minutes = Math.floor((diffMs % oneHour) / oneMinute);
+    
+        // Format with leading zeros and add a clock emoji
+        const formattedDays = String(days).padStart(2, '0');
+        const formattedHours = String(hours).padStart(2, '0');
+        const formattedMinutes = String(minutes).padStart(2, '0');
+    
+        return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ⏰`;
+    }
+      
+    
   
 
     return (
@@ -120,17 +149,25 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
                                     <div className={styles.etherScanLink}>
-                                    <a href={`https://etherscan.io/address/${walletAddresses[submission.wallet] || submission.wallet}`} target="_blank" rel="noopener noreferrer">
-                                    {ensLoading ? <span>Loading...</span> : (walletAddresses[submission.wallet] || shortenAddress(submission.wallet))}
-
-                                    </a>
-
+                                        <a href={`https://etherscan.io/address/${walletAddresses[submission.wallet] || submission.wallet}`} target="_blank" rel="noopener noreferrer">
+                                            {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
+                                        </a>
                                     </div>
                                     <div className={styles.detailText}>👌 {submission.votes} </div>
                                 </div>
                                 <div className={styles.memeImageContainer}>
                                     <img src={`https://crimson-rear-vole-353.mypinata.cloud/ipfs/${submission.image}?pinataGatewayToken=${GWK}`} className={styles.memeImage} alt='' />
                                 </div>
+                                {/* New bottom gallery bar */}
+                                <div className={styles.bottomGalleryBar}>
+                                    <div>
+                                        {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}
+                                    </div>
+                                    <div>
+                                        {formatTimeRemaining(contest.endDateTime)}
+                                    </div>
+                                </div>
+
                             </div>
                         ))}
                         <div className={styles.scrollRegionRight} onClick={() => scrollByOneImage("right")} />
@@ -140,6 +177,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
             )}
         </div>
     );
+    
     
 };
 
