@@ -125,8 +125,9 @@ const useContest = (contest) => {
     }, [contract, approveToken]);
 
     // Vote for a submission
-    const voteForSubmission = useCallback(async (submissionIndex) => {
+    const voteForSubmission = useCallback(async (submissionIndex, contest) => {
         console.log(`Starting to vote for submission index: ${submissionIndex}`);
+        console.log(`CONTEST VOTE CHECK: ${contest}`);
 
         if (!contract) {
             toast.error("Contract not initialized.");
