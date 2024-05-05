@@ -12,7 +12,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [submissions, setSubmissions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [walletAddresses, setWalletAddresses] = useState({});
-    const [currentSubmissionId, setCurrentSubmissionId] = useState(null);
+    const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(null);
     const [ensLoading, setEnsLoading] = useState(true);
 
     useEffect(() => {
@@ -69,11 +69,11 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     
 
     useEffect(() => {
-        // Call the callback function when currentSubmissionId changes
-        if (currentSubmissionId) {
-            onSelectedSubmissionChange(currentSubmissionId);
+        // Call the callback function when currentSubmissionIndex changes
+        if (currentSubmissionIndex !== null) {
+            onSelectedSubmissionChange(currentSubmissionIndex);
         }
-    }, [currentSubmissionId, onSelectedSubmissionChange]);
+    }, [currentSubmissionIndex, onSelectedSubmissionChange]);;
 
     const scrollToCenter = (index) => {
         const imageRef = imageRefs.current[index];
@@ -83,7 +83,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
             const imageLeftOffset = imageRef.offsetLeft;
             const scrollPosition = imageLeftOffset + imageWidth / 2 - galleryWidth / 2;
             galleryRef.current.scrollTo({ left: scrollPosition, behavior: "smooth" });
-            setCurrentSubmissionId(submissions[index]._id);
+            setCurrentSubmissionIndex(index);
         }
     };
 

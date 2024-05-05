@@ -14,6 +14,7 @@ const ContestCard = ({ contest }) => {
     const [isLoading, setIsLoading] = useState(false);
     const { selectedAccount } = useWallet();
     const { voteForSubmission } = useContest(contest);
+    
     const handleUploadClick = () => {
         setShowUploadForm(!showUploadForm);
     };
@@ -27,7 +28,7 @@ const ContestCard = ({ contest }) => {
         setIsLoading(true);
         try {
             console.log(selectedSubmission)
-            const receipt = await voteForSubmission(selectedSubmission, selectedAccount);
+            const receipt = await voteForSubmission(selectedSubmission, contest);
 
             if (receipt) {
                 toast.success('Vote successfully recorded!');

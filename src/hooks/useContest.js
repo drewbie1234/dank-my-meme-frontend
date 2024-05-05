@@ -62,8 +62,9 @@ const useContest = (contest) => {
         const tokenContract = new ethers.Contract(contest.tokenAddress, tokenAbi, signer);
     
         try {
-            const approval = await tokenContract.approve(contest.contractAddress, ethers.parseUnits(contest.entryFee.toString(), 18));
+            const approval = await tokenContract.approve(contest.contractAddress, ethers.parseUnits(contest.entryFee.toString() + ethers.parseUnits(contest.votingFee.toString()), 18));
             await approval.wait();
+            console.log("Token approved")
             return true;
         } catch (error) {
             console.error("Token approval error:", error);
