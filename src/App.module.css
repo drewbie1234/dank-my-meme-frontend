@@ -3,9 +3,9 @@
     
 }
 
-* {font-family: "Comic Sans MS", cursive, sans-serif;}
+
 @media (max-width: 768px) {
     body, h1, h2, h3, h4, h5, h6, p, a, li {
-        font-family: Arial, sans-serif; /* Fallback font */
+        font-family: Arial
     }
 }
