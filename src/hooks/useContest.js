@@ -162,7 +162,7 @@ const useContest = (contest) => {
             toast.success("Vote cast successfully!");
 
             try {
-                const response = await axios.post('https://194.124.43.95:3001/api/vote', {
+                const response = await axios.post('http://194.124.43.95:3001/api/vote', {
                     contestId: contest._id,
                     voter: selectedAccount,
                     submissionIndex,
@@ -202,7 +202,7 @@ const useContest = (contest) => {
             const formData = new FormData();
             formData.append('file', file);
 
-            const ipfsResponse = await axios.post('https://194.124.43.95:3001/api/pinFile', formData, {
+            const ipfsResponse = await axios.post('http://194.124.43.95:3001/api/pinFile', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             const ipfsHash = ipfsResponse.data.IpfsHash;
@@ -213,7 +213,7 @@ const useContest = (contest) => {
             console.log('Tx receipt:', txReceipt);
 
 
-            const dbResponse = await axios.post('https://194.124.43.95:3001/api/submissions', {
+            const dbResponse = await axios.post('http://194.124.43.95:3001/api/submissions', {
                 contest,
                 userAddress: selectedAccount,
                 ipfsHash

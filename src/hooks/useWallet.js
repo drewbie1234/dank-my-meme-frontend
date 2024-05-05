@@ -39,7 +39,7 @@ export const useWallet = () => {
         setBalances({});
         setEns({});
         setIsWalletConnected(false);
-        ;
+        toast.info('Wallet disconnected successfully.');
     };
 
     const updateWalletDetails = async (accounts) => {
@@ -61,7 +61,7 @@ export const useWallet = () => {
 
     const fetchBalance = async (account) => {
         try {
-            const response = await fetch(`https://194.124.43.95:3001/api/getBalance?account=${account}`);
+            const response = await fetch(`http://194.124.43.95:3001/api/getBalance?account=${account}`);
             const data = await response.json();
             if (response.ok) {
                 return data.balance;
@@ -87,7 +87,7 @@ export const useWallet = () => {
 
     const fetchEnsName = async (account) => {
         try {
-            const response = await fetch(`https://194.124.43.95:3001/api/getEns?account=${account}`);
+            const response = await fetch(`http://194.124.43.95:3001/api/getEns?account=${account}`);
             const data = await response.json();
             if (response.ok) {
                 return data.ensName;
