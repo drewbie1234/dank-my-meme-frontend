@@ -8,11 +8,13 @@ import { ethers } from 'ethers'; // Import ethers
 const { abi } = contractData[0];
 const  tokenAbi  = tokenData;
 console.log("abi: ", abi)
+console.log(tokenAbi)
 
 
 const useContest = (contest) => {
     const [contract, setContract] = useState(null);
     const { selectedAccount, isWalletConnected } = useWallet();
+    
 
     useEffect(() => {
         const setupContract = async () => {
@@ -47,27 +49,20 @@ const useContest = (contest) => {
         setupContract();
     }, [contest, selectedAccount, isWalletConnected]);
 
-    const approveToken = useCallback(async (contest) => {
-        console.log("Approving Token...")
+    const approveToken = useCallback(async () => {
+        console.log(tokenAbi)
+        console.log("Approving Token...");
         if (!contest.tokenAddress || !tokenAbi) {
             toast.error("Token contract address or ABI is missing.");
             return false;
         }
-        console.log("Contest Contract:", contest.contractAddress)
-        console.log("Token Contract:", contest.tokenAddress)
-        console.log("Token Abi:", tokenAbi)
-        console.log("Setting up provider, signer and token contract instance...")
+    
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         const tokenContract = new ethers.Contract(contest.tokenAddress, tokenAbi, signer);
-        console.log("provider object: ",provider)
-        console.log("signer object: ",signer)
-        console.log("token contract object: ",tokenContract)
-
+    
         try {
-            console.log("Contest CA: ",contest.contractAddress)
-            console.log("entry fee:",  ethers.parseUnits(contest.entryFee.toString(), 18))
-            const approval = await tokenContract.approve(contest.contractAddress,  ethers.parseUnits(contest.entryFee.toString(), 18));
+            const approval = await tokenContract.approve(contest.contractAddress, ethers.parseUnits(contest.entryFee.toString(), 18));
             await approval.wait();
             return true;
         } catch (error) {
@@ -76,6 +71,7 @@ const useContest = (contest) => {
             return false;
         }
     }, [contest]);
+    
 
     const submitEntry = useCallback(async (imageData, contest) => {
         if (!contract) {
@@ -100,13 +96,13 @@ const useContest = (contest) => {
         }
     }, [contract, approveToken]);
 
-    const voteForSubmission = useCallback(async (submissionId) => {
+    const voteForSubmission = useCallback(async (submissionId, contest) => {
         if (!contract) {
             toast.error("Contract not initialized.");
             return;
         }
 
-        const isApproved = await approveToken(contest.votingFee);
+        const isApproved = await approveToken(contest);
         if (!isApproved) {
             return;
         }

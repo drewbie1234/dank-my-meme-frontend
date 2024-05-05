@@ -13,7 +13,7 @@
   flex-direction: column;
   align-items: center;
   background-color: white; /* Light grey background */
-  padding: 20px;
+  padding: 6px;
   margin: 10px 0; /* Adds some space between the cards */
   border-radius: 25px; /* Rounds the corners of the card */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */

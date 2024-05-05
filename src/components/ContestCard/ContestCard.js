@@ -26,7 +26,8 @@ const ContestCard = ({ contest }) => {
 
         setIsLoading(true);
         try {
-            const receipt = await voteForSubmission(selectedSubmission);
+            console.log(selectedSubmission)
+            const receipt = await voteForSubmission(selectedSubmission, selectedAccount);
 
             if (receipt) {
                 toast.success('Vote successfully recorded!');

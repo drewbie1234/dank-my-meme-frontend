@@ -10,10 +10,13 @@
   height: 80vh;
   justify-content: center;
   z-index: -1000;
+  
 }
 
 .contestDisplayFeedContainer {
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
+  min-width: 300px;
 }
 
 .sideMenu {

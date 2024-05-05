@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const useWallet = () => {
     const [accounts, setAccounts] = useState([]);
@@ -22,13 +24,13 @@ export const useWallet = () => {
                 setAccounts(newAccounts);
                 updateWalletDetails(newAccounts);
                 setIsWalletConnected(true);
-                console.log()
+                toast.success('Wallet connected successfully!');
             } catch (error) {
                 console.error("Error connecting to MetaMask", error);
-                alert("Failed to connect wallet. Check console for more details.");
+                toast.error('Failed to connect wallet. Check console for more details.');
             }
         } else {
-            alert("Please install MetaMask to use this feature!");
+            toast.warning('Please install MetaMask to use this feature!');
         }
     };
 
@@ -37,7 +39,7 @@ export const useWallet = () => {
         setBalances({});
         setEns({});
         setIsWalletConnected(false);
-        console.log("Wallet disconnected successfully.");
+        toast.info('Wallet disconnected successfully.');
     };
 
     const updateWalletDetails = async (accounts) => {
@@ -61,9 +63,15 @@ export const useWallet = () => {
         try {
             const response = await fetch(`http://194.124.43.95:3001/api/getBalance?account=${account}`);
             const data = await response.json();
-            return response.ok ? data.balance : "Error";
+            if (response.ok) {
+                return data.balance;
+            } else {
+                toast.error(`Error fetching balance for account ${account}.`);
+                return "Error";
+            }
         } catch (error) {
             console.error("Error fetching balance", account, error);
+            toast.error(`Network error fetching balance for account ${account}.`);
             return "Error";
         }
     };
@@ -81,9 +89,15 @@ export const useWallet = () => {
         try {
             const response = await fetch(`http://194.124.43.95:3001/api/getEns?account=${account}`);
             const data = await response.json();
-            return response.ok ? data.ensName : "Error";
+            if (response.ok) {
+                return data.ensName;
+            } else {
+                toast.error(`Error fetching ENS name for account ${account}.`);
+                return "Error";
+            }
         } catch (error) {
             console.error("Error fetching ENS name", account, error);
+            toast.error(`Network error fetching ENS name for account ${account}.`);
             return "Error";
         }
     };
@@ -99,6 +113,7 @@ export const useWallet = () => {
         toggleWalletDropdown,
         toggleWalletConnection,
         selectAccount,
-        selectedAccount
+        selectedAccount,
+        ToastContainer
     };
 };
