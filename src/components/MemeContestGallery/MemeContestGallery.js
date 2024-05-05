@@ -105,9 +105,11 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     };
 
     function formatTimeRemaining(endDateTime) {
-        // Calculate the difference in milliseconds
+        // Get current and end times in UTC
         const now = new Date();
         const endDate = new Date(endDateTime);
+    
+        // Calculate the difference in milliseconds
         const diffMs = endDate - now;
     
         if (diffMs <= 0) {
@@ -119,17 +121,25 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         const oneHour = 60 * oneMinute;
         const oneDay = 24 * oneHour;
     
+        // Calculate days, hours, and minutes remaining
         const days = Math.floor(diffMs / oneDay);
         const hours = Math.floor((diffMs % oneDay) / oneHour);
         const minutes = Math.floor((diffMs % oneHour) / oneMinute);
     
+        // Adjust for local timezone offsets
+        const nowTimezoneOffset = now.getTimezoneOffset();
+        const adjustedHours = (hours + Math.floor(nowTimezoneOffset / 60)) % 24;
+    
         // Format with leading zeros and add a clock emoji
         const formattedDays = String(days).padStart(2, '0');
-        const formattedHours = String(hours).padStart(2, '0');
+        const formattedHours = String(adjustedHours).padStart(2, '0');
         const formattedMinutes = String(minutes).padStart(2, '0');
     
         return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ⏰`;
     }
+    
+
+    
       
     
   

@@ -5,12 +5,15 @@ import MemeUploadForm from "../MemeUploadForm/MemeUploadForm";
 import submitIcon from "../../svgs/submit.svg";
 import voteIcon from "../../svgs/vote.svg";
 import { toast } from 'react-toastify';
+import { useWallet } from '../../contexts/WalletContext';
+import useContest from '../../hooks/useContest';
 
 const ContestCard = ({ contest }) => {
     const [showUploadForm, setShowUploadForm] = useState(false);
     const [selectedSubmission, setSelectedSubmission] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
+    const { selectedAccount } = useWallet();
+    const { voteForSubmission } = useContest(contest);
     const handleUploadClick = () => {
         setShowUploadForm(!showUploadForm);
     };
@@ -23,27 +26,17 @@ const ContestCard = ({ contest }) => {
 
         setIsLoading(true);
         try {
-            const response = await fetch('http://194.124.43.95:3001/api/vote', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    submissionId: selectedSubmission,
-                    voter: '0xYourVoterAddress'
-                }),
-            });
+            const receipt = await voteForSubmission(selectedSubmission);
 
-            if (!response.ok) {
-                throw new Error('Failed to record vote');
+            if (receipt) {
+                toast.success('Vote successfully recorded!');
+                console.log('Vote recorded:', receipt);
+            } else {
+                throw new Error('Failed to record vote.');
             }
-
-            const result = await response.json();
-            toast.success('Vote successfully recorded!');
-            console.log('Vote recorded:', result);
         } catch (error) {
             toast.error('Failed to record vote. Please try again later.');
-            console.error('Failed to record vote', error);
+            console.error('Failed to record vote:', error);
         } finally {
             setIsLoading(false);
         }
@@ -64,7 +57,7 @@ const ContestCard = ({ contest }) => {
                 </div>
                 <div className={styles.button} onClick={handleVoteClick}>
                     <img src={voteIcon} alt="Vote" />
-                    VOTE -  {contest.votingFee} ETH
+                    VOTE -  {contest.votingFee} 
                 </div>
             </div>
             {showUploadForm && <MemeUploadForm contest={contest} />}

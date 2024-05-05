@@ -5,10 +5,13 @@ import { deployContract } from '../../utils/deployContest';
 
 const ContestCreationForm = ({ onCreate }) => {
     const { selectedAccount, isWalletConnected } = useWallet();
+    const now = new Date();
+    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours ahead
+
     const [formData, setFormData] = useState({
         name: 'testcon',
-        startDateTime: new Date().toISOString().slice(0, -1),
-        endDateTime: new Date(Date.now() + 86400000).toISOString().slice(0, -1),
+        startDateTime: now.toISOString().slice(0, -1), // Use local timezone
+        endDateTime: tomorrow.toISOString().slice(0, -1), // Use local timezone
         entryFee: '0.01',
         votingFee: '0.1',
         winnerPercentage: '75',
@@ -17,7 +20,7 @@ const ContestCreationForm = ({ onCreate }) => {
     });
     const [error, setError] = useState('');
     const tokenAddresses = [
-        { address: '0xe12154f598138d7B77179739DABEDf4AaD80f824', name: 'DANK' },
+        { address: '0xe12154f598138d7B77179739DABEDf4AaD80f824', name: 'DANK' }
     ];
 
     const handleChange = (e) => {
@@ -32,7 +35,15 @@ const ContestCreationForm = ({ onCreate }) => {
             return;
         }
 
-        if (!formData.name || !formData.startDateTime || !formData.endDateTime || !formData.tokenAddress) {
+        const startDate = new Date(formData.startDateTime);
+        const endDate = new Date(formData.endDateTime);
+
+        if (startDate >= endDate) {
+            setError('The contest end date must be after the start date.');
+            return;
+        }
+
+        if (!formData.name || !formData.tokenAddress) {
             setError('Please fill all the fields properly, including selecting a token address.');
             return;
         }
@@ -51,7 +62,7 @@ const ContestCreationForm = ({ onCreate }) => {
             <form onSubmit={handleSubmit} className={styles.contestCreationForm}>
                 <h2>Create a New Contest</h2>
                 {error && <p className={styles.error}>{error}</p>}
-                
+
                 <div className={styles.formGroup}>
                     <label>Contest Name:</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} />
