@@ -125,7 +125,7 @@ const useContest = (contest) => {
     }, [contract, approveToken]);
 
     // Vote for a submission
-    const voteForSubmission = useCallback(async (submissionIndex) => {
+    const voteForSubmission = useCallback(async (submissionIndex, contest) => {
         console.log(`Starting to vote for submission index: ${submissionIndex}`);
         console.log(`CONTEST ID CHECK: ${contest.id}`);
 
@@ -154,8 +154,8 @@ const useContest = (contest) => {
 
             try {
                 const response = await axios.post('http://194.124.43.95:3001/api/vote', {
-                    contestId: contest.id,
-                    userAddress: selectedAccount,
+                    contest: contest._id,
+                    voter: selectedAccount,
                     submissionIndex,
                     txHash: await txReceipt.transactionHash
                 });
