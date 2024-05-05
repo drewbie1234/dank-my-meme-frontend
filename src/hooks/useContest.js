@@ -163,7 +163,7 @@ const useContest = (contest) => {
 
             try {
                 const response = await axios.post('http://194.124.43.95:3001/api/vote', {
-                    contest: contest._id,
+                    contestId: contest._id,
                     voter: selectedAccount,
                     submissionIndex,
                     txHash: txReceipt.hash // Don't use `await` here, it's a direct property
