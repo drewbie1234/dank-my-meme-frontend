@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useSwipeable } from "react-swipeable";
 import styles from "./MemeContestGallery.module.css";
 import leftSlider from "../../svgs/leftSlider.svg";
 import rightSlider from "../../svgs/rightSlider.svg";
@@ -13,6 +14,14 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [loading, setLoading] = useState(true);
     const [walletAddresses, setWalletAddresses] = useState({});
     const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(null);
+
+    // Swipe Handlers using react-swipeable
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: () => scrollByOneImage("right"),
+        onSwipedRight: () => scrollByOneImage("left"),
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true // Also support mouse swipes
+    });
 
     useEffect(() => {
         const fetchAndSetSubmissions = async () => {
@@ -117,7 +126,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     };
 
     return (
-        <div className={styles.memeContestGalleryWrapper}>
+        <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>
             {loading ? (
                 <div>Loading...</div>
             ) : !submissions || submissions.length === 0 ? (
