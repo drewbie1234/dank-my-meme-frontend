@@ -22,7 +22,7 @@ h1 {
   border-radius: 25px;
   overflow: hidden; /* Ensures the shadows don't extend outside the container */
   z-index: 0;
-  height: 70vh;
+  height: 140vh;
 }
 
 .contestDisplayFeedContainer::before,
