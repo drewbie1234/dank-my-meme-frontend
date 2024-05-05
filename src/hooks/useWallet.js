@@ -39,7 +39,7 @@ export const useWallet = () => {
         setBalances({});
         setEns({});
         setIsWalletConnected(false);
-        toast.info('Wallet disconnected successfully.');
+        ;
     };
 
     const updateWalletDetails = async (accounts) => {
