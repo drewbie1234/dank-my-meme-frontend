@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 
 const fetchContests = async () => {
     try {
-        const response = await fetch('http://194.124.43.95:3001/api/contests', {
+        const response = await fetch('https://194.124.43.95:3001/api/contests', {
             method: 'GET', // Use GET method to fetch data
             headers: {
                 'Content-Type': 'application/json'

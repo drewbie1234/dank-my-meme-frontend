@@ -22,7 +22,7 @@ h1 {
   border-radius: 25px;
   overflow: hidden; /* Ensures the shadows don't extend outside the container */
   z-index: 0;
-  height: 140vh;
+  height: 70vh;
 }
 
 .contestDisplayFeedContainer::before,
@@ -47,16 +47,18 @@ h1 {
 
 
 .scrollableContests {
-  max-height: 850px; /* Adjust based on your needs */
-  overflow-y: auto; /* Enables vertical scrolling */
-  scroll-behavior: smooth; /* Smooth scrolling effect */
+  max-height: 100vh; /* Fill up the viewport */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+
   /* Hide scrollbar for Chrome, Safari, and Opera */
   ::-webkit-scrollbar {
     display: none;
   }
+
   /* Hide scrollbar for IE, Edge, and Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 
