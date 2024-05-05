@@ -19,7 +19,7 @@ const ContestCard = ({ contest }) => {
         setShowUploadForm(!showUploadForm);
     };
 
-    const handleVoteClick = async () => {
+    const handleVoteClick = async (contest) => {
         if (selectedSubmissionIndex === null) {
             toast.error('Please select a submission to vote for.');
             return;
@@ -59,7 +59,7 @@ const ContestCard = ({ contest }) => {
                     <img src={submitIcon} alt="Submit" />
                     SUBMIT - {contest.entryFee}
                 </div>
-                <div className={styles.button} onClick={handleVoteClick}>
+                <div className={styles.button} onClick={handleVoteClick(contest)}>
                     <img src={voteIcon} alt="Vote" />
                     VOTE -  {contest.votingFee}
                 </div>
