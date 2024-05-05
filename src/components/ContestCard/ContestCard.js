@@ -28,6 +28,7 @@ const ContestCard = ({ contest }) => {
         setIsLoading(true);
         try {
             console.log("Selected Submission Index:", selectedSubmissionIndex);
+            console.log("Contest:", contest);
             const receipt = await voteForSubmission(selectedSubmissionIndex, contest);
 
             if (receipt) {
