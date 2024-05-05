@@ -10,25 +10,25 @@ import useContest from '../../hooks/useContest';
 
 const ContestCard = ({ contest }) => {
     const [showUploadForm, setShowUploadForm] = useState(false);
-    const [selectedSubmission, setSelectedSubmission] = useState(null);
+    const [selectedSubmissionIndex, setSelectedSubmissionIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const { selectedAccount } = useWallet();
     const { voteForSubmission } = useContest(contest);
-    
+
     const handleUploadClick = () => {
         setShowUploadForm(!showUploadForm);
     };
 
     const handleVoteClick = async () => {
-        if (!selectedSubmission) {
+        if (selectedSubmissionIndex === null) {
             toast.error('Please select a submission to vote for.');
             return;
         }
 
         setIsLoading(true);
         try {
-            console.log(selectedSubmission)
-            const receipt = await voteForSubmission(selectedSubmission, contest);
+            console.log("Selected Submission Index:", selectedSubmissionIndex);
+            const receipt = await voteForSubmission(selectedSubmissionIndex, contest);
 
             if (receipt) {
                 toast.success('Vote successfully recorded!');
@@ -49,7 +49,8 @@ const ContestCard = ({ contest }) => {
             <h3 className={styles.contestId}>
                 <span style={{ color: "purple" }}>{contest.index}{contest.name}</span>
             </h3>
-            <MemeContestGallery contest={contest} onSelectedSubmissionChange={setSelectedSubmission} />
+            {/* Pass the function to receive and update the submission index */}
+            <MemeContestGallery contest={contest} onSelectedSubmissionChange={setSelectedSubmissionIndex} />
 
             <div className={styles.gridLayout}>
                 {/* ... other items ... */}
@@ -59,7 +60,7 @@ const ContestCard = ({ contest }) => {
                 </div>
                 <div className={styles.button} onClick={handleVoteClick}>
                     <img src={voteIcon} alt="Vote" />
-                    VOTE -  {contest.votingFee} 
+                    VOTE -  {contest.votingFee}
                 </div>
             </div>
             {showUploadForm && <MemeUploadForm contest={contest} />}

@@ -25,7 +25,7 @@ const useContest = (contest) => {
             }
 
             if (!isWalletConnected || !selectedAccount) {
-                toast.error("Wallet not connected. Please connect your wallet.");
+                
                 return;
             }
 
@@ -97,27 +97,30 @@ const useContest = (contest) => {
         }
     }, [contract, approveToken]);
 
-    const voteForSubmission = useCallback(async (submissionId, contest) => {
+    const voteForSubmission = useCallback(async (submissionIndex, contract) => {
         if (!contract) {
             toast.error("Contract not initialized.");
             return;
         }
-
-        const isApproved = await approveToken(contest);
+    
+        const isApproved = await approveToken();
         if (!isApproved) {
             return;
         }
-
+    
         try {
-            const txResponse = await contract.voteForSubmission(submissionId);
+            console.log(`Voting for submission ${submissionIndex}`)
+            const txResponse = await contract.voteForSubmission(submissionIndex);
             const txReceipt = await txResponse.wait();
             toast.success("Vote cast successfully!");
             return txReceipt;
         } catch (error) {
+            // Log more detailed error information
             console.error("Error casting vote:", error);
-            toast.error("Failed to cast vote. Please try again.");
+            toast.error(`Failed to cast vote: ${error.message}`);
         }
     }, [contract, approveToken]);
+    
 
     return {
         submitEntry,
