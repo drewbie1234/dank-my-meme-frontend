@@ -7,7 +7,7 @@
 
 .contentContainer {
   display: flex;
-  height: 80vh;
+  height: 120vh;
   justify-content: center;
   z-index: -1000;
   

@@ -12,6 +12,7 @@ h4 {
 
 .footer {
     background-color: #822280;
+    position: relative;
     color: white;
     text-align: center;
     padding: 20px 0;
