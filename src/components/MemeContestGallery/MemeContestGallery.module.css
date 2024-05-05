@@ -9,6 +9,23 @@
   margin: auto; /* Center the gallery in its parent container */
 }
 
+/* Prevent text selection and highlighting */
+.memeContestGalleryWrapper,
+.submissionDetail {
+  user-select: none; /* Prevent text selection in modern browsers */
+  -webkit-user-select: none; /* Prevent text selection in Safari/Chrome */
+  -moz-user-select: none; /* Prevent text selection in Firefox */
+  -ms-user-select: none; /* Prevent text selection in IE */
+  -webkit-tap-highlight-color: transparent; /* Prevents highlighting on touch devices */
+  cursor: grab; /* Indicate that the gallery is draggable */
+}
+
+.memeContestGalleryWrapper:active,
+.submissionDetail:active {
+  cursor: grabbing; /* Change the cursor to grabbing while dragging */
+}
+
+
 .arrowButton {
   width: 10px;
   position: absolute;

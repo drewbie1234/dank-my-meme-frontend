@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,13 +10,9 @@ export const useWallet = () => {
     const [selectedAccount, setSelectedAccount] = useState(null);
     const [showDropdown, setShowDropdown] = useState(false);
 
-    useEffect(() => {
-        isWalletConnected ? connectWallet() : disconnectWallet();
-    }, [isWalletConnected]);
-
     const toggleWalletDropdown = () => setShowDropdown(!showDropdown);
-    const toggleWalletConnection = () => setIsWalletConnected(!isWalletConnected);
 
+    // Connect Wallet explicitly via button
     const connectWallet = async () => {
         if (window.ethereum) {
             try {
@@ -42,6 +38,7 @@ export const useWallet = () => {
         toast.info('Wallet disconnected successfully.');
     };
 
+    // Update wallet balances and ENS names
     const updateWalletDetails = async (accounts) => {
         if (!accounts.length) {
             console.warn("No accounts to update details for.");
@@ -111,7 +108,8 @@ export const useWallet = () => {
         isWalletConnected,
         showDropdown,
         toggleWalletDropdown,
-        toggleWalletConnection,
+        connectWallet,
+        disconnectWallet,
         selectAccount,
         selectedAccount,
         ToastContainer

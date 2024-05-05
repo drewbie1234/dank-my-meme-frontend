@@ -11,7 +11,8 @@ function LoginSection() {
     isWalletConnected,
     showDropdown,
     toggleWalletDropdown,
-    toggleWalletConnection,
+    connectWallet,
+    disconnectWallet,
     selectAccount,
     selectedAccount
   } = useWallet();
@@ -20,7 +21,7 @@ function LoginSection() {
     <>
       <button className={styles.buttonStyle} onClick={toggleWalletDropdown}>
         <span style={{ margin: '0 2px' }}>Wallet </span>
-        <img src={walletSVG} alt="Wallet"  style={{ width: '15px', verticalAlign: 'middle' }} />
+        <img src={walletSVG} alt="Wallet" style={{ width: '15px', verticalAlign: 'middle' }} />
       </button>
       <div className={`${styles.dropdownContent} ${showDropdown ? styles.show : ''}`}>
         <ul className={styles.accountsList}>
@@ -36,9 +37,16 @@ function LoginSection() {
             </li>
           ))}
         </ul>
-        <button className={styles.buttonStyle} onClick={toggleWalletConnection}>
-          {isWalletConnected ? 'Disconnect' : 'Connect'}
-        </button>
+        {/* The button specifically connects or disconnects the wallet */}
+        {isWalletConnected ? (
+          <button className={styles.buttonStyle} onClick={disconnectWallet}>
+            Disconnect
+          </button>
+        ) : (
+          <button className={styles.buttonStyle} onClick={connectWallet}>
+            Connect
+          </button>
+        )}
       </div>
     </>
   );
