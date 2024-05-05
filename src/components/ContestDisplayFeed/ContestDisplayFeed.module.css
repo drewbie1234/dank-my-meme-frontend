@@ -47,7 +47,7 @@ h1 {
 
 
 .scrollableContests {
-  max-height: 100vh; /* Fill up the viewport */
+  max-height: 400vh; /* Fill up the viewport */
   overflow-y: auto;
   scroll-behavior: smooth;
 
