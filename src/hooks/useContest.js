@@ -124,57 +124,65 @@ const useContest = (contest) => {
         }
     }, [contract, approveToken]);
 
-    // Vote for a submission
-    const voteForSubmission = useCallback(async (submissionIndex, contest) => {
-        console.log(`Starting to vote for submission index: ${submissionIndex}`);
-        console.log(`CONTEST ID CHECK: ${contest.id}`);
+    // Adjusted voteForSubmission function
+const voteForSubmission = useCallback(async (submissionIndex, contest) => {
+    console.log(`Starting to vote for submission index: ${submissionIndex}`);
+    console.log(`Contest ID Check: ${contest ? contest.id : 'undefined'}`);
 
-        if (!contract) {
-            toast.error("Contract not initialized.");
-            console.error("Error: Contract not initialized.");
-            return;
-        }
+    if (!contest) {
+        console.error("Error: Contest is undefined.");
+        toast.error("Unable to vote: contest data is missing.");
+        return;
+    }
 
-        console.log(`Voting contract: ${contract}`)
+    if (!contract) {
+        toast.error("Contract not initialized.");
+        console.error("Error: Contract not initialized.");
+        return;
+    }
 
-        const isApproved = await approveToken();
-        if (!isApproved) {
-            console.log("Token not approved. Voting aborted.");
-            return;
-        }
+    console.log(`Voting contract: ${contract}`);
+
+    const isApproved = await approveToken();
+    if (!isApproved) {
+        console.log("Token not approved. Voting aborted.");
+        return;
+    }
+
+    try {
+        const txResponse = await contract.voteForSubmission(submissionIndex);
+        console.log("Transaction response:", txResponse);
+
+        const txReceipt = await txResponse.wait();
+        console.log("Transaction receipt:", txReceipt);
+
+        toast.success("Vote cast successfully!");
 
         try {
-            const txResponse = await contract.voteForSubmission(submissionIndex);
-            console.log("Transaction response:", txResponse);
+            const response = await axios.post('http://194.124.43.95:3001/api/vote', {
+                contest: contest.id,
+                voter: selectedAccount,
+                submissionIndex,
+                txHash: txReceipt.transactionHash // Don't use `await` here, it's a direct property
+            });
 
-            const txReceipt = await txResponse.wait();
-            console.log("Transaction receipt:", txReceipt);
-
-            toast.success("Vote cast successfully!");
-
-            try {
-                const response = await axios.post('http://194.124.43.95:3001/api/vote', {
-                    contest: contest.id,
-                    voter: selectedAccount,
-                    submissionIndex,
-                    txHash: await txReceipt.transactionHash
-                });
-
-                if (response.status === 200) {
-                    console.log('Vote recorded successfully in the database:', response.data);
-                } else {
-                    console.error('Error recording vote in the database:', response.data);
-                }
-            } catch (apiError) {
-                console.error('Error recording vote to the database:', apiError);
+            if (response.status === 200) {
+                console.log('Vote recorded successfully in the database:', response.data);
+            } else {
+                console.error('Error recording vote in the database:', response.data);
             }
-
-            return txReceipt;
-        } catch (error) {
-            console.error("Error casting vote:", error);
-            toast.error(`Failed to cast vote. Reason: ${error.message}`);
+        } catch (apiError) {
+            console.error('Error recording vote to the database:', apiError);
         }
-    }, [contract, submitEntry]);
+
+        return txReceipt;
+    } catch (error) {
+        console.error("Error casting vote:", error);
+        toast.error(`Failed to cast vote. Reason: ${error.message}`);
+    }
+}, [contract, approveToken, selectedAccount]);
+
+
 
     // Submit meme (IPFS + Blockchain + DB)
     const submitMeme = useCallback(async (file, selectedAccount) => {
@@ -217,7 +225,7 @@ const useContest = (contest) => {
             console.error('Error submitting meme:', error);
             return { success: false, message: 'Error submitting meme to blockchain or database' };
         }
-    }, [contest, submitEntry]);
+    }, [submitEntry]);
 
     return {
         submitEntry,

@@ -19,18 +19,20 @@ const ContestCard = ({ contest }) => {
         setShowUploadForm(!showUploadForm);
     };
 
-    const handleVoteClick = async (contest) => {
+    const handleVoteClick = async () => {
         if (selectedSubmissionIndex === null) {
             toast.error('Please select a submission to vote for.');
             return;
         }
-
+    
         setIsLoading(true);
         try {
             console.log("Selected Submission Index:", selectedSubmissionIndex);
-            console.log("Contest:", contest);
+            console.log("Contest in handleVoteClick:", contest);
+    
+            // Ensure that `contest` is passed to `voteForSubmission`
             const receipt = await voteForSubmission(selectedSubmissionIndex, contest);
-
+    
             if (receipt) {
                 toast.success('Vote successfully recorded!');
                 console.log('Vote recorded:', receipt);
@@ -44,6 +46,7 @@ const ContestCard = ({ contest }) => {
             setIsLoading(false);
         }
     };
+    
 
     return (
         <div className={styles.contestCard}>
@@ -59,7 +62,7 @@ const ContestCard = ({ contest }) => {
                     <img src={submitIcon} alt="Submit" />
                     SUBMIT - {contest.entryFee}
                 </div>
-                <div className={styles.button} onClick={handleVoteClick}>
+                <div className={styles.button} onClick={handleVoteClick()}>
                     <img src={voteIcon} alt="Vote" />
                     VOTE -  {contest.votingFee}
                 </div>
