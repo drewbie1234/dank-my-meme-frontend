@@ -19,7 +19,7 @@ const ContestCard = ({ contest }) => {
         setShowUploadForm(!showUploadForm);
     };
 
-    const handleVoteClick = async (contest) => {
+    const handleVoteClick = async () => {
         if (selectedSubmissionIndex === null) {
             toast.error('Please select a submission to vote for.');
             return;
