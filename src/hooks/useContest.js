@@ -25,7 +25,7 @@ const useContest = (contest) => {
             }
 
             if (!isWalletConnected || !selectedAccount) {
-                console.error("Error: Wallet not connected or account not selected.");
+                console.info("Wallet not connected or account not selected.");
                 return;
             }
 
@@ -125,63 +125,65 @@ const useContest = (contest) => {
     }, [contract, approveToken]);
 
     // Adjusted voteForSubmission function
-const voteForSubmission = useCallback(async (submissionIndex, contest) => {
-    console.log(`Starting to vote for submission index: ${submissionIndex}`);
-    console.log(`contest object after being passed into voteForSubmission: ${contest}`)
-    console.log(`Contest ID Check: ${contest ? contest.id : 'undefined'}`);
+    const voteForSubmission = useCallback(async (submissionIndex) => {
+        console.log(`Starting to vote for submission index: ${submissionIndex}`);
+        console.log(`contest object after being passed into voteForSubmission: ${contest}`)
+        console.log(`Contest ID Check: ${contest ? contest.id : 'undefined'}`);
 
-    if (!contest) {
-        console.error("Error: Contest is undefined.");
-        toast.error("Unable to vote: contest data is missing.");
-        return;
-    }
 
-    if (!contract) {
-        toast.error("Contract not initialized.");
-        console.error("Error: Contract not initialized.");
-        return;
-    }
-
-    console.log(`Voting contract: ${contract}`);
-
-    const isApproved = await approveToken();
-    if (!isApproved) {
-        console.log("Token not approved. Voting aborted.");
-        return;
-    }
-
-    try {
-        const txResponse = await contract.voteForSubmission(submissionIndex);
-        console.log("Transaction response:", txResponse);
-
-        const txReceipt = await txResponse.wait();
-        console.log("Transaction receipt:", txReceipt);
-
-        toast.success("Vote cast successfully!");
-
-        try {
-            const response = await axios.post('http://194.124.43.95:3001/api/vote', {
-                contest: contest.id,
-                voter: selectedAccount,
-                submissionIndex,
-                txHash: txReceipt.transactionHash // Don't use `await` here, it's a direct property
-            });
-
-            if (response.status === 200) {
-                console.log('Vote recorded successfully in the database:', response.data);
-            } else {
-                console.error('Error recording vote in the database:', response.data);
-            }
-        } catch (apiError) {
-            console.error('Error recording vote to the database:', apiError);
+        
+        if (!contest) {
+            console.error("Error: Contest is undefined.");
+            toast.error("Unable to vote: contest data is missing.");
+            return;
         }
 
-        return txReceipt;
-    } catch (error) {
-        console.error("Error casting vote:", error);
-        toast.error(`Failed to cast vote. Reason: ${error.message}`);
-    }
-}, [contract, approveToken, selectedAccount]);
+        if (!contract) {
+            toast.error("Contract not initialized.");
+            console.error("Error: Contract not initialized.");
+            return;
+        }
+
+        console.log(`Voting contract: ${contract}`);
+
+        const isApproved = await approveToken();
+        if (!isApproved) {
+            console.log("Token not approved. Voting aborted.");
+            return;
+        }
+
+        try {
+            const txResponse = await contract.voteForSubmission(submissionIndex);
+            console.log("Transaction response:", txResponse);
+
+            const txReceipt = await txResponse.wait();
+            console.log("Transaction receipt:", txReceipt);
+
+            toast.success("Vote cast successfully!");
+
+            try {
+                const response = await axios.post('http://194.124.43.95:3001/api/vote', {
+                    contest: contest._id,
+                    voter: selectedAccount,
+                    submissionIndex,
+                    txHash: txReceipt.hash // Don't use `await` here, it's a direct property
+                });
+
+                if (response.status === 200) {
+                    console.log('Vote recorded successfully in the database:', response.data);
+                } else {
+                    console.error('Error recording vote in the database:', response.data);
+                }
+            } catch (apiError) {
+                console.error('Error recording vote to the database:', apiError);
+            }
+
+            return txReceipt;
+        } catch (error) {
+            console.error("Error casting vote:", error);
+            toast.error(`Failed to cast vote. Reason: ${error.message}`);
+        }
+    }, [contract, approveToken, selectedAccount]);
 
 
 
