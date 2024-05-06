@@ -232,10 +232,61 @@ const useContest = (contest) => {
         }
     }, [submitEntry]);
 
+    const endContest = useCallback(async () => {
+        if (!contract) {
+            toast.error("Contract not initialized.");
+            return;
+        }
+
+        try {
+            const txResponse = await contract.endContest();
+            const txReceipt = await txResponse.wait();
+            toast.success("Contest ended successfully!");
+            return txReceipt;
+        } catch (error) {
+            toast.error(`Failed to end the contest: ${error.message}`);
+        }
+    }, [contract]);
+
+    const withdrawUnclaimedPrize = useCallback(async () => {
+        if (!contract) {
+            toast.error("Contract not initialized.");
+            return;
+        }
+
+        try {
+            const txResponse = await contract.withdrawUnclaimedPrize();
+            const txReceipt = await txResponse.wait();
+            toast.success("Unclaimed prize withdrawn successfully!");
+            return txReceipt;
+        } catch (error) {
+            toast.error(`Failed to withdraw unclaimed prize: ${error.message}`);
+        }
+    }, [contract]);
+
+    const updateContestParameters = useCallback(async (entryFee, votingFee, winnerPercentage, numberOfLuckyVoters) => {
+        if (!contract) {
+            toast.error("Contract not initialized.");
+            return;
+        }
+
+        try {
+            const txResponse = await contract.updateContestParameters(entryFee, votingFee, winnerPercentage, numberOfLuckyVoters);
+            const txReceipt = await txResponse.wait();
+            toast.success("Contest parameters updated successfully!");
+            return txReceipt;
+        } catch (error) {
+            toast.error(`Failed to update contest parameters: ${error.message}`);
+        }
+    }, [contract]);
+
     return {
         submitEntry,
         voteForSubmission,
-        submitMeme
+        submitMeme,
+        endContest,
+        withdrawUnclaimedPrize,
+        updateContestParameters,
     };
 };
 
