@@ -129,7 +129,7 @@
   width: 100%; /* Make the image fill the container */
   max-width: 400px; /* Maximum width of the image */
   /* Maintain aspect ratio */
-  max-height: 600px;
+  max-height: 500px;
   
 }
 
