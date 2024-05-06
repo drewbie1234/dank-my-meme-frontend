@@ -2,7 +2,7 @@
 
 const createContest = async (contestData) => {
     
-    const response = await fetch('https://194.124.43.95:3001/api/contests', {  // Update the port to 3001
+    const response = await fetch('https://194.124.43.95:443/api/contests', {  // Update the port to 3001
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
