@@ -116,13 +116,13 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         const days = Math.floor(diffMs / oneDay);
         const hours = Math.floor((diffMs % oneDay) / oneHour);
         const minutes = Math.floor((diffMs % oneHour) / oneMinute);
-        const adjustedHours = (hours + Math.floor(now.getTimezoneOffset() / 60)) % 24;
+        
 
         const formattedDays = String(days).padStart(2, '0');
-        const formattedHours = String(adjustedHours).padStart(2, '0');
+        const formattedHours = String(hours).padStart(2, '0');
         const formattedMinutes = String(minutes).padStart(2, '0');
 
-        return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ⏰`;
+        return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ⏰  ${now} ${endDate}`;
     };
 
     return (
