@@ -24,6 +24,29 @@
   box-shadow: 0 2px 20px rgba(175, 38, 172, 0.3); /* Darker shadow on hover with reduced opacity */
   border: 0.5px solid  rgba(175, 38, 172, 0.3);
 }
+.h3WithEtherscan {
+  display: flex;
+  align-items: center; /* Ensures vertical centering */
+  justify-content: flex-start; /* Aligns items to the start */
+  gap: 10px; /* Optional: Adds space between the h3 and the link */
+  height: 50px;
+}
+
+.contestId {
+  margin: 0; /* Removes default margin to allow better control */
+  flex-grow: 1; /* Allows the text to take available space, pushing the logo to the edge */
+}
+
+.etherScanLink {
+  display: flex; /* Ensures the link content is also flexed */
+  align-items: center; /* Centers the logo vertically with respect to the link */
+}
+
+.etherscanLogo {
+  height: 1.2em; /* Aligns the logo height with the text size of h3 */
+  width: auto; /* Maintains the aspect ratio of the logo */
+}
+
 
 
 .icon {
@@ -46,15 +69,60 @@
   font-size: 12px;
 }
 
-.button {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px;
-  background-color: #822280; /* Example button color */
-  color: white;
-  cursor: pointer;
-  border-radius: 25px;
+.infoPanel {
+  background-color: #f2e6ff;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  text-align: center;
+  font-size: 14px;
+  color: #666; /* Dark grey text */
+  width: 100%;
+  box-sizing:content-box;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+  opacity: 0;  /* Start hidden */
 }
+
+.infoPanel.show {
+  max-height: 500px; /* Adjust based on the content size */
+  opacity: 1;
+  transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+}
+
+.infoPanelContainer{
+  width: 100%;
+  margin: 0 20px;
+}
+
+.buttonBar {
+  display: flex;
+  justify-content: center; /* Center the buttons within the bar */
+  gap: 2px; /* Small gap between buttons to visually separate them */
+  margin: 10px 20px; /* Space below the button bar */
+  padding: 10px;
+}
+
+.button {
+  flex-grow: 1; /* Buttons grow equally to fill the space */
+  border: none; /* Remove borders */
+  background-color: #822280; /* Uniform color */
+  color: white;
+  padding: 12px 20px;
+  border-radius: 0; /* Remove individual button rounded corners */
+}
+
+.button:first-child {
+  border-top-left-radius: 25px; /* Rounded corner for the first button */
+  border-bottom-left-radius: 25px;
+}
+
+.button:last-child {
+  border-top-right-radius: 25px; /* Rounded corner for the last button */
+  border-bottom-right-radius: 25px;
+}
+
 
 .button img {
   width: 20px;

@@ -71,7 +71,7 @@
   scroll-snap-type: x mandatory; /* Enable snapping */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS devices */
   gap: 20px; /* Space between items */
-  padding: 20px; /* Padding inside the gallery for aesthetics */
+  padding: 5px 20px; /* Padding inside the gallery for aesthetics */
 }
 
 .submissionDetail {

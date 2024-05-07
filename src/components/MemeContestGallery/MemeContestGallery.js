@@ -150,7 +150,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                     <img src={`https://crimson-rear-vole-353.mypinata.cloud/ipfs/${submission.image}?pinataGatewayToken=${GWK}`} className={styles.memeImage} alt='' loading="lazy" />
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
-                                    <div>{String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</div>
+                                    <div># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</div>
                                     <div>{formatTimeRemaining(contest.endDateTime)}</div>
                                 </div>
                             </div>

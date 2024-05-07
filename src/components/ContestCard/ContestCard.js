@@ -6,6 +6,7 @@ import submitIcon from "../../svgs/submit.svg";
 import voteIcon from "../../svgs/vote.svg";
 import endIcon from "../../svgs/vote.svg";
 import withdrawIcon from "../../svgs/vote.svg";
+import etherscanLogo from "../../svgs/etherscanSVG.svg"
 import { toast } from 'react-toastify';
 import { useWallet } from '../../contexts/WalletContext';
 import useContest from '../../hooks/useContest';
@@ -14,6 +15,7 @@ const ContestCard = ({ contest }) => {
     const [showUploadForm, setShowUploadForm] = useState(false);
     const [selectedSubmissionIndex, setSelectedSubmissionIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showDetails, setShowDetails] = useState(false); 
     const { selectedAccount } = useWallet();
     const {
         voteForSubmission,
@@ -24,6 +26,8 @@ const ContestCard = ({ contest }) => {
     const handleUploadClick = () => {
         setShowUploadForm(!showUploadForm);
     };
+
+    const toggleDetails = () => setShowDetails(!showDetails);
 
     const handleVoteClick = async () => {
         if (selectedSubmissionIndex === null) {
@@ -80,32 +84,41 @@ const ContestCard = ({ contest }) => {
     };
 
     return (
+
         <div className={styles.contestCard}>
-            <h3 className={styles.contestId}>
-                <span style={{ color: "purple" }}>{contest.index} - {contest.name}</span>
-            </h3>
+            <div className={styles.h3WithEtherscan}>
+                <h3 className={styles.contestId}>
+                    {contest.name}
+                </h3>
+                <a href={`https://etherscan.io/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer" className={styles.etherScanLink}>
+                    <img src={etherscanLogo} alt="Etherscan" className={styles.etherscanLogo}/>
+                </a>
+                
+            </div>
 
             <MemeContestGallery contest={contest} onSelectedSubmissionChange={setSelectedSubmissionIndex} />
-
-            <div className={styles.gridLayout}>
-                <div className={styles.button} onClick={handleUploadClick}>
-                    <img src={submitIcon} alt="Submit" />
-                    SUBMIT - {contest.entryFee}
-                </div>
-                <div className={styles.button} onClick={handleVoteClick}>
-                    <img src={voteIcon} alt="Vote" />
-                    VOTE - {contest.votingFee}
-                </div>
-                <div className={styles.button} onClick={handleEndContest}>
-                    <img src={endIcon} alt="End Contest" />
-                    END CONTEST
-                </div>
-                <div className={styles.button} onClick={handleWithdrawUnclaimedPrize}>
-                    <img src={withdrawIcon} alt="Withdraw Prize" />
-                    WITHDRAW PRIZE
-                </div>
+            <span onClick={toggleDetails} className={styles.detailsToggle}>
+                {showDetails ? 'Contest Details ▲' : 'Contest Details ▼'}
+            </span>
+            <div className={`${styles.infoPanel} ${showDetails ? styles.show : ''}`}>  {/* Toggle class based on state */}
+                <p><strong>Start:</strong> {new Date(contest.startDateTime).toLocaleString()}</p>
+                <p><strong>End:</strong> {new Date(contest.endDateTime).toLocaleString()}</p>
+                <p><strong>Entry Fee:</strong> {contest.entryFee}</p>
+                <p><strong>Voting Fee:</strong> {contest.votingFee}</p>
+                <p><strong>Prize Distribution:</strong> Winner gets {contest.winnerPercentage}% of the total pot</p>
+                <p><strong>Number of Lucky Voters:</strong> {contest.numberOfLuckyVoters}</p>
+                <p><strong>Total Submissions:</strong> {contest.submissions.length}</p>
+                <p><strong>Highest Votes:</strong> {contest.highestVotes}</p>
+                <p><strong>Winning Submission ID:</strong> {contest.winningSubmission}</p>
             </div>
-            
+
+            <div className={styles.buttonBar}>
+                <button className={styles.button} onClick={handleUploadClick}>SUBMIT</button>
+                <button className={styles.button} onClick={handleVoteClick}>VOTE</button>
+                <button className={styles.button} onClick={handleEndContest}>END CONTEST</button>
+                <button className={styles.button} onClick={handleWithdrawUnclaimedPrize}>WITHDRAW PRIZE</button>
+            </div>
+
             {showUploadForm && <MemeUploadForm contest={contest} />}
             {isLoading && <div>Loading...</div>}
         </div>
