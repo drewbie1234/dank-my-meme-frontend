@@ -20,7 +20,7 @@ function LoginSection() {
   return (
     <>
       <button className={styles.buttonStyle} onClick={toggleWalletDropdown}>
-        <span style={{ margin: '0 2px' }}>Wallet </span>
+        <span style={{ margin: '0 2px' }}>Wallet</span>
         <img src={walletSVG} alt="Wallet" style={{ width: '15px', verticalAlign: 'middle' }} />
       </button>
       <div className={`${styles.dropdownContent} ${showDropdown ? styles.show : ''}`}>
@@ -31,7 +31,7 @@ function LoginSection() {
               className={`${styles.accountItem} ${selectedAccount === account ? styles.selectedAccount : ''}`}
               onClick={() => selectAccount(account)}
             >
-              Wallet: {ens[account] ? ens[account] : `${account.substring(0, 6)}...${account.substring(account.length - 5)}`}
+              Wallet: {ens[account] ? ens[account] : `${account.substring(0, 6)}...${account.substring(account.length - 4)}`}
               <br />
               Balance: {balances[account] ? parseFloat(balances[account]).toPrecision(6) : 'Fetching...'} ETH
             </li>

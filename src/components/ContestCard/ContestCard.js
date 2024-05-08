@@ -92,7 +92,7 @@ const ContestCard = ({ contest }) => {
                 <h3 className={styles.contestId}>
                     {contest.name}
                 </h3>
-                <a href={`https://etherscan.io/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer" className={styles.etherScanLink}>
+                <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer" className={styles.etherScanLink}>
                     <img src={etherscanLogo} alt="Etherscan" className={styles.etherscanLogo}/>
                 </a>
                 
@@ -114,13 +114,13 @@ const ContestCard = ({ contest }) => {
                 <p><strong>Winning Submission ID:</strong> {contest.winningSubmission}</p>
                 <p>
                     <strong>Contract Address: </strong> 
-                    <a href={`https://etherscan.io/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
                         {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
                     </a>
                 </p>
                 <p>
                     <strong>Token Address: </strong> 
-                    <a href={`https://etherscan.io/token/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://magmascan.org/address/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
                         {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
                     </a>
                 </p>
