@@ -4,6 +4,7 @@ import styles from "./MemeContestGallery.module.css";
 import leftSlider from "../../svgs/leftSlider.svg";
 import rightSlider from "../../svgs/rightSlider.svg";
 import { fetchSubmissions } from "../../utils/fetchSubmissions";
+import { shortenAddress } from "../../utils/shortenAddress";
 
 const GWK = 'AMVTo16ddMxP42u7zyVkDn1ckRGXeKEAZ0N8_5qp3YEzcQl3yiATgfUpDD5tSdZj';
 
@@ -96,11 +97,6 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         );
         const nextIndex = direction === "left" ? Math.max(currentIndex - 1, 0) : Math.min(currentIndex + 1, submissions.length - 1);
         scrollToCenter(nextIndex);
-    };
-
-    const shortenAddress = (address, startChars = 7, endChars = 6) => {
-        if (!address || address.length !== 42) return address;
-        return `${address.slice(0, startChars)}...${address.slice(-endChars)}`;
     };
 
     const formatTimeRemaining = (endDateTime) => {

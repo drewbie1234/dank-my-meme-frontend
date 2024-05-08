@@ -10,6 +10,8 @@ import etherscanLogo from "../../svgs/etherscanSVG.svg"
 import { toast } from 'react-toastify';
 import { useWallet } from '../../contexts/WalletContext';
 import useContest from '../../hooks/useContest';
+import { shortenAddress } from "../../utils/shortenAddress";
+import { getWalletBySubmissionId } from "../../utils/getWalletBySubmissionId";
 
 const ContestCard = ({ contest }) => {
     const [showUploadForm, setShowUploadForm] = useState(false);
@@ -100,16 +102,28 @@ const ContestCard = ({ contest }) => {
             <span onClick={toggleDetails} className={styles.detailsToggle}>
                 {showDetails ? 'Contest Details ▲' : 'Contest Details ▼'}
             </span>
-            <div className={`${styles.infoPanel} ${showDetails ? styles.show : ''}`}>  {/* Toggle class based on state */}
+            <div className={`${styles.infoPanel} ${showDetails ? styles.show : ''}`}>
                 <p><strong>Start:</strong> {new Date(contest.startDateTime).toLocaleString()}</p>
                 <p><strong>End:</strong> {new Date(contest.endDateTime).toLocaleString()}</p>
-                <p><strong>Entry Fee:</strong> {contest.entryFee}</p>
-                <p><strong>Voting Fee:</strong> {contest.votingFee}</p>
+                <p><strong>Entry Fee:</strong> {contest.entryFee} ETH</p>
+                <p><strong>Voting Fee:</strong> {contest.votingFee} ETH</p>
                 <p><strong>Prize Distribution:</strong> Winner gets {contest.winnerPercentage}% of the total pot</p>
                 <p><strong>Number of Lucky Voters:</strong> {contest.numberOfLuckyVoters}</p>
                 <p><strong>Total Submissions:</strong> {contest.submissions.length}</p>
                 <p><strong>Highest Votes:</strong> {contest.highestVotes}</p>
                 <p><strong>Winning Submission ID:</strong> {contest.winningSubmission}</p>
+                <p>
+                    <strong>Contract Address: </strong> 
+                    <a href={`https://etherscan.io/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
+                        {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
+                    </a>
+                </p>
+                <p>
+                    <strong>Token Address: </strong> 
+                    <a href={`https://etherscan.io/token/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
+                        {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
+                    </a>
+                </p>
             </div>
 
             <div className={styles.buttonBar}>
