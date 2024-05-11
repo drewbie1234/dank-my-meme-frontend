@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { ethers } from 'ethers';
@@ -13,88 +13,104 @@ const useContest = (contest) => {
     const [contract, setContract] = useState(null);
     const { selectedAccount, isWalletConnected } = useWallet();
 
-    // Set up the contract
-    useEffect(() => {
-        const setupContract = async () => {
-            console.log("Starting to set up the contract...");
+    // Function to initialize the contest contract on demand
+    const initializeContract = useCallback(async () => {
+        console.log("Attempting to initialize contract...");
 
-            if (!window.ethereum) {
-                toast.error("Ethereum wallet is not available. Install MetaMask.");
-                console.error("Error: Ethereum wallet not found.");
-                return;
-            }
+        if (!window.ethereum) {
+            toast.error("Ethereum wallet is not available. Install MetaMask.");
+            console.error("Ethereum wallet not found.");
+            return null;
+        }
 
-            if (!isWalletConnected || !selectedAccount) {
-                console.info("Wallet not connected or account not selected.");
-                return;
-            }
+        if (!isWalletConnected || !selectedAccount) {
+            console.info("Wallet not connected or account not selected.");
+            return null;
+        }
 
-            try {
-                const provider = new ethers.BrowserProvider(window.ethereum);
-                const signer = await provider.getSigner();
+        if (contest.contractAddress && abi) {
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+            console.log("Provider and signer obtained:", provider, signer);
+            const contestContract = new ethers.Contract(contest.contractAddress, abi, signer);
+            console.log("Contract initialized:", contestContract);
+            return contestContract;
+        } else {
+            toast.error("Contract address or ABI is missing.");
+            console.error("Contract address or ABI is missing.");
+            return null;
+        }
+    }, [contest.contractAddress, selectedAccount, isWalletConnected]);
 
-                console.log("Provider:", provider);
-                console.log("Signer:", signer);
-
-                if (contest.contractAddress && abi) {
-                    const contestContract = new ethers.Contract(contest.contractAddress, abi, signer);
-                    setContract(contestContract);
-                    console.log("Contract set up successfully:", contestContract);
-                } else {
-                    toast.error("Contract address or ABI is missing.");
-                    console.error("Error: Contract address or ABI is missing.");
-                }
-            } catch (error) {
-                console.error("Error during contract setup:", error);
-            }
-        };
-
-        setupContract();
-    }, [contest, selectedAccount, isWalletConnected]);
+    // Function to ensure contract is initialized before performing actions
+    const getOrInitializeContract = useCallback(async () => {
+        if (!contract) {
+            console.log("Contract not yet initialized, initializing now...");
+            const initializedContract = await initializeContract();
+            setContract(initializedContract);
+            return initializedContract;
+        }
+        console.log("Contract already initialized.");
+        return contract;
+    }, [contract, initializeContract]);
 
     // Approve token for submission and voting
     const approveToken = useCallback(async () => {
         console.log("Starting token approval process...");
-
+    
         if (!contest.tokenAddress || !tokenAbi) {
             toast.error("Token contract address or ABI is missing.");
             console.error("Error: Token contract address or ABI is missing.");
             return false;
         }
-
+    
         try {
             const provider = new ethers.BrowserProvider(window.ethereum);
             const signer = await provider.getSigner();
             console.log("Provider:", provider);
             console.log("Signer:", signer);
-
+    
             const tokenContract = new ethers.Contract(contest.tokenAddress, tokenAbi, signer);
             console.log("Token Contract:", tokenContract);
-
+    
             const entryFee = ethers.parseUnits(contest.entryFee.toString(), 18);
             const votingFee = ethers.parseUnits(contest.votingFee.toString(), 18);
-            const totalApprovalAmount = entryFee + votingFee ;
-
+            const totalApprovalAmount = entryFee + votingFee;
+    
             console.log("Total approval amount:", totalApprovalAmount.toString());
 
-            const approvalTx = await tokenContract.approve(contest.contractAddress, totalApprovalAmount);
-            console.log("Approval transaction:", approvalTx);
-
-            const approvalReceipt = await approvalTx.wait();
-            console.log("Approval receipt:", approvalReceipt);
-
-            toast.success("Token approval successful!");
-            return true;
+            const contestContract = contest.contractAddress
+    
+            // Check current approval amount
+            const currentAllowance = await tokenContract.allowance(selectedAccount, contestContract);
+            console.log("Current allowance:", currentAllowance.toString());
+    
+            if (currentAllowance < totalApprovalAmount) {
+                console.log("Current allowance is less than required. Approving new amount...");
+                const approvalTx = await tokenContract.approve(contestContract, totalApprovalAmount);
+                console.log("Approval transaction:", approvalTx);
+    
+                const approvalReceipt = await approvalTx.wait();
+                console.log("Approval receipt:", approvalReceipt);
+    
+                toast.success("Token approval successful!");
+                return true;
+            } else {
+                console.log("Existing allowance is sufficient.");
+                return true; // No need for a new approval transaction
+            }
         } catch (error) {
             console.error("Token approval error:", error);
             toast.error(`Token approval failed: ${error.message}`);
             return false;
         }
-    }, [contest]);
+    }, [contest, selectedAccount]);
+    
 
     // Submit entry to the contest
     const submitEntry = useCallback(async (imageData) => {
         console.log("Starting to submit entry...");
+        const contract = await getOrInitializeContract();
 
         if (!contract) {
             toast.error("Contract not initialized.");
@@ -129,9 +145,8 @@ const useContest = (contest) => {
         console.log(`Starting to vote for submission index: ${submissionIndex}`);
         console.log(`contest object after being passed into voteForSubmission: ${contest}`)
         
+        const contract = await getOrInitializeContract();
 
-
-        
         if (!contest) {
             console.error("Error: Contest is undefined.");
             toast.error("Unable to vote: contest data is missing.");
@@ -233,6 +248,9 @@ const useContest = (contest) => {
     }, [submitEntry]);
 
     const endContest = useCallback(async () => {
+
+        const contract = await getOrInitializeContract();
+
         if (!contract) {
             toast.error("Contract not initialized.");
             return;
@@ -249,6 +267,9 @@ const useContest = (contest) => {
     }, [contract]);
 
     const withdrawUnclaimedPrize = useCallback(async () => {
+
+        const contract = await getOrInitializeContract();
+
         if (!contract) {
             toast.error("Contract not initialized.");
             return;
@@ -265,6 +286,9 @@ const useContest = (contest) => {
     }, [contract]);
 
     const updateContestParameters = useCallback(async (entryFee, votingFee, winnerPercentage, numberOfLuckyVoters) => {
+        
+        const contract = await getOrInitializeContract();
+        
         if (!contract) {
             toast.error("Contract not initialized.");
             return;

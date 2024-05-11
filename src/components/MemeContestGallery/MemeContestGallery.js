@@ -53,7 +53,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                             if (submission.wallet.includes('.eth')) {
                                 return { wallet: submission.wallet, ensName: submission.wallet };
                             } else {
-                                const response = await fetch(`https://app.dankmymeme.xyz:443//api/getEns?account=${submission.wallet}`);
+                                const response = await fetch(`https://app.dankmymeme.xyz:443/api/getEns?account=${submission.wallet}`);
                                 const data = await response.json();
                                 return { wallet: submission.wallet, ensName: data.ensName || submission.wallet };
                             }
