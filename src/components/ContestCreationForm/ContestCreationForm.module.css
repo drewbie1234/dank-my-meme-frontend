@@ -14,7 +14,6 @@
     width: 100%;
     background-image: linear-gradient(to right, #ff007a, #ff007a); /* Bright pink gradient */
     color: #fff; /* White text */
-    font-family: "Comic Sans MS", cursive, sans-serif; /* Funky text font */
     font-size: 10px; /* Small font size */
     text-align: center;
     padding: 10px 20px; /* Padding inside the button */
@@ -54,7 +53,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     text-align: center;
-    font-family: "Comic Sans MS", cursive, sans-serif; /* Funky text font */
+    
 }
 
 .contestCreationForm button {
