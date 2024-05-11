@@ -112,7 +112,7 @@
   display: flex;
   justify-content: center; /* Center the buttons within the bar */
   gap: 2px; /* Small gap between buttons to visually separate them */
-  margin: 10px 20px; /* Space below the button bar */
+  margin: 20px 20px; /* Space below the button bar */
   padding: 10px;
 }
 
@@ -121,7 +121,7 @@
   border: none; /* Remove borders */
   background-color: #822280; /* Uniform color */
   color: white;
-  padding: 12px 20px;
+  padding: 5px 5px;
   border-radius: 0; /* Remove individual button rounded corners */
 }
 
