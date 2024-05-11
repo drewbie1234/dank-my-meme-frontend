@@ -84,7 +84,7 @@ export const useWallet = () => {
 
     const fetchEnsName = async (account) => {
         try {
-            const response = await fetch(`https://app.dankmymeme.xyz:443/getEns?account=${account}`);
+            const response = await fetch(`https://app.dankmymeme.xyz:443/api/getEns?account=${account}`);
             const data = await response.json();
             if (response.ok) {
                 return data.ensName;
