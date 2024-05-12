@@ -25,11 +25,7 @@ const ContestCard = ({ contest,  submission }) => {
         withdrawUnclaimedPrize
     } = useContest(contest);
 
-    // Calculate the Total Prize Pot
-    console.log(contest.submissions.length)
-    console.log(contest.entryFee)
-    console.log(contest.voters.length)
-    console.log(contest.votingFee)
+
     const totalPrizePot = (contest.submissions.length * contest.entryFee) + (contest.voters.length * contest.votingFee);
 
     const handleUploadClick = () => {

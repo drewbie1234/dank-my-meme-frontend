@@ -45,7 +45,7 @@ const useContest = (contest) => {
             console.error("Contract address or ABI is missing.");
             return null;
         }
-    }, [contest.contractAddress, selectedAccount, isWalletConnected]);
+    }, [contest, selectedAccount, isWalletConnected]);
 
     // Function to ensure contract is initialized before performing actions
     const getOrInitializeContract = useCallback(async () => {
