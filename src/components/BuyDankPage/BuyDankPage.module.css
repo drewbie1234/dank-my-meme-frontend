@@ -1,0 +1,173 @@
+.buyDankPageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: auto;
+  max-width: 500px;
+  margin: auto;
+}
+
+.contentWrapper {
+  background-color: #822280; /* Dark purple background as discussed */
+  padding: 20px;
+  border-radius: 25px;
+  margin: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.tokenContainer {
+  background-color: #f2e6ff; /* Lighter purple for contrast */
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tokenContent {
+  text-align: center;
+  width: 100%;
+}
+
+.instructionsTitle {
+  color: #ff007a; /* Pink color for titles */
+  margin-bottom: 10px;
+}
+
+.instructionsList {
+  font-size: 12px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  color: #333;
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+.addressWrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 20px;
+  color: #ff007a; /* Pink color for text */
+  background-color: white;
+  width: 200px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+}
+
+.copyContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.smallEtherscanLogo {
+  height: 12px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.copyButtonWrapper {
+  position: relative; /* Set the button wrapper to position relative */
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.copyButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative; /* Ensure button is relative for tooltip absolute positioning */
+}
+
+.copySVG {
+  height: 13px;
+}
+
+.tooltip {
+  position: absolute;
+  top: -30px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  visibility: hidden; /* Hide tooltip by default */
+  opacity: 0;
+  transition: visibility 0s 0.1s, opacity 0.1s ease; /* Manage transitions */
+}
+.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s 0s, opacity 0.1s ease; /* Show tooltip immediately but fade out smoothly */
+}
+
+.tooltip.hover {
+  visibility: visible; /* Show on hover immediately */
+  opacity: 1;
+  transition: visibility 0s 0s, opacity 0.1s ease; /* Adjust timing as needed */
+}
+.gif{
+  width: 100%;
+  margin: auto;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+
+.swapButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.addButton {
+  
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 2px solid transparent;
+  outline: none;
+  padding: 0;  /* Remove padding to make button and SVG align perfectly */
+  width: auto; /* Adjust width automatically based on content */
+  cursor: pointer;
+  background-color: wheat;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.addButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  border-color: #ffd700; /* Gold color for highlight */
+}
+
+.addButton:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.metamaskSVG {
+  height: 200px; /* Ensure this matches the desired size */
+  background-color: transparent; /* Optional: Make background transparent */
+  margin: 0; /* Remove any margin to align perfectly within the button */
+  vertical-align: middle; /* Align vertically to match text or other inline elements */
+}

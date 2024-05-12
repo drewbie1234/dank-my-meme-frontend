@@ -18,13 +18,18 @@ const useContest = (contest) => {
         console.log("Attempting to initialize contract...");
 
         if (!window.ethereum) {
-            toast.error("Ethereum wallet is not available. Install MetaMask.");
+            toast.error("Ethereum wallet is not available. Please connect and select an account in MetaMask.");
             console.error("Ethereum wallet not found.");
             return null;
         }
 
         if (!isWalletConnected || !selectedAccount) {
-            console.info("Wallet not connected or account not selected.");
+            toast.info("Please connect MetaMask and select an account.");
+            return null;
+        }
+
+        if (window.ethereum.selectedAddress !== selectedAccount) {
+            toast.error("Selected wallet and MetaMask account do not match.");
             return null;
         }
 
@@ -113,7 +118,6 @@ const useContest = (contest) => {
         const contract = await getOrInitializeContract();
 
         if (!contract) {
-            toast.error("Contract not initialized.");
             console.error("Error: Contract not initialized.");
             return;
         }
@@ -159,7 +163,6 @@ const useContest = (contest) => {
         }
 
         if (!contract) {
-            toast.error("Contract not initialized.");
             console.error("Error: Contract not initialized.");
             return;
         }
@@ -219,6 +222,7 @@ const useContest = (contest) => {
 
         if (!file || !selectedAccount) {
             console.error('Invalid file or no wallet connected');
+            toast.error('Invalid file or wallet not connected');
             return { success: false, message: 'Invalid file or wallet not connected' };
         }
 
@@ -233,9 +237,13 @@ const useContest = (contest) => {
             console.log('IPFS Hash:', ipfsHash);
             
             const txReceipt = await submitEntry(ipfsHash);
-            
-            console.log('Tx receipt:', txReceipt);
 
+            if (!txReceipt) {
+                console.error('Transaction submission failed');
+                return { success: false, message: 'Failed to record submission. Please try again later' };
+            }
+
+            console.log('Transaction receipt:', txReceipt);
 
             const dbResponse = await axios.post('https://app.dankmymeme.xyz:443/api/submissions', {
                 contest,
@@ -245,13 +253,16 @@ const useContest = (contest) => {
 
             if (dbResponse.status === 200) {
                 console.log('Submission recorded successfully in the database:', dbResponse.data);
+                toast.success('Submission successfully recorded in the database');
                 return { success: true, message: 'Submission successfully recorded in the database' };
             } else {
                 console.error('Error recording submission in the database:', dbResponse.data);
+                toast.error('Error recording submission in the database');
                 return { success: false, message: 'Error recording submission in the database' };
             }
         } catch (error) {
             console.error('Error submitting meme:', error);
+            toast.error('Error submitting meme to blockchain or database');
             return { success: false, message: 'Error submitting meme to blockchain or database' };
         }
     }, [submitEntry]);
@@ -260,7 +271,6 @@ const useContest = (contest) => {
         const contract = await getOrInitializeContract();
     
         if (!contract) {
-            toast.error("Contract not initialized.");
             return;
         }
     
@@ -281,13 +291,14 @@ const useContest = (contest) => {
     
             return txReceipt;
         } catch (error) {
-            console.error("Revert reason:", ethers.toUtf8String(error.data))
-            if (error.data) {
-                console.error("Detailed revert reason:", ethers.toUtf8String(error.data));
-            } else if (error.message) {
-                console.error("Transaction error message:", error.message);
+            if (ethers.isCallException(error)) {
+                toast.error(`Transaction failed: ${error.reason || "See console for more details."}`);
+                console.error("Revert reason:", error.revert);
+                console.error("Complete error object:", error);
+            } else {
+                toast.error("Failed to withdraw prize, An unexpected error occurred. Please try again.");
+                console.error(error);
             }
-            toast.error("Failed to execute transaction on the blockchain.");
         }
     }, [contract, approveToken, selectedAccount]);
     

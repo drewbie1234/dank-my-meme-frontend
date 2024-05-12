@@ -30,8 +30,7 @@ const ContestCreationPage = () => {
             ) : (
                 <>
                     <ContestCreationForm onCreate={handleCreateContest} />
-                    <hr /> {/* Optional separator for visual distinction */}
-                    <EndContestForm /> {/* Include the new form */}
+
                 </>
             )}
         </>

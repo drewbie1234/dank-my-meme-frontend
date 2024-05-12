@@ -25,6 +25,13 @@ const ContestCard = ({ contest }) => {
         withdrawUnclaimedPrize
     } = useContest(contest);
 
+    // Calculate the Total Prize Pot
+    console.log(contest.submissions.length)
+    console.log(contest.entryFee)
+    console.log(contest.voters.length)
+    console.log(contest.votingFee)
+    const totalPrizePot = (contest.submissions.length * contest.entryFee) + (contest.votes * contest.votingFee);
+
     const handleUploadClick = () => {
         setShowUploadForm(!showUploadForm);
     };
@@ -63,7 +70,7 @@ const ContestCard = ({ contest }) => {
                 throw new Error("Failed to end the contest.");
             }
         } catch (error) {
-            toast.error("Error ending the contest. Please try again.");
+            toast.error("Error ending the contest. Ensure you are the contest owner and the correct accounts are selected.");
         } finally {
             setIsLoading(false);
         }
@@ -136,7 +143,9 @@ const ContestCard = ({ contest }) => {
                 </p>
             </div>
 
+            <p><strong>Total Prize Pot 💰 :</strong> {totalPrizePot} DANK</p>
             <div className={styles.buttonBar}>
+            
                 <button className={styles.button} onClick={handleUploadClick}>SUBMIT</button>
                 <button className={styles.button} onClick={handleVoteClick}>VOTE</button>
                 <button className={styles.button} onClick={handleEndContest}>END CONTEST</button>

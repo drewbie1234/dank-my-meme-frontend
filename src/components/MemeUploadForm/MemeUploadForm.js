@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';  // Import toast for better notifications
 import { useWallet } from '../../contexts/WalletContext';
 import useContest from '../../hooks/useContest';
 
 function MemeUploadForm({ contest }) {
     const [file, setFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [uploadStatus, setUploadStatus] = useState('');
     const { selectedAccount } = useWallet();
     const { submitMeme } = useContest(contest);
 
@@ -16,7 +16,7 @@ function MemeUploadForm({ contest }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!file) {
-            alert('Please select a file to upload.');
+            toast.error('Please select a file to upload.');  // Using toast for error message
             return;
         }
 
@@ -24,7 +24,11 @@ function MemeUploadForm({ contest }) {
         const result = await submitMeme(file, selectedAccount);
         setIsLoading(false);
 
-        setUploadStatus(result.message);
+        if (result.success) {
+            console.log(result.message);  // Success toast
+        } else {
+            toast.error(result.message);  // Error toast if the upload fails
+        }
     };
 
     return (
@@ -35,7 +39,7 @@ function MemeUploadForm({ contest }) {
                     {isLoading ? 'Uploading...' : 'Upload to IPFS'}
                 </button>
             </form>
-            {uploadStatus && <p>{uploadStatus}</p>}
+            {/* Removed the uploadStatus paragraph to handle all user feedback via toasts */}
         </div>
     );
 }

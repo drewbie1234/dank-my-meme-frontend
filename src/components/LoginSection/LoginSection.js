@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';  // Import the Link component from react-router-dom
 import styles from './LoginSection.module.css';
 import walletSVG from '../../svgs/wallet.svg';
 import { useWallet } from '../../contexts/WalletContext';
@@ -20,10 +21,11 @@ function LoginSection() {
   return (
     <>
       <button className={styles.buttonStyle} onClick={toggleWalletDropdown}>
-        <span style={{ margin: '0 2px' }}>Wallet</span>
+        <span style={{ margin: '0 2px' }}>WALLET</span>
         <img src={walletSVG} alt="Wallet" style={{ width: '15px', verticalAlign: 'middle' }} />
       </button>
       <div className={`${styles.dropdownContent} ${showDropdown ? styles.show : ''}`}>
+        <Link to="/buydank" className={styles.buttonStyleDank}>GET DANK HERE 🤝</Link> {/* New Link for BuyDankPage */}
         <ul className={styles.accountsList}>
           {accounts.map((account, index) => (
             <li
@@ -37,14 +39,13 @@ function LoginSection() {
             </li>
           ))}
         </ul>
-        {/* The button specifically connects or disconnects the wallet */}
         {isWalletConnected ? (
           <button className={styles.buttonStyle} onClick={disconnectWallet}>
-            Disconnect
+            <p>DISCONNECT</p>
           </button>
         ) : (
           <button className={styles.buttonStyle} onClick={connectWallet}>
-            Connect
+            <p>CONNECT</p>
           </button>
         )}
       </div>

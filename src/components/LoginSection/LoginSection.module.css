@@ -13,17 +13,44 @@
   display: flex;
   background-image: linear-gradient(to right, #ff007a, #ff007a);
   color: #fff;
-  font-size: 10px;
-  text-align: center;
-  height: 45px;
+  font-size: 12px;
+  justify-content: center;
+  width: 150px;
   padding: 10px 10px;
-  margin-right: 15px;
-  border: 3px solid black;
+  border: 2px solid black;
   border-radius: 25px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  align-items: start;
+  margin: 10px;
 }
+.buttonStyleDank {
+  display: flex;
+  background-image: linear-gradient(to right, #4CAF50, #4CAF50);
+  color: #fff;
+  font-size: 12px;
+  justify-content: center;
+  width: 150px;
+  padding: 10px 10px;
+  border: 2px solid black;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  align-items: start;
+  margin: 10px;
+  text-decoration: none
+}
+
+.buttonStyle p  {
+  padding: 0;
+  margin: 0;
+  text-align: justify;
+}
+
 
 .buttonStyle:hover {
   transform: translateY(-2px);
@@ -93,7 +120,7 @@
   padding: 0; /* Remove default padding */
   width: 100%; /* Full width */
   text-align: center; /* Center align text */
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .accountItem {
