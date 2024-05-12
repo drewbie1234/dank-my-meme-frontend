@@ -9,7 +9,7 @@ import coinGeckoLogo from "../../svgs/coinGeckoSVG.svg";
 import dexToolsLogo from "../../svgs/dexToolsSVG.svg";
 import etherscanLogo from "../../svgs/etherscanSVG.svg";
 import duneAnalyticsLogo from "../../svgs/duneSVG.svg";
-import metaMaskLogo from '../../svgs/'; // Ensure the path to the MetaMask logo is correct
+import metaMaskLogo from '../../svgs/metaMask.svg'; // Ensure the path to the MetaMask logo is correct
 
 
 const Footer = () => {
