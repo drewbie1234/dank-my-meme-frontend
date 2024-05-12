@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './BuyDankPage.module.css'; // Ensure the CSS module is correctly linked
 import etherscanLogo from '../../svgs/etherscanSVG.svg'; // Check the path to the Etherscan logo
 import copySVG from '../../svgs/copySVG.svg'; // Ensure the path to the copy icon is correct
-import metaMaskLogo from '../../svgs/metamaskSVG.svg'; // Ensure the path to the MetaMask logo is correct
+import metaMaskLogo from '../../svgs/metamask.svg'; // Ensure the path to the MetaMask logo is correct
 import swapGif from '../../gifs/MagmaSwapDemo.gif'; // Import the GIF
 
 function DankTokenInfo() {
