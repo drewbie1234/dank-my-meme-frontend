@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 // Assuming imports are correct and using CSS Modules
 function HomePage() {
 
-  const homeImageUrl = "https://www.dankmymeme.xyz/public/images/dank_my_meme.PNG"; // Replace with your actual image URL
+  const homeImageUrl = "https://app.dankmymeme.xyz/public/images/dank_my_meme.PNG"; // Replace with your actual image URL
 
 
   return (
