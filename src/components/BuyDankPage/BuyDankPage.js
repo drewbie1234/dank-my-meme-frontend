@@ -91,7 +91,7 @@ function DankTokenInfo() {
                                         </div>
                                     </div>
                                 </div>
-                            <li>Paste the copied address into the Magma Swap "Select token" input as shown below. Click "Swap Dank Here" to access Magma Swap ⬇️</li>
+                            <li>Paste the copied address into the Magma Swap "Select token" input as shown below. Click "GET DANK HERE" to access Magma Swap ⬇️</li>
                             <img src={swapGif} alt="Swap Animation" className={styles.gif}/>
                         </ol>
                     </div>

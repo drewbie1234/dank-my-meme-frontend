@@ -1,26 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.d995ab55.css",
-    "main.js": "/static/js/main.7f87ad72.js",
+    "main.css": "/static/css/main.1ac383d7.css",
+    "main.js": "/static/js/main.ffc92d80.js",
+    "static/media/MagmaSwapDemo.gif": "/static/media/MagmaSwapDemo.4845d32bafa309e7712a.gif",
     "static/media/dank_my_meme.png": "/static/media/dank_my_meme.28c6f7c28e1ab3d4494d.png",
     "static/media/dank_my_meme_title.png": "/static/media/dank_my_meme_title.38b40b59b1a58b2041af.png",
     "static/media/dexToolsSVG.svg": "/static/media/dexToolsSVG.0a1cc7d126ec66c1d16ea64a34bdfe55.svg",
+    "static/media/metamask.svg": "/static/media/metamask.df996025af54766016c55e23524ba3fa.svg",
     "static/media/coinGeckoSVG.svg": "/static/media/coinGeckoSVG.e0e01005bfa5930b6d17905cce81deca.svg",
     "static/media/vote.svg": "/static/media/vote.d3063ae8b49bf27a33488c7f3edee7ed.svg",
     "static/media/wallet.svg": "/static/media/wallet.fc7d5d27eeb4aac21859f705fbe47d8c.svg",
     "static/media/coinMarketCapSVG.svg": "/static/media/coinMarketCapSVG.e71e52e8e112c936b0bc0dea4a328396.svg",
-    "static/media/etherscanSVG.svg": "/static/media/etherscanSVG.04e03f90ded712261c032e9edbc69342.svg",
+    "static/media/etherscanSVG.svg": "/static/media/etherscanSVG.8ed3259f5311e914794c3c0686dfd071.svg",
     "static/media/leftSlider.svg": "/static/media/leftSlider.bb37345cd70d0dfe9eb9ecb760950cf8.svg",
     "static/media/rightSlider.svg": "/static/media/rightSlider.4752d98c36cb20cbe3ba1878098c0065.svg",
     "static/media/submit.svg": "/static/media/submit.0659d492c0a4848f0603073b77c5823d.svg",
+    "static/media/copySVG.svg": "/static/media/copySVG.21fb5fd4ef20ed044d20a164778ec021.svg",
     "index.html": "/index.html",
     "static/media/duneSVG.svg": "/static/media/duneSVG.bb42b4e2dfdefb8a51aa75212fe140be.svg",
     "static/media/twitterSVG.svg": "/static/media/twitterSVG.84239aa7897a885ceb1bb60a4c0b350b.svg",
-    "main.d995ab55.css.map": "/static/css/main.d995ab55.css.map",
-    "main.7f87ad72.js.map": "/static/js/main.7f87ad72.js.map"
+    "main.1ac383d7.css.map": "/static/css/main.1ac383d7.css.map",
+    "main.ffc92d80.js.map": "/static/js/main.ffc92d80.js.map"
   },
   "entrypoints": [
-    "static/css/main.d995ab55.css",
-    "static/js/main.7f87ad72.js"
+    "static/css/main.1ac383d7.css",
+    "static/js/main.ffc92d80.js"
   ]
 }
