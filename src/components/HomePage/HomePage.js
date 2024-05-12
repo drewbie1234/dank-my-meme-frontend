@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 // Assuming imports are correct and using CSS Modules
 function HomePage() {
 
-  const homeImageUrl = "https://app.dankmymeme.xyz/public/images/dank_my_meme.PNG"; // Replace with your actual image URL
+  const homeImageUrl = "https://www.dankmymeme.xyz/public/images/dank_my_meme.PNG"; // Replace with your actual image URL
 
 
   return (
@@ -14,10 +14,10 @@ function HomePage() {
       <Helmet>
         <title>Home - Dank My Meme</title>
         <meta name="description" content="Explore the dankest memes on the web!" />
-        <meta property="og:title" content="Home - Dank My Meme" />
+        <meta property="og:title" content="Home - Dank My Meme 👌" />
         <meta property="og:description" content="Explore the dankest memes on the web!" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://dank-my-meme-937dd4ec714f.herokuapp.com/" />
+        <meta property="og:url" content="https://www.dankmymeme.xyz/" />
         <meta property="og:image" content={homeImageUrl} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
