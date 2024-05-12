@@ -16,7 +16,10 @@ const ContestCreationForm = ({ onCreate }) => {
         votingFee: '0.1',
         winnerPercentage: '75',
         numberOfLuckyVoters: '1',
-        tokenAddress: '0xe12154f598138d7B77179739DABEDf4AaD80f824'
+        tokenAddress: '0xe12154f598138d7B77179739DABEDf4AaD80f824',
+        contestOwner: selectedAccount,
+        contestEnded: false,
+        distributeTX: '',
     });
     const [error, setError] = useState('');
     const tokenAddresses = [
@@ -51,7 +54,7 @@ const ContestCreationForm = ({ onCreate }) => {
         try {
             setError('');
             const deployedContractAddress = await deployContract(formData, selectedAccount);
-            onCreate({...formData, contractAddress: deployedContractAddress});
+            onCreate({...formData, contractAddress: deployedContractAddress, contestOwner: selectedAccount });
         } catch (deploymentError) {
             setError(`Failed to deploy contract: ${deploymentError.message}`);
         }

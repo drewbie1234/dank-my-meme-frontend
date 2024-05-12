@@ -15,6 +15,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [loading, setLoading] = useState(true);
     const [walletAddresses, setWalletAddresses] = useState({});
     const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(null);
+    const [timeRemaining, setTimeRemaining] = useState('');
 
     // Swipe Handlers using react-swipeable
     const swipeHandlers = useSwipeable({
@@ -23,6 +24,14 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         preventDefaultTouchmoveEvent: true,
         trackMouse: true // Also support mouse swipes
     });
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeRemaining(formatTimeRemaining(contest.endDateTime));
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [contest.endDateTime])
 
     useEffect(() => {
         const fetchAndSetSubmissions = async () => {
@@ -100,26 +109,42 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     };
 
     const formatTimeRemaining = (endDateTime) => {
+        if (isNaN(Date.parse(endDateTime))) return "Invalid date format";
+    
+        // Current date and time in local time zone
         const now = new Date();
+    
+        // Convert endDateTime to a Date object in local time zone
         const endDate = new Date(endDateTime);
+    
+        // Calculate local time offset in milliseconds (GMT+1)
+        const localTimeOffset = endDate.getTimezoneOffset() * 60000; // Convert from minutes to milliseconds
+        const gmtPlusOneOffset = localTimeOffset - (60 * 60000); // Adjust for GMT+1
+    
+        // Adjust endDate to GMT+1
+        endDate.setTime(endDate.getTime() + gmtPlusOneOffset);
+    
         const diffMs = endDate - now;
         if (diffMs <= 0) return "Time expired ⏰";
-
-        const oneMinute = 60 * 1000;
+    
+        const oneSecond = 1000;
+        const oneMinute = 60 * oneSecond;
         const oneHour = 60 * oneMinute;
         const oneDay = 24 * oneHour;
-
+    
         const days = Math.floor(diffMs / oneDay);
         const hours = Math.floor((diffMs % oneDay) / oneHour);
         const minutes = Math.floor((diffMs % oneHour) / oneMinute);
-        
-
+        const seconds = Math.floor((diffMs % oneMinute) / oneSecond);
+    
         const formattedDays = String(days).padStart(2, '0');
         const formattedHours = String(hours).padStart(2, '0');
         const formattedMinutes = String(minutes).padStart(2, '0');
-
-        return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ⏰`;
+        const formattedSeconds = String(seconds).padStart(2, '0');
+    
+        return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ${formattedSeconds}S ⏰`;
     };
+    
 
     return (
         <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>
@@ -147,7 +172,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
                                     <div># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</div>
-                                    <div>{formatTimeRemaining(contest.endDateTime)}</div>
+                                    <div>{timeRemaining}</div>
                                 </div>
                             </div>
                         ))}

@@ -110,12 +110,22 @@ const ContestCard = ({ contest }) => {
                 <p><strong>Prize Distribution:</strong> Winner gets {contest.winnerPercentage}% of the total pot</p>
                 <p><strong>Number of Lucky Voters:</strong> {contest.numberOfLuckyVoters}</p>
                 <p><strong>Total Submissions:</strong> {contest.submissions.length}</p>
-                <p><strong>Highest Votes:</strong> {contest.highestVotes}</p>
+                <p><strong>Highest Votes:</strong> {contest.highestVotes || 'NA'}</p>
+                <p><strong>Prizes Distributed:</strong> {contest.contestEnded ? 'Yes' : 'No'}</p>
+                <p><strong>Distribution Tx:</strong> {contest.distributionTX || 'TBC'}</p>
+
                 <p><strong>Winning Submission ID:</strong> {contest.winningSubmission}</p>
+            
+                <p>
+                    <strong>Owner Address: </strong> 
+                    <a href={`https://magmascan.org/address/${contest.contestOwner}`} target="_blank" rel="noopener noreferrer">
+                        {shortenAddress(contest.contestOwner)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
+                    </a>
+                </p>
                 <p>
                     <strong>Contract Address: </strong> 
                     <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
-                        {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
+                        {shortenAddress(contest.contractAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
                     </a>
                 </p>
                 <p>

@@ -1,11 +1,12 @@
 import { ethers, getAddress } from 'ethers';
+import axios from 'axios';  // Ensure axios is imported
 import contractData from '../contracts/Contest.json';  // Ensure the path is correct
 
 const { abi } = contractData[0];
 const { bytecode } = contractData[0];
 
 
-export const deployContract = async (formData) => {
+export const deployContract = async (formData, selectedAccount) => {
     const {
         tokenAddress,
         name,
@@ -65,6 +66,17 @@ export const deployContract = async (formData) => {
     const contractAddress = await contract.getAddress()
     
     console.log("Contract deployed at address:", contractAddress);
+
+    // // Update contest owner in the database
+    // try {
+    //     const response = await axios.patch(`http://localhost:3000/api/contests/${contestId}/owner`, {
+    //         contestOwner: contractAddress
+    //     });
+    //     console.log('Database updated successfully:', response.data);
+    // } catch (error) {
+    //     console.error('Failed to update contest owner in database:', error);
+    //     throw new Error('Failed to update contest owner in database');
+    // }
 
     // Return the address of the deployed contract
     return contractAddress;

@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { ethers } from 'ethers';
+import { assert, ethers, makeError } from 'ethers';
 import { useWallet } from '../contexts/WalletContext';
 import contractData from '../contracts/Contest.json';
 import tokenData from '../contracts/Token.json';
@@ -135,10 +135,15 @@ const useContest = (contest) => {
 
             return txReceipt;
         } catch (error) {
-            console.error("Error submitting entry:", error);
-            toast.error("Failed to submit entry. Please try again.");
+            console.error("Error object:", error);
+            if (error.data) {
+                console.error("Revert reason:", ethers.toUtf8String(error.data));
+            } else if (error.message) {
+                console.error("Error message:", error.message);
+            }
+            toast.error("Failed to execute transaction.");
         }
-    }, [contract, approveToken]);
+    }, [contract, approveToken, selectedAccount]);
 
     // Adjusted voteForSubmission function
     const voteForSubmission = useCallback(async (submissionIndex) => {
@@ -193,12 +198,16 @@ const useContest = (contest) => {
             } catch (apiError) {
                 console.error('Error recording vote to the database:', apiError);
             }
-            
-
             return txReceipt;
+
         } catch (error) {
-            console.error("Error casting vote:", error);
-            toast.error(`Failed to cast vote. Reason: ${error.message}`);
+            console.error("Error object:", error);
+            if (error.data) {
+                console.error("Revert reason:", ethers.toUtf8String(error.data));
+            } else if (error.message) {
+                console.error("Error message:", error.message);
+            }
+            toast.error("Failed to execute transaction.");
         }
     }, [contract, approveToken, selectedAccount]);
 
@@ -247,24 +256,41 @@ const useContest = (contest) => {
         }
     }, [submitEntry]);
 
-    const endContest = useCallback(async () => {
-
+    const endContest = useCallback(async (contestId) => {
         const contract = await getOrInitializeContract();
-
+    
         if (!contract) {
             toast.error("Contract not initialized.");
             return;
         }
-
+    
         try {
             const txResponse = await contract.endContest();
-            const txReceipt = await txResponse.wait();
-            toast.success("Contest ended successfully!");
+            const txReceipt = await txResponse.wait();  // Wait for the transaction to be mined
+            toast.success("Contest ended successfully on the blockchain!");
+    
+            // If the blockchain transaction is successful, update the database
+            try {
+                const response = await axios.patch(`https://app.dankmymeme.xyz:443/api/contests/${contestId}/end`);
+                console.log('Database updated successfully:', response.data);
+                toast.success("Contest ended successfully in the database!");
+            } catch (dbError) {
+                console.error("Error updating the database:", dbError);
+                toast.error("Failed to update the contest status in the database.");
+            }
+    
             return txReceipt;
         } catch (error) {
-            toast.error(`Failed to end the contest: ${error.message}`);
+            console.error("Revert reason:", ethers.toUtf8String(error.data))
+            if (error.data) {
+                console.error("Detailed revert reason:", ethers.toUtf8String(error.data));
+            } else if (error.message) {
+                console.error("Transaction error message:", error.message);
+            }
+            toast.error("Failed to execute transaction on the blockchain.");
         }
-    }, [contract]);
+    }, [contract, approveToken, selectedAccount]);
+    
 
     const withdrawUnclaimedPrize = useCallback(async () => {
 
@@ -281,9 +307,16 @@ const useContest = (contest) => {
             toast.success("Unclaimed prize withdrawn successfully!");
             return txReceipt;
         } catch (error) {
-            toast.error(`Failed to withdraw unclaimed prize: ${error.message}`);
+            if (ethers.isCallException(error)) {
+                toast.error(`Transaction failed: ${error.reason || "See console for more details."}`);
+                console.error("Revert reason:", error.revert);
+                console.error("Complete error object:", error);
+            } else {
+                toast.error("Failed to withdraw prize, An unexpected error occurred. Please try again.");
+                console.error(error);
+            }
         }
-    }, [contract]);
+    }, [contract, approveToken, selectedAccount]);
 
     const updateContestParameters = useCallback(async (entryFee, votingFee, winnerPercentage, numberOfLuckyVoters) => {
         
@@ -300,7 +333,14 @@ const useContest = (contest) => {
             toast.success("Contest parameters updated successfully!");
             return txReceipt;
         } catch (error) {
-            toast.error(`Failed to update contest parameters: ${error.message}`);
+            if (ethers.isCallException(error)) {
+                toast.error(`Transaction failed: ${error.reason || "See console for more details."}`);
+                console.error("Revert reason:", error.revert);
+                console.error("Complete error object:", error);
+            } else {
+                toast.error("Failed to update parameters, an unexpected error occurred. Please try again.");
+                console.error(error);
+            }
         }
     }, [contract]);
 
