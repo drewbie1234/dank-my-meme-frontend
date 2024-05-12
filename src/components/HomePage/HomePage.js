@@ -17,7 +17,7 @@ function HomePage() {
         <meta property="og:title" content="Home - Dank My Meme 👌" />
         <meta property="og:description" content="Explore the dankest memes on the web!" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.dankmymeme.xyz/" />
+        <meta property="og:url" content="https://app.dankmymeme.xyz/" />
         <meta property="og:image" content={homeImageUrl} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
