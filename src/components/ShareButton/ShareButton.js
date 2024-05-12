@@ -1,13 +1,13 @@
-const ShareButton = ({ contest, submission }) => {
-    console.log(`Share button props:  C${contest} S${submission}`)
-    const submissionId = submission.id
+const ShareButton = ({ contest, submissionId }) => {
+    console.log(`Share button props:  C${contest} S${submissionId}`)
+
     const shareUrl = `${window.location.origin}/submission/${submissionId}`;
 
     const handleShare = () => {
         if (navigator.share) {
             navigator.share({
                 title: 'Check out this submission!',
-                text: submission.wallet,
+                text: submissionId,
                 url: shareUrl,
             }).catch(console.error);
         } else {

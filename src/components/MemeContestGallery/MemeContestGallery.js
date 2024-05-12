@@ -173,7 +173,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
                                     <div># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</div>
-                                    <ShareButton contest={contest} submission={submission}/>
+                                    <ShareButton contest={contest} submission={submission.key}/>
                                     <div>{timeRemaining}</div>
                                 </div>
                             </div>
