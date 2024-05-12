@@ -9,7 +9,7 @@ import coinGeckoLogo from "../../svgs/coinGeckoSVG.svg";
 import dexToolsLogo from "../../svgs/dexToolsSVG.svg";
 import etherscanLogo from "../../svgs/etherscanSVG.svg";
 import duneAnalyticsLogo from "../../svgs/duneSVG.svg";
-import metamaskSVG from '../../svgs/metamaskSVG.svg'; // Ensure the path to the MetaMask logo is correct
+import metaMaskLogo from '../../svgs/metamaskSVG.svg'; // Ensure the path to the MetaMask logo is correct
 
 
 const Footer = () => {
@@ -17,7 +17,7 @@ const Footer = () => {
   const contractAddress = "0xe12154f598138d7B77179739DABEDf4AaD80f824"; // Your token contract address
   const tokenSymbol = 'DANK'; // Token symbol
   const tokenDecimals = 18; // Token decimals
-  const tokenImage = metamaskSVG; // Token image, using the MetaMask logo for now
+  const tokenImage = metaMaskLogo; // Token image, using the MetaMask logo for now
 
 
   const handleAddTokenToMetaMask = async () => {
@@ -89,7 +89,7 @@ const Footer = () => {
             </li>
             <li>
                 <button onClick={handleAddTokenToMetaMask} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                    <img src={metamaskSVG} alt="Add to MetaMask" className={styles.icon} />
+                    <img src={metaMaskLogo} alt="Add to MetaMask" className={styles.icon} />
                 </button>
             </li>
           </ul>
