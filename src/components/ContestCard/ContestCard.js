@@ -13,7 +13,7 @@ import useContest from '../../hooks/useContest';
 import { shortenAddress } from "../../utils/shortenAddress";
 import { getWalletBySubmissionId } from "../../utils/getWalletBySubmissionId";
 
-const ContestCard = ({ contest }) => {
+const ContestCard = ({ contest,  submission }) => {
     const [showUploadForm, setShowUploadForm] = useState(false);
     const [selectedSubmissionIndex, setSelectedSubmissionIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ const ContestCard = ({ contest }) => {
     console.log(contest.entryFee)
     console.log(contest.voters.length)
     console.log(contest.votingFee)
-    const totalPrizePot = (contest.submissions.length * contest.entryFee) + (contest.votes * contest.votingFee);
+    const totalPrizePot = (contest.submissions.length * contest.entryFee) + (contest.voters.length * contest.votingFee);
 
     const handleUploadClick = () => {
         setShowUploadForm(!showUploadForm);
@@ -106,7 +106,16 @@ const ContestCard = ({ contest }) => {
             </div>
 
             <MemeContestGallery contest={contest} onSelectedSubmissionChange={setSelectedSubmissionIndex} />
-            <span onClick={toggleDetails} className={styles.detailsToggle}>
+            
+
+            <p className={styles.prize}><strong>Total Prize Pot 💰 :</strong> {totalPrizePot} DANK</p>
+            <div className={styles.buttonBar}>
+            
+                <button className={styles.button} onClick={handleUploadClick}>SUBMIT</button>
+                <button className={styles.button} onClick={handleVoteClick}>VOTE</button>
+                <button className={styles.button} onClick={handleEndContest}>END CONTEST</button>
+                <button className={styles.button} onClick={handleWithdrawUnclaimedPrize}>WITHDRAW PRIZE</button>
+            </div><span onClick={toggleDetails} className={styles.detailsToggle}>
                 {showDetails ? 'Contest Details ▲' : 'Contest Details ▼'}
             </span>
             <div className={`${styles.infoPanel} ${showDetails ? styles.show : ''}`}>
@@ -141,15 +150,6 @@ const ContestCard = ({ contest }) => {
                         {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> 
                     </a>
                 </p>
-            </div>
-
-            <p><strong>Total Prize Pot 💰 :</strong> {totalPrizePot} DANK</p>
-            <div className={styles.buttonBar}>
-            
-                <button className={styles.button} onClick={handleUploadClick}>SUBMIT</button>
-                <button className={styles.button} onClick={handleVoteClick}>VOTE</button>
-                <button className={styles.button} onClick={handleEndContest}>END CONTEST</button>
-                <button className={styles.button} onClick={handleWithdrawUnclaimedPrize}>WITHDRAW PRIZE</button>
             </div>
 
             {showUploadForm && <MemeUploadForm contest={contest} />}

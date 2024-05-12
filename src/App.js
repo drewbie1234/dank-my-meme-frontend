@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { WalletProvider } from './contexts/WalletContext';
 import Footer from "./components/Footer/Footer";
 import BuyDankPage from "./components/BuyDankPage/BuyDankPage"; // Import the new BuyDankPage component
-
+import SubmissionPage from "./components/SubmissionPage/SubmissionPage";
 
 const App = () => {
   return (
@@ -36,6 +36,7 @@ const App = () => {
             <Route path="/votes" element={<VotesPage />} />
             <Route path="/submissions" element={<SubmissionsPage />} />
             <Route path="/buydank" element={<BuyDankPage />} /> {/* New route for BuyDankPage */}
+            <Route path="/submission/:submissionId" element={<SubmissionPage />} />
             <Route path="*" element={<div>Not Found — <Link to="/">Go Home</Link></div>} />
           </Routes>
           <Footer />

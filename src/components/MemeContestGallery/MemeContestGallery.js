@@ -5,6 +5,7 @@ import leftSlider from "../../svgs/leftSlider.svg";
 import rightSlider from "../../svgs/rightSlider.svg";
 import { fetchSubmissions } from "../../utils/fetchSubmissions";
 import { shortenAddress } from "../../utils/shortenAddress";
+import ShareButton from '../ShareButton/ShareButton'
 
 const GWK = 'AMVTo16ddMxP42u7zyVkDn1ckRGXeKEAZ0N8_5qp3YEzcQl3yiATgfUpDD5tSdZj';
 
@@ -172,6 +173,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
                                     <div># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</div>
+                                    <ShareButton contest={contest} submission={submission}/>
                                     <div>{timeRemaining}</div>
                                 </div>
                             </div>
