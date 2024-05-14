@@ -1,12 +1,5 @@
 
 
-.contestDateContainer{
-    display: flex;
-    justify-content: space-between;
-    width: 100%; /* This ensures the container stretches across the full width of its parent */
-    font-size:10px;
-    color: #822280;
-  }
   
 .contestCard {
   display: flex;
@@ -122,7 +115,7 @@ span {
 
 .buttonBar {
   display: flex;
-  justify-content: space-between; /* Even spacing between buttons */
+  justify-content:space-around; /* Even spacing between buttons */
   align-items: center; /* Aligns buttons vertically */
   padding: 10px 0; /* Padding around the buttons */
 }
@@ -130,14 +123,15 @@ span {
 .button {
   flex: 1; /* Ensures each button grows equally to fill the space */
   height: 40px;
+  font-size: 10px;
   text-align: center; /* Centers text in the button */
   background-color: #822280; /* Initial uniform color */
   color: white;
-  padding: 10px 15px; /* Consistent padding */
+  padding: 10px 10px; /* Consistent padding */
   border: none;
   transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; /* Smooth transitions for transform, shadow, and color */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 0 5px; /* Adds a small margin between buttons */
+  margin: 0 1px; /* Adds a small margin between buttons */
 }
 
 .button:hover {

@@ -89,7 +89,7 @@ const ContestCard = ({ contest, submission }) => {
     };
 
     return (
-
+        
         <div className={styles.contestCard}>
             <div className={styles.h3WithEtherscan}>
                 <h3 className={styles.contestId}>
