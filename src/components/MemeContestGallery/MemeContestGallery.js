@@ -145,7 +145,6 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     
         return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ${formattedSeconds}S ⏰`;
     };
-    
 
     return (
         <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>

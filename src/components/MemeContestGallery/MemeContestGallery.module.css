@@ -25,7 +25,6 @@
   cursor: grabbing; /* Change the cursor to grabbing while dragging */
 }
 
-
 .arrowButton {
   width: 10px;
   position: absolute;
@@ -54,7 +53,6 @@
   cursor: pointer;
 }
 
-
 .scrollRegionLeft {
   left: 0;
 }
@@ -62,7 +60,6 @@
 .scrollRegionRight {
   right: 0;
 }
-
 
 .memeContestGallery {
   display: flex;
@@ -103,10 +100,9 @@
   z-index: 20; /* Higher than the scroll regions */
 }
 
-
 .bottomGalleryBar {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   justify-content: space-between;
   background-color: #822280;
   border-bottom-left-radius: 8px;
@@ -116,30 +112,31 @@
   padding: 8px;
 }
 
-
 .memeImageContainer {
   background-color: #f1d7f0; /* Sets the background to white */
-  display: flex; /* Uses flexbox to center the image */
-  justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
+  position: relative; /* Position relative for padding-bottom trick */
+  width: 100%; /* Make the container width 100% */
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
   overflow: hidden; /* Ensures the image doesn't spill out of the container */
-  /* Set a specific height or keep it responsive based on your design */
-  height: 400px;
+  height: 20vh;
+  margin: auto;
 }
 
 .memeImage {
-  width: 100%; /* Make the image fill the container */
+  position: absolute; /* Absolutely position the image */
+  top: 0;
+  left: 50%; /* Move the image 50% from the left */
+  transform: translateX(-50%); /* Pull the image back by 50% of its own width */
+  width: auto; /* Make the image fill the container */
   height: 100%; /* Ensure the image takes up full height */
-  object-fit: cover; /* Scale the image to cover the container while maintaining aspect ratio */
-  /* Prevents the image from exceeding the boundaries of its container */
+  max-height: 700px;
+  object-fit: fill; /* Scale the image to cover the container while maintaining aspect ratio */
 }
-
 
 .etherScanLink {
   color: #fff; /* White text */
   text-decoration: underline; /* Underlined text */
   /* Ensure the link is visible against the background */
-
   background-color: transparent;
   color: white;
   /* Additional styling as needed */
@@ -153,6 +150,7 @@
   overflow: hidden; /* Hide overflow to ensure a clean look */
   position: relative;
 }
+
 .buttonWrapperRight {
   right: 10px;
   padding: 20px; /* Invisible padding */
@@ -169,7 +167,7 @@
 
 .etherScanLink a {
   color: white; /* Set your desired color, white is just an example */
-   /* Removes underline, set to 'underline' if you want it */
+  /* Removes underline, set to 'underline' if you want it */
   transition: color 0.3s; /* Smooth color transition for hover effect, optional */
 }
 
