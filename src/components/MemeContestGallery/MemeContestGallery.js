@@ -162,9 +162,9 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
                                     <div className={styles.etherScanLink}>
-                                        <a href={`https://etherscan.io/address/${walletAddresses[submission.wallet] || submission.wallet}`} target="_blank" rel="noopener noreferrer">
-                                            {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
-                                        </a>
+                                    <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer" >
+                                        {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
+                                    </a>
                                     </div>
                                     <div className={styles.detailText}>👌 {submission.votes} </div>
                                 </div>

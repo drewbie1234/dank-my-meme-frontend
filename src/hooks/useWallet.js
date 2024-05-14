@@ -1,26 +1,49 @@
-import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { useReducer } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const initialState = {
+    accounts: [],
+    balances: {},
+    ens: {},
+    isWalletConnected: false,
+    selectedAccount: null,
+    showDropdown: false,
+};
+
+function walletReducer(state, action) {
+    switch (action.type) {
+        case 'TOGGLE_DROPDOWN':
+            return { ...state, showDropdown: !state.showDropdown };
+        case 'CONNECT_WALLET':
+            return { ...state, accounts: action.payload.accounts, isWalletConnected: true };
+        case 'DISCONNECT_WALLET':
+            return { ...initialState, showDropdown: state.showDropdown };
+        case 'UPDATE_BALANCES':
+            return { ...state, balances: action.payload };
+        case 'UPDATE_ENS':
+            return { ...state, ens: action.payload };
+        case 'SELECT_ACCOUNT':
+            return { ...state, selectedAccount: action.payload };
+        default:
+            throw new Error(`Unhandled action type: ${action.type}`);
+    }
+}
+
 export const useWallet = () => {
-    const [accounts, setAccounts] = useState([]);
-    const [balances, setBalances] = useState({});
-    const [ens, setEns] = useState({});
-    const [isWalletConnected, setIsWalletConnected] = useState(false);
-    const [selectedAccount, setSelectedAccount] = useState(null);
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [state, dispatch] = useReducer(walletReducer, initialState);
 
-    const toggleWalletDropdown = () => setShowDropdown(!showDropdown);
+    const toggleWalletDropdown = () => {
+        dispatch({ type: 'TOGGLE_DROPDOWN' });
+    };
 
-    // Connect Wallet explicitly via button
     const connectWallet = async () => {
         if (window.ethereum) {
             try {
                 const newAccounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-                setAccounts(newAccounts);
+                dispatch({ type: 'CONNECT_WALLET', payload: { accounts: newAccounts } });
                 updateWalletDetails(newAccounts);
-                setIsWalletConnected(true);
-                toast.success('Wallet connected successfully!');
+                toast.success('MetaMask wallet connected!');
             } catch (error) {
                 console.error("Error connecting to MetaMask", error);
                 toast.error('Failed to connect wallet. Check console for more details.');
@@ -31,11 +54,12 @@ export const useWallet = () => {
     };
 
     const disconnectWallet = () => {
-        setAccounts([]);
-        setBalances({});
-        setEns({});
-        setIsWalletConnected(false);
+        dispatch({ type: 'DISCONNECT_WALLET' });
         toast.info('Wallet disconnected successfully.');
+    };
+
+    const selectAccount = (account) => {
+        dispatch({ type: 'SELECT_ACCOUNT', payload: account });
     };
 
     // Update wallet balances and ENS names
@@ -44,16 +68,23 @@ export const useWallet = () => {
             console.warn("No accounts to update details for.");
             return;
         }
-        await Promise.all([fetchBalances(accounts), fetchEnsNames(accounts)]);
+        fetchBalances(accounts);
+        fetchEnsNames(accounts);
     };
 
     const fetchBalances = async (accounts) => {
-        const balancePromises = accounts.map(account => fetchBalance(account));
-        const results = await Promise.all(balancePromises);
-        setBalances(results.reduce((acc, curr, idx) => ({
-            ...acc,
-            [accounts[idx]]: curr
-        }), {}));
+        try {
+            const balancePromises = accounts.map(account => fetchBalance(account));
+            const results = await Promise.all(balancePromises);
+            const balances = results.reduce((acc, balance, idx) => ({
+                ...acc,
+                [accounts[idx]]: balance
+            }), {});
+            dispatch({ type: 'UPDATE_BALANCES', payload: balances });
+        } catch (error) {
+            console.error("Error fetching balances", error);
+            toast.error("Failed to fetch balances.");
+        }
     };
 
     const fetchBalance = async (account) => {
@@ -74,12 +105,18 @@ export const useWallet = () => {
     };
 
     const fetchEnsNames = async (accounts) => {
-        const ensPromises = accounts.map(account => fetchEnsName(account));
-        const results = await Promise.all(ensPromises);
-        setEns(results.reduce((acc, curr, idx) => ({
-            ...acc,
-            [accounts[idx]]: curr
-        }), {}));
+        try {
+            const ensPromises = accounts.map(account => fetchEnsName(account));
+            const results = await Promise.all(ensPromises);
+            const ens = results.reduce((acc, ensName, idx) => ({
+                ...acc,
+                [accounts[idx]]: ensName
+            }), {});
+            dispatch({ type: 'UPDATE_ENS', payload: ens });
+        } catch (error) {
+            console.error("Error fetching ENS names", error);
+            toast.error("Failed to fetch ENS names.");
+        }
     };
 
     const fetchEnsName = async (account) => {
@@ -99,19 +136,11 @@ export const useWallet = () => {
         }
     };
 
-    const selectAccount = (account) => setSelectedAccount(account);
-
     return {
-        accounts,
-        balances,
-        ens,
-        isWalletConnected,
-        showDropdown,
+        ...state,
         toggleWalletDropdown,
         connectWallet,
         disconnectWallet,
-        selectAccount,
-        selectedAccount,
-        ToastContainer
+        selectAccount
     };
 };

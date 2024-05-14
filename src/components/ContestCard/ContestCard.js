@@ -13,12 +13,12 @@ import useContest from '../../hooks/useContest';
 import { shortenAddress } from "../../utils/shortenAddress";
 import { getWalletBySubmissionId } from "../../utils/getWalletBySubmissionId";
 
-const ContestCard = ({ contest,  submission }) => {
+const ContestCard = ({ contest, submission }) => {
     const [showUploadForm, setShowUploadForm] = useState(false);
     const [selectedSubmissionIndex, setSelectedSubmissionIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [showDetails, setShowDetails] = useState(false); 
-    const { selectedAccount } = useWallet();
+    const [showDetails, setShowDetails] = useState(false);
+    const { selectedAccount, isConnected, connectWallet, disconnectWallet } = useWallet();
     const {
         voteForSubmission,
         endContest,
@@ -103,31 +103,27 @@ const ContestCard = ({ contest,  submission }) => {
 
             <MemeContestGallery contest={contest} onSelectedSubmissionChange={setSelectedSubmissionIndex} />
             
-
             <p className={styles.prize}><strong>Total Prize Pot 💰 :</strong> {totalPrizePot} DANK</p>
             <div className={styles.buttonBar}>
-            
                 <button className={styles.button} onClick={handleUploadClick}>SUBMIT</button>
                 <button className={styles.button} onClick={handleVoteClick}>VOTE</button>
                 <button className={styles.button} onClick={handleEndContest}>END CONTEST</button>
                 <button className={styles.button} onClick={handleWithdrawUnclaimedPrize}>WITHDRAW PRIZE</button>
             </div><span onClick={toggleDetails} className={styles.detailsToggle}>
-                {showDetails ? 'Contest Details ▲' : 'Contest Details ▼'}
+                {showDetails ? 'Hide Contest Details ▲' : 'Show Contest Details ▼'}
             </span>
             <div className={`${styles.infoPanel} ${showDetails ? styles.show : ''}`}>
                 <p><strong>Start:</strong> {new Date(contest.startDateTime).toLocaleString()}</p>
                 <p><strong>End:</strong> {new Date(contest.endDateTime).toLocaleString()}</p>
-                <p><strong>Entry Fee:</strong> {contest.entryFee} ETH</p>
-                <p><strong>Voting Fee:</strong> {contest.votingFee} ETH</p>
+                <p><strong>Entry Fee:</strong> {contest.entryFee} DANK</p>
+                <p><strong>Voting Fee:</strong> {contest.votingFee} DANK</p>
                 <p><strong>Prize Distribution:</strong> Winner gets {contest.winnerPercentage}% of the total pot</p>
-                <p><strong>Number of Lucky Voters:</strong> {contest.numberOfLuckyVoters}</p>
+                <p><strong>Number of Lucky Voter6s:</strong> {contest.numberOfLuckyVoters}</p>
                 <p><strong>Total Submissions:</strong> {contest.submissions.length}</p>
                 <p><strong>Highest Votes:</strong> {contest.highestVotes || 'NA'}</p>
                 <p><strong>Prizes Distributed:</strong> {contest.contestEnded ? 'Yes' : 'No'}</p>
                 <p><strong>Distribution Tx:</strong> {contest.distributionTX || 'TBC'}</p>
-
                 <p><strong>Winning Submission ID:</strong> {contest.winningSubmission}</p>
-            
                 <p>
                     <strong>Owner Address: </strong> 
                     <a href={`https://magmascan.org/address/${contest.contestOwner}`} target="_blank" rel="noopener noreferrer">

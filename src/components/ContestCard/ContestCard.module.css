@@ -12,24 +12,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white; /* Light grey background */
+  background-color: white;
   padding: 6px;
-  margin: 10px 0; /* Adds some space between the cards */
-  border-radius: 25px; /* Rounds the corners of the card */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-  border: 2px solid transparent; /* Prepare for the border color change on hover */
-  transition: box-shadow 0.3s ease, transform 0.5s ease-in-out, border-color 0.3s ease; /* Adjust transition for smoother effect */
+  margin: 10px 0;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: box-shadow 0.3s ease, transform 0.5s ease-in-out, border-color 0.3s ease;
 }
+
 .contestCard:hover {
-  box-shadow: 0 2px 20px rgba(175, 38, 172, 0.3); /* Darker shadow on hover with reduced opacity */
-  border: 0.5px solid  rgba(175, 38, 172, 0.3);
+  box-shadow: 0 2px 20px rgba(175, 38, 172, 0.3);
+  border: 0.5px solid rgba(175, 38, 172, 0.3);
 }
+
 .h3WithEtherscan {
   display: flex;
-  align-items: center; /* Ensures vertical centering */
-  justify-content: flex-start; /* Aligns items to the start */
-  gap: 10px; /* Optional: Adds space between the h3 and the link */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
   height: 50px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Text shadow added */
 }
 
 .contestId {
@@ -82,19 +85,19 @@
 }
 
 .infoPanel {
-  background-color: #f2e6ff;
+  background-color: rgb(235, 234, 234);
   margin: auto;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15); /* Sunken effect added */
   text-align: center;
   font-size: 14px;
-  color: #666; /* Dark grey text */
+  color: #666;
   width: 100%;
-  box-sizing:content-box;
+  box-sizing: content-box;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-  opacity: 0;  /* Start hidden */
+  opacity: 0;
 }
 
 .infoPanel.show {
@@ -108,29 +111,44 @@
   margin: 0 20px;
 }
 
-.buttonBar {
-  display: flex;
-  justify-content: center; /* Center the buttons within the bar */
-  gap: 2px; /* Small gap between buttons to visually separate them */
-  margin: 10px 20px; /* Space below the button bar */
-  padding: 10px;
-}
-
 span {
   margin-bottom: 15px;
 }
 
 .prize {
   font-size: larger;
+  margin: 10px 30px
+}
+
+.buttonBar {
+  display: flex;
+  justify-content: space-between; /* Even spacing between buttons */
+  align-items: center; /* Aligns buttons vertically */
+  padding: 10px 0; /* Padding around the buttons */
 }
 
 .button {
-  flex-grow: 1; /* Buttons grow equally to fill the space */
-  border: none; /* Remove borders */
-  background-color: #822280; /* Uniform color */
+  flex: 1; /* Ensures each button grows equally to fill the space */
+  height: 40px;
+  text-align: center; /* Centers text in the button */
+  background-color: #822280; /* Initial uniform color */
   color: white;
-  padding: 5px 5px;
-  border-radius: 0; /* Remove individual button rounded corners */
+  padding: 10px 15px; /* Consistent padding */
+  border: none;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; /* Smooth transitions for transform, shadow, and color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0 5px; /* Adds a small margin between buttons */
+}
+
+.button:hover {
+  transform: scale(1.05); /* Uniform growth on hover */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  background-color: #ff007a; /* Changes to pink on hover */
+}
+
+.button:active {
+  transform: scale(0.95); /* Simulate button press */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .button:first-child {
@@ -142,7 +160,6 @@ span {
   border-top-right-radius: 25px; /* Rounded corner for the last button */
   border-bottom-right-radius: 25px;
 }
-
 
 .button img {
   width: 20px;
