@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ContestCreationForm from '../ContestCreationForm/ContestCreationForm';
 import { createContest } from '../../utils/createContest';
 import EndContestForm from '../EndContestForm/EndContestForm'; // Import your new component
+import styles from './ContestCreationPage.module.css'
 
 const ContestCreationPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -23,17 +24,17 @@ const ContestCreationPage = () => {
     };
 
     return (
-        <>
+        <div className={styles.contestCreationPage}>
             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 <>
-                    <ContestCreationForm onCreate={handleCreateContest} />
+                    <ContestCreationForm onCreate={handleCreateContest}/>
 
                 </>
             )}
-        </>
+        </div>
     );
 };
 

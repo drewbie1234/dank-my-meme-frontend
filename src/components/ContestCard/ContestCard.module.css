@@ -1,49 +1,85 @@
-@keyframes jumpAndWiggle {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-5px) rotate(5deg); }
-  100% { transform: translateY(0); }
+/* General Card Styles */
+.contestCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.contestCard:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Title and Etherscan Link */
+.h3WithEtherscan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.contestId {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.etherScanLink {
+  display: flex;
+  align-items: center;
 }
 
 .etherscanLogo {
+  height: 1.5em;
+  width: auto;
   transition: transform 0.5s ease, filter 0.3s ease;
-  height: 1.2em; /* Aligns the logo height with the text size of h3 */
-  width: auto; /* Maintains the aspect ratio of the logo */
 }
 
 .etherscanLogo.animate {
-  animation: jumpAndWiggle 0.5s ease 1s; /* Add 1 second delay */
+  animation: jumpAndWiggle 0.5s ease 1s;
 }
 
 .etherscanLogo:hover {
-  filter: brightness(1.2); /* Slight brightness increase on hover */
-  transform: scale(1.05); /* Slight scaling effect on hover */
+  filter: brightness(1.2);
+  transform: scale(1.05);
 }
 
 .etherscanLogo:active {
-  transform: scale(0.95); /* Slight scaling effect on click */
+  transform: scale(0.95);
 }
 
 .smallEtherscanLogo {
-  width: 15px; /* Smaller size for inline display */
+  width: 15px;
   margin-right: 5px;
-  vertical-align: middle; /* Align with text */
+  vertical-align: middle;
   transition: transform 0.5s ease, filter 0.3s ease;
 }
 
 .smallEtherscanLogo.animate {
-  animation: jumpAndWiggle 0.5s ease 1s; /* Add 1 second delay */
+  animation: jumpAndWiggle 0.5s ease 1s;
 }
 
 .smallEtherscanLogo:hover {
-  filter: brightness(1.2); /* Slight brightness increase on hover */
-  transform: scale(1.05); /* Slight scaling effect on hover */
+  filter: brightness(1.2);
+  transform: scale(1.05);
 }
 
 .smallEtherscanLogo:active {
-  transform: scale(0.95); /* Slight scaling effect on click */
+  transform: scale(0.95);
 }
 
-/* Add animation for the emoji */
+/* Prize Pool */
+.prize {
+  font-size: 1.2em;
+  color: #822280;
+  margin: 10px 0;
+}
+
 .prizeEmoji {
   display: inline-block;
   transition: transform 0.5s ease, filter 0.3s ease;
@@ -51,172 +87,104 @@
 }
 
 .prizeEmoji.animate {
-  animation: jumpAndWiggle 0.5s ease 1s; /* Add 1 second delay */
+  animation: jumpAndWiggle 0.5s ease 1s;
 }
 
 .prizeEmoji:hover {
-  filter: brightness(1.2); /* Slight brightness increase on hover */
-  transform: scale(1.05); /* Slight scaling effect on hover */
+  filter: brightness(1.2);
+  transform: scale(1.05);
 }
 
 .prizeEmoji:active {
-  transform: scale(0.95); /* Slight scaling effect on click */
+  transform: scale(0.95);
 }
 
-
-
-  
-.contestCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  padding: 6px;
-  margin: 10px 0;
-  border-radius: 25px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
-  transition: box-shadow 0.3s ease, transform 0.5s ease-in-out, border-color 0.3s ease;
-}
-
-.contestCard:hover {
-  box-shadow: 0 2px 20px rgba(175, 38, 172, 0.3);
-  border: 0.5px solid rgba(175, 38, 172, 0.3);
-}
-
-.h3WithEtherscan {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  height: 50px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Text shadow added */
-}
-
-.contestId {
-  margin: 0; /* Removes default margin to allow better control */
-  flex-grow: 1; /* Allows the text to take available space, pushing the logo to the edge */
-}
-
-.etherScanLink {
-  display: flex; /* Ensures the link content is also flexed */
-  align-items: center; /* Centers the logo vertically with respect to the link */
-}
-
-
-
-.prizePool {
-  text-align: center;
-  font-size: 16px;
-  color: #822280;
-  margin: 10px 0;
-}
-
-
-
-
-.icon {
-  height: 15px
-}
-
-.gridLayout {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns */
-  grid-template-rows: repeat(3, auto); /* 3 rows, auto height */
-  gap: 10px; /* Adjust gap as needed */
-  margin-top: 20px; /* Spacing from the content above */
-}
-
-.infoItem, .button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 12px;
-}
-
+/* Info Panel */
 .infoPanel {
   background-color: rgb(235, 234, 234);
-  margin: auto;
+  margin: 10px;
   border-radius: 8px;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15); /* Sunken effect added */
-  text-align: center;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
+  text-align: left;
   font-size: 14px;
   color: #666;
   width: 100%;
-  box-sizing: content-box;
+  padding: 15px;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
   opacity: 0;
+  display: none;
 }
 
-.detailsToggle{
+.detailsToggle {
+  cursor: pointer;
+  color: #822280;
   margin: 10px;
+  text-align: center;
 }
 
 .infoPanel.show {
-  max-height: 500px; /* Adjust based on the content size */
+  display: grid;
+  max-height: 500px;
   opacity: 1;
   transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
+  box-sizing: border-box;
+  padding: 15px;
 }
 
-.infoPanelContainer{
-  width: 100%;
-  margin: 0 20px;
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-span {
-  margin-bottom: 15px;
-}
-
-.prize {
-  font-size: larger;
-  margin: 10px 30px
-}
-
+/* Button Bar */
 .buttonBar {
   display: flex;
-  justify-content:space-around; /* Even spacing between buttons */
-  align-items: center; /* Aligns buttons vertically */
-  padding: 10px 0; /* Padding around the buttons */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
 }
 
 .button {
-  flex: 1; /* Ensures each button grows equally to fill the space */
+  flex: 1;
   height: 40px;
-  font-size: 10px;
-  text-align: center; /* Centers text in the button */
-  background-color: #822280; /* Initial uniform color */
+  font-size: 0.9em;
+  background-color: #822280;
   color: white;
-  padding: 10px 10px; /* Consistent padding */
   border: none;
-  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; /* Smooth transitions for transform, shadow, and color */
+  border-radius: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 0 1px; /* Adds a small margin between buttons */
 }
 
 .button:hover {
-  transform: scale(1.05); /* Uniform growth on hover */
+  transform: scale(1.05);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-  background-color: #ff007a; /* Changes to pink on hover */
+  background-color: #ff007a;
 }
 
 .button:active {
-  transform: scale(0.95); /* Simulate button press */
+  transform: scale(0.95);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .button:first-child {
-  border-top-left-radius: 25px; /* Rounded corner for the first button */
-  border-bottom-left-radius: 25px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .button:last-child {
-  border-top-right-radius: 25px; /* Rounded corner for the last button */
-  border-bottom-right-radius: 25px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
-.button img {
-  width: 20px;
+@keyframes jumpAndWiggle {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px) rotate(5deg); }
+  100% { transform: translateY(0); }
 }

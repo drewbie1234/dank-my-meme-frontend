@@ -2,10 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./ContestCard.module.css";
 import MemeContestGallery from "../MemeContestGallery/MemeContestGallery";
 import MemeUploadForm from "../MemeUploadForm/MemeUploadForm";
-import submitIcon from "../../svgs/submit.svg";
-import voteIcon from "../../svgs/vote.svg";
-import endIcon from "../../svgs/vote.svg";
-import withdrawIcon from "../../svgs/vote.svg";
 import etherscanLogo from "../../svgs/etherscanSVG.svg";
 import { toast } from 'react-toastify';
 import { useWallet } from '../../contexts/WalletContext';
@@ -23,7 +19,7 @@ const ContestCard = ({ contest }) => {
   const [isEtherscanLogoVisible, setIsEtherscanLogoVisible] = useState(false);
   const etherscanLogoRef = useRef(null);
   const smallEtherscanLogoRefs = useRef([]);
-  const moneyBagEmojiRef = useRef(null); // Reference for the money bag emoji
+  const moneyBagEmojiRef = useRef(null);
 
   const totalPrizePot = (contest.submissions.length * contest.entryFee) + (contest.voters.length * contest.votingFee);
 
@@ -91,7 +87,7 @@ const ContestCard = ({ contest }) => {
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.5 // When 50% of the element is visible
+      threshold: 0.5
     };
 
     const handleIntersection = (entries, observer) => {
@@ -99,29 +95,29 @@ const ContestCard = ({ contest }) => {
         if (entry.isIntersecting) {
           if (entry.target === etherscanLogoRef.current) {
             setIsEtherscanLogoVisible(true);
-            entry.target.classList.add(styles.animate); // Add animate class when visible
+            entry.target.classList.add(styles.animate);
           } else {
             smallEtherscanLogoRefs.current.forEach(ref => {
               if (entry.target === ref) {
-                ref.classList.add(styles.animate); // Add animate class to small logos when visible
+                ref.classList.add(styles.animate);
               }
             });
           }
           if (entry.target === moneyBagEmojiRef.current) {
-            entry.target.classList.add(styles.animate); // Add animate class to money bag emoji when visible
+            entry.target.classList.add(styles.animate);
           }
         } else {
           if (entry.target === etherscanLogoRef.current) {
-            entry.target.classList.remove(styles.animate); // Remove animate class when not visible
+            entry.target.classList.remove(styles.animate);
           } else {
             smallEtherscanLogoRefs.current.forEach(ref => {
               if (entry.target === ref) {
-                ref.classList.remove(styles.animate); // Remove animate class from small logos when not visible
+                ref.classList.remove(styles.animate);
               }
             });
           }
           if (entry.target === moneyBagEmojiRef.current) {
-            entry.target.classList.remove(styles.animate); // Remove animate class from money bag emoji when not visible
+            entry.target.classList.remove(styles.animate);
           }
         }
       });
@@ -130,7 +126,7 @@ const ContestCard = ({ contest }) => {
     const observer = new IntersectionObserver(handleIntersection, options);
     observer.observe(etherscanLogoRef.current);
     smallEtherscanLogoRefs.current.forEach(ref => observer.observe(ref));
-    observer.observe(moneyBagEmojiRef.current); // Observe the money bag emoji
+    observer.observe(moneyBagEmojiRef.current);
 
     return () => {
       observer.disconnect();
@@ -140,9 +136,7 @@ const ContestCard = ({ contest }) => {
   return (
     <div className={styles.contestCard}>
       <div className={styles.h3WithEtherscan}>
-        <h3 className={styles.contestId}>
-          {contest.name}
-        </h3>
+        <h3 className={styles.contestId}>{contest.name}</h3>
         <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer" className={styles.etherScanLink}>
           <img src={etherscanLogo} alt="Etherscan" className={styles.etherscanLogo} ref={etherscanLogoRef} />
         </a>
@@ -157,45 +151,79 @@ const ContestCard = ({ contest }) => {
         </a>
         : {totalPrizePot} DANK
       </p>
+
       <div className={styles.buttonBar}>
         <button className={styles.button} onClick={handleUploadClick}>SUBMIT</button>
         <button className={styles.button} onClick={handleVoteClick}>VOTE</button>
         <button className={styles.button} onClick={handleEndContest}>END CONTEST</button>
         <button className={styles.button} onClick={handleWithdrawUnclaimedPrize}>WITHDRAW PRIZE</button>
       </div>
+
       <span onClick={toggleDetails} className={styles.detailsToggle}>
         {showDetails ? 'Hide Contest Details ▲' : 'Show Contest Details ▼'}
       </span>
+
       <div className={`${styles.infoPanel} ${showDetails ? styles.show : ''}`}>
-        <p><strong>Start:</strong> {new Date(contest.startDateTime).toLocaleString()}</p>
-        <p><strong>End:</strong> {new Date(contest.endDateTime).toLocaleString()}</p>
-        <p><strong>Entry Fee:</strong> {contest.entryFee} DANK</p>
-        <p><strong>Voting Fee:</strong> {contest.votingFee} DANK</p>
-        <p><strong>Prize Distribution:</strong> Winner gets {contest.winnerPercentage}% of the total pot</p>
-        <p><strong>Number of Lucky Voter6s:</strong> {contest.numberOfLuckyVoters}</p>
-        <p><strong>Total Submissions:</strong> {contest.submissions.length}</p>
-        <p><strong>Highest Votes:</strong> {contest.highestVotes || 'NA'}</p>
-        <p><strong>Prizes Distributed:</strong> {contest.contestEnded ? 'Yes' : 'No'}</p>
-        <p><strong>Distribution Tx:</strong> {contest.distributionTX || 'TBC'}</p>
-        <p><strong>Winning Submission ID:</strong> {contest.winningSubmission}</p>
-        <p>
-          <strong>Owner Address: </strong>
-          <a href={`https://magmascan.org/address/${contest.contestOwner}`} target="_blank" rel="noopener noreferrer">
-            {shortenAddress(contest.contestOwner)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[0] = el} />
-          </a>
-        </p>
-        <p>
-          <strong>Contract Address: </strong>
-          <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
-            {shortenAddress(contest.contractAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[1] = el} />
-          </a>
-        </p>
-        <p>
-          <strong>Token Address: </strong>
-          <a href={`https://magmascan.org/address/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
-            {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[2] = el} />
-          </a>
-        </p>
+        <div className={styles.infoItem}>
+          <strong>Start:</strong>
+          <span>{new Date(contest.startDateTime).toLocaleString()}</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>End:</strong>
+          <span>{new Date(contest.endDateTime).toLocaleString()}</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Entry Fee:</strong>
+          <span>{contest.entryFee} DANK</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Voting Fee:</strong>
+          <span>{contest.votingFee} DANK</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Winners Prize:</strong>
+          <span>{contest.winnerPercentage}% ({totalPrizePot * (contest.winnerPercentage/100)} DANK)</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Number of Lucky Voters:</strong>
+          <span>{contest.numberOfLuckyVoters}</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Total Submissions:</strong>
+          <span>{contest.submissions.length}</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Highest Votes:</strong>
+          <span>{contest.highestVotes || 'NA'}</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Prizes Distributed:</strong>
+          <span>{contest.contestEnded ? 'Yes' : 'No'}</span>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Distribution Tx:</strong>
+          <span>{contest.distributionTX || 'TBC'}</span>
+        </div>
+        <div className={styles.addressItem}>
+          <div className={styles.infoItem}>
+            <strong>Owner Address: </strong>
+            <a href={`https://magmascan.org/address/${contest.contestOwner}`} target="_blank" rel="noopener noreferrer">
+              {shortenAddress(contest.contestOwner)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[0] = el} />
+            </a>
+          </div>
+          <div className={styles.infoItem}>
+            <strong>Contract Address: </strong>
+            <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
+              {shortenAddress(contest.contractAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[1] = el} />
+            </a>
+          </div>
+          <div className={styles.infoItem}>
+            <strong>Token Address: </strong>
+            <a href={`https://magmascan.org/address/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
+              {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[2] = el} />
+            </a>
+          </div>
+        </div>
       </div>
 
       {showUploadForm && <MemeUploadForm contest={contest} />}
