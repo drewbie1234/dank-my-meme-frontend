@@ -63,12 +63,20 @@ function DankTokenInfo() {
                         <h2 className={styles.instructionsTitle}>How to Swap Dank Tokens</h2>
                         <ol className={styles.instructionsList}>
                             <li>
-                                Import DANK token to MetaMask App using the button below ⬇️
+                                <p>Import DANK token to MetaMask App using the <span className={styles.smallInlineLogo}><img src={metaMaskLogo} alt="Add to MetaMask" className={styles.icon} /></span> button below ⬇️</p>
                                 <button onClick={handleAddToken} className={styles.addButton}>
                                     <img src={metaMaskLogo} alt="Add to MetaMask" className={styles.metamaskSVG} />
                                 </button>
                             </li>
-                            <li>Copy the Dank Token Contract Address ⬇️</li>
+                            <li>
+                                <p>
+                                    Copy the Dank Token Contract Address below. When copying a token address from <strong>ANYWHERE</strong> it's good practice to verify it on a blockchain explorer or somewhere like Dex Tools.
+                                    <br></br><br></br>
+                                    <strong>
+                                    Hint: Click on the <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo}/> symbols anywhere on the app to look up a contract address on magmascan.org
+                                    </strong>
+                                </p>
+
                                 <div className={styles.addressWrapper}>
                                     <strong>DANK Token Contract Address: </strong>
                                     <div className={styles.copyContainer}>
@@ -91,12 +99,16 @@ function DankTokenInfo() {
                                         </div>
                                     </div>
                                 </div>
-                            <li>Paste the copied address into the Magma Swap "Select token" input as shown below. Click "GET DANK HERE" to access Magma Swap ⬇️</li>
-                            <img src={swapGif} alt="Swap Animation" className={styles.gif}/>
+                            </li>
+                            <li>
+                                <p>Paste the copied address into the Magma Swap "Select token" input as shown below. Click "GET DANK HERE" to access Magma Swap ⬇️</p>
+                                <img src={swapGif} alt="Swap Animation" className={styles.gif}/>
+                            </li>
                         </ol>
+
                     </div>
                 </div>
-                <a href="https://magma-ui-swap.vercel.app/#/" target="_blank" rel="noopener noreferrer" className={styles.swapButton}>
+                <a href={`https://magma-ui-swap.vercel.app/#/?exactField=input&exactAmount=1&inputCurrency=ETH&outputCurrency=${encodeURIComponent(contractAddress)}`} target="_blank" rel="noopener noreferrer" className={styles.swapButton}>
                     GET DANK HERE 🤝
                 </a>
             </div>

@@ -39,13 +39,61 @@
   margin-bottom: 10px;
 }
 
+
 .instructionsList {
-  font-size: 12px;
-  margin-bottom: 20px;
-  line-height: 1.5;
-  color: #333;
-  list-style-position: inside;
-  padding-left: 0;
+  list-style: none; /* Disables default list markers */
+  padding: 0;
+  counter-reset: list-counter; /* Reset the counter for numbering */
+}
+
+.instructionsList li {
+  counter-increment: list-counter; /* Increment the counter for each list item */
+}
+
+.instructionsList li::before {
+  content: counter(list-counter) ". "; /* Use the counter value as the marker */
+  color: black; /* Marker color */
+  font-size: 14px; /* Marker size */
+  margin-right: 10px; /* Space between marker and text */
+  vertical-align: top; /* Aligns the marker at the top of the text */
+  display: inline-block; /* Ensures the marker can align with text properly */
+}
+
+
+.instructionsList li p {
+  display: inline-block; /* Makes the span take up the full width as a block element */
+  width: 90%;
+  text-align: start;
+}
+
+.instructionsList li {
+  position: relative; /* Helps with positioning internal elements, if needed */
+  padding-top: 5px; /* Adds padding to the top, if needed for alignment */
+}
+
+p {
+  font-size: 14px;
+  margin: 0;
+}
+
+
+.instructionText {
+  display: inline-block;
+  width: 70%;
+}
+.smallInlineLogo {
+  display: inline-flex; /* Use standard Flexbox */
+  justify-content: center; /* Horizontally center the flex items */
+  align-items: start; /* Vertically center the flex items */
+  position: relative;
+  top: 2px;
+}
+
+
+.icon {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
 }
 
 .addressWrapper {

@@ -1,3 +1,68 @@
+@keyframes jumpAndWiggle {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px) rotate(5deg); }
+  100% { transform: translateY(0); }
+}
+
+.etherscanLogo {
+  transition: transform 0.5s ease, filter 0.3s ease;
+  height: 1.2em; /* Aligns the logo height with the text size of h3 */
+  width: auto; /* Maintains the aspect ratio of the logo */
+}
+
+.etherscanLogo.animate {
+  animation: jumpAndWiggle 0.5s ease 1s; /* Add 1 second delay */
+}
+
+.etherscanLogo:hover {
+  filter: brightness(1.2); /* Slight brightness increase on hover */
+  transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+.etherscanLogo:active {
+  transform: scale(0.95); /* Slight scaling effect on click */
+}
+
+.smallEtherscanLogo {
+  width: 15px; /* Smaller size for inline display */
+  margin-right: 5px;
+  vertical-align: middle; /* Align with text */
+  transition: transform 0.5s ease, filter 0.3s ease;
+}
+
+.smallEtherscanLogo.animate {
+  animation: jumpAndWiggle 0.5s ease 1s; /* Add 1 second delay */
+}
+
+.smallEtherscanLogo:hover {
+  filter: brightness(1.2); /* Slight brightness increase on hover */
+  transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+.smallEtherscanLogo:active {
+  transform: scale(0.95); /* Slight scaling effect on click */
+}
+
+/* Add animation for the emoji */
+.prizeEmoji {
+  display: inline-block;
+  transition: transform 0.5s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.prizeEmoji.animate {
+  animation: jumpAndWiggle 0.5s ease 1s; /* Add 1 second delay */
+}
+
+.prizeEmoji:hover {
+  filter: brightness(1.2); /* Slight brightness increase on hover */
+  transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+.prizeEmoji:active {
+  transform: scale(0.95); /* Slight scaling effect on click */
+}
+
 
 
   
@@ -38,10 +103,7 @@
   align-items: center; /* Centers the logo vertically with respect to the link */
 }
 
-.etherscanLogo {
-  height: 1.2em; /* Aligns the logo height with the text size of h3 */
-  width: auto; /* Maintains the aspect ratio of the logo */
-}
+
 
 .prizePool {
   text-align: center;
@@ -50,11 +112,7 @@
   margin: 10px 0;
 }
 
-.smallEtherscanLogo {
-  width: 15px; /* Smaller size for inline display */
-  margin-right: 5px;
-  vertical-align: middle; /* Align with text */
-}
+
 
 
 .icon {
@@ -91,6 +149,10 @@
   overflow: hidden;
   transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
   opacity: 0;
+}
+
+.detailsToggle{
+  margin: 10px;
 }
 
 .infoPanel.show {

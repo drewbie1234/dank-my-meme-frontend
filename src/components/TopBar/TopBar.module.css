@@ -1,85 +1,147 @@
-/* TopBar.css */
+/* TopBar.module.css */
 .topbar {
-    height: 130px;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  background-color: #822280;
+  box-sizing: border-box;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column; /* Stack logo and deploy text vertically */
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  margin-top: 25px;
+}
+
+.logo {
+  width: 70px;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  max-width: 150px;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.loginContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  margin: 50px 0;
+}
+
+.topbarContainer {
+  height: 75px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 5px;
+  background-color: #822280;
+}
+
+.navlinksContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #822280;
+  position: relative;
+}
+
+.navButtonContainer {
+  display: flex;
+}
+
+.navButton, .menuButton {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 5px;
+  width: 85px;
+  background-color: #942a94;
+  font-size: 12px;
+  padding: 0 1px;
+  margin: 0 1px;
+  box-sizing: border-box;
+  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.navButton:hover, .menuButton:hover {
+  background-color: #a73ea7;
+  transform: scale(1.1);
+}
+
+.activeNavButton {
+  background-color: #b950b9;
+}
+
+.deployLink {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin-top: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.deployLink:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.deployLink:active {
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
+}
+
+/* Responsive styles */
+@media (max-width: 500px) {
+  .navButtonContainer {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between; /* Space between left and right items */
-    padding: 5px; /* Add some padding around the top bar */
-    background-color: #822280;
-    box-sizing: border-box;
   }
 
-  .logoContainer {
-    width: 100px;
-    padding: 0 5px;
+  .navButton, .menuButton {
+    width: 50px; /* Smaller width for buttons */
+    font-size: 10px; /* Smaller font size */
+    padding: 2px; /* Adjust padding */
+    margin: 2px 2px; /* Adjust margin */
   }
 
-  .logoContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .dropdownMenu {
+    display: none; /* Hide dropdown menu */
   }
 
-  .title {
-    max-width: 150px; /* Restrict to a maximum width */
-    width: 100%; /* Automatically adjusts based on parent container */
-    height: auto;
-    cursor: pointer;
+  .menuButton {
+    display: none; /* Hide menu button */
   }
+}
 
-  .titleContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .topbarContainer {
-    height: 75px;
-    display: flex;
-    width: 100%;
-    justify-content: space-between; /* Space between left and right items */
-    padding: 5px; /* Add some padding around the top bar */
-    background-color: #822280;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-
-  .navlinksContainer {
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    background-color: #822280;
-  }
-  
-  .navButton {
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    border-radius: 5px;
-    width: 85px;
-    background-color: #942a94; /* Initial button color */
-    font-size: 12px;
-    padding:0 1px;
-    margin: 0 1px;
-    box-sizing: border-box;
-    transition: background-color 0.3s, transform 0.2s; /* Smooth color transition and hover effect */
-  }
-  
-  .navButton:hover {
-    background-color: #a73ea7; /* Slightly lighter shade on hover */
-    transform: scale(1.5); /* Slightly enlarge on hover */
-  }
-  
-  .activeNavButton {
-    background-color: #b950b9; /* Different shade to highlight the selected button */
-  }
-  
-  .logo {
-    width: 70px;
-  }
-  .title {
-    width: 200px;
-  }
-  
+}

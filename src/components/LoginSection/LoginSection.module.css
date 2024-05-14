@@ -9,7 +9,7 @@
   }
 }
 
-.buttonStyle, .buttonStyleDank {
+.buttonStyle, .buttonStyleDank, .buttonStyleConnect, .buttonStyleDisconnect {
   display: flex;
   color: #fff;
   font-size: 12px;
@@ -25,31 +25,46 @@
   align-items: center;
   margin: 10px;
   text-decoration: none;
+  
+}
+
+.buttonStyle {
   background-color: #ff007a;
 }
 
-.buttonStyle:hover, .buttonStyleDank:hover {
+.buttonStyleDank {
+  background-color: #007BFF;
+}
+
+.buttonStyleConnect {
+  background-color: #00A550;
+}
+.buttonStyleDisconnect {
+  background-color: #E53935;
+}
+
+.buttonStyle:hover, .buttonStyleDank:hover, .buttonStyleConnect:hover, .buttonStyleDisconnect:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.18);
 }
 
-.buttonStyle:active, .buttonStyleDank:active {
+.buttonStyle:active, .buttonStyleDank:active, .buttonStyleConnect:active, .buttonStyleDisconnect:active {
   transform: translateY(1px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
 }
 
-.buttonStyle:hover, .buttonStyleDank:hover {
+.buttonStyle:hover, .buttonStyleDank:hover, .buttonStyleConnect:hover, .buttonStyleDisconnect:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.18);
 }
 
-.buttonStyle:active, .buttonStyleDank:active {
+.buttonStyle:active, .buttonStyleDank:active, .buttonStyleConnect:active, .buttonStyleDisconnect:active {
   transform: translateY(1px);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
 }
 
 
-.buttonStyle p, .buttonStyleDank  p  {
+.buttonStyle p, .buttonStyleDank  p, .buttonStyleConnect p, .buttonStyleDisconnect p   {
   padding: 0;
   margin: 0;
   text-align: justify;
@@ -68,13 +83,9 @@
   }
   .buttonStyle {
     margin-right: 3px;
+    width: 50px;
   }
-
-
-
-
 }
-
 
 .connectContainer {
   position: relative; /* Ensure dropdown is positioned relative to this container */
@@ -83,7 +94,7 @@
 
 .dropdownContent {
   position: absolute;
-  top: 130px;
+  top: 129px;
   right: 0;
   display: none;
   width: 250px;

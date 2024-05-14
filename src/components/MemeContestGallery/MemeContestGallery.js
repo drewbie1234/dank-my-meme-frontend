@@ -166,14 +166,14 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                         {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
                                     </a>
                                     </div>
-                                    <div className={styles.detailText}>👌 {submission.votes} </div>
+                                    <div className={styles.detailText}><p>👌{submission.votes}</p> </div>
                                 </div>
                                 <div className={styles.memeImageContainer}>
                                     <img src={`https://crimson-rear-vole-353.mypinata.cloud/ipfs/${submission.image}?pinataGatewayToken=${GWK}`} className={styles.memeImage} alt='' loading="lazy" />
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
-                                    <div># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</div>
-                                    <div>{timeRemaining}</div>
+                                    <div><p># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</p></div>
+                                    <div><p>{timeRemaining}</p></div>
                                 </div>
                             </div>
                         ))}

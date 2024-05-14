@@ -62,7 +62,7 @@ function LoginSection() {
         <h3>{headerText}</h3>
         {isWalletConnected && (
           <>
-            <h2 className={styles.connectedAccountsTitle}>---------------------connected accounts----------------------</h2>
+            <p className={styles.connectedAccountsTitle}>---------------------connected accounts----------------------</p>
             <ul className={styles.accountsList}>
               {accounts.map((account, index) => (
                 <li
@@ -72,18 +72,20 @@ function LoginSection() {
                 >
                   Wallet: {ens[account] ? ens[account] : `${account.substring(0, 6)}...${account.substring(account.length - 4)}`}
                   <br />
-                  Balance: {balances[account] ? parseFloat(balances[account]).toPrecision(6) : 'Fetching...'} ETH
+                  LAVA Balance: {balances[account] && balances[account].lava ? parseFloat(balances[account].lava).toPrecision(5) : 'Fetching...'}
+                  <br />
+                  DANK Balance: {balances[account] && balances[account].dank ? parseFloat(balances[account].dank).toPrecision(5) : 'Fetching...'}
                 </li>
               ))}
             </ul>
           </>
         )}
         {isWalletConnected ? (
-          <button className={styles.buttonStyle} onClick={handleDisconnect}>
+          <button className={styles.buttonStyleDisconnect} onClick={handleDisconnect}>
             <p>DISCONNECT</p>
           </button>
         ) : (
-          <button className={styles.buttonStyle} onClick={connectWallet}>
+          <button className={styles.buttonStyleConnect} onClick={connectWallet}>
             <p>CONNECT</p>
           </button>
         )}

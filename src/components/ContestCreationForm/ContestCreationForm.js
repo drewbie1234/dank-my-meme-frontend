@@ -9,13 +9,13 @@ const ContestCreationForm = ({ onCreate }) => {
     const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours ahead
 
     const [formData, setFormData] = useState({
-        name: 'testcon',
+        name: 'Contest Name',
         startDateTime: now.toISOString().slice(0, -1), // Use local timezone
         endDateTime: tomorrow.toISOString().slice(0, -1), // Use local timezone
-        entryFee: '0.01',
-        votingFee: '0.1',
-        winnerPercentage: '75',
-        numberOfLuckyVoters: '1',
+        entryFee: '50',
+        votingFee: '25',
+        winnerPercentage: '69',
+        numberOfLuckyVoters: '5',
         tokenAddress: '0xe12154f598138d7B77179739DABEDf4AaD80f824',
         contestOwner: selectedAccount,
         contestEnded: false,

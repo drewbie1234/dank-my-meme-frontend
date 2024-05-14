@@ -1,6 +1,10 @@
 import { useReducer } from 'react';
+import { ethers } from 'ethers'; // Ensure ethers is imported
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import tokenData from '../contracts/Token.json';
+
+const dankTokenAbi = tokenData;
 
 const initialState = {
     accounts: [],
@@ -72,37 +76,42 @@ export const useWallet = () => {
         fetchEnsNames(accounts);
     };
 
-    const fetchBalances = async (accounts) => {
-        try {
-            const balancePromises = accounts.map(account => fetchBalance(account));
-            const results = await Promise.all(balancePromises);
-            const balances = results.reduce((acc, balance, idx) => ({
-                ...acc,
-                [accounts[idx]]: balance
-            }), {});
-            dispatch({ type: 'UPDATE_BALANCES', payload: balances });
-        } catch (error) {
-            console.error("Error fetching balances", error);
-            toast.error("Failed to fetch balances.");
-        }
-    };
+    const dankTokenAddress = "0xe12154f598138d7B77179739DABEDf4AaD80f824"; // Replace with actual DANK token contract address
 
-    const fetchBalance = async (account) => {
-        try {
-            const response = await fetch(`https://app.dankmymeme.xyz:443/api/getBalance?account=${account}`);
-            const data = await response.json();
-            if (response.ok) {
-                return data.balance;
-            } else {
-                toast.error(`Error fetching balance for account ${account}.`);
-                return "Error";
-            }
-        } catch (error) {
-            console.error("Error fetching balance", account, error);
-            toast.error(`Network error fetching balance for account ${account}.`);
-            return "Error";
-        }
-    };
+const fetchTokenBalance = async (account, provider, tokenAddress) => {
+    const tokenContract = new ethers.Contract(tokenAddress, dankTokenAbi, provider);
+    try {
+        const balanceBigInt = await tokenContract.balanceOf(account);
+        return ethers.formatEther(balanceBigInt); // Convert Wei to Ether
+    } catch (error) {
+        console.error("Error fetching token balance for account", account, error);
+        return "Error";
+    }
+};
+
+const fetchBalances = async (accounts) => {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    try {
+        const balancePromises = accounts.map(async account => {
+            const lavaBalance = await provider.getBalance(account); // Fetch native balance
+            const dankBalance = await fetchTokenBalance(account, provider, dankTokenAddress);
+            return {
+                account,
+                lava: ethers.formatEther(lavaBalance), // Convert Wei to Ether for native balance
+                dank: dankBalance
+            };
+        });
+        const results = await Promise.all(balancePromises);
+        const balances = results.reduce((acc, {account, lava, dank}) => ({
+            ...acc,
+            [account]: { lava, dank }
+        }), {});
+        dispatch({ type: 'UPDATE_BALANCES', payload: balances });
+    } catch (error) {
+        console.error("Error fetching balances", error);
+        toast.error("Failed to fetch balances.");
+    }
+};
 
     const fetchEnsNames = async (accounts) => {
         try {

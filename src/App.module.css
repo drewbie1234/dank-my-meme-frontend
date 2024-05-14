@@ -1,11 +1,32 @@
+
 .top {
     height: auto;
     
 }
 
 
+/* App.css */
+@font-face {
+    font-family: '2Dumb';
+    src: url('../public/fonts/2Dumb.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: '3Dumb';
+    src: url('../public/fonts/3Dumb.ttf') format('truetype');
+  }
+  
+   h1 {
+    font-family: '3Dumb', sans-serif; /* Use the custom font families */
+  }
+  
+    h2, h3, h4, h5, h6{
+    font-family: '2Dumb', sans-serif; /* Use the custom font families */
+  }
 
-body, h1, h2, h3, h4, h5, h6, p, a, li {
-    font-family: Arial
-}
-
+  a, button, li, p, span {
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
