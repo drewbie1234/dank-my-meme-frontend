@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';  // Import toast for better notifications
+import { toast } from 'react-toastify';
 import { useWallet } from '../../contexts/WalletContext';
 import useContest from '../../hooks/useContest';
+import styles from './MemeUploadForm.module.css';
 
 function MemeUploadForm({ contest }) {
     const [file, setFile] = useState(null);
@@ -16,7 +17,7 @@ function MemeUploadForm({ contest }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!file) {
-            toast.error('Please select a file to upload.');  // Using toast for error message
+            toast.error('Please select a file to upload.');
             return;
         }
 
@@ -25,21 +26,21 @@ function MemeUploadForm({ contest }) {
         setIsLoading(false);
 
         if (result.success) {
-            console.log(result.message);  // Success toast
+            toast.success(result.message);
         } else {
-            toast.error(result.message);  // Error toast if the upload fails
+            toast.error(result.message);
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input type="file" onChange={handleFileChange} />
-                <button type="submit" disabled={isLoading}>
+        <div className={styles.formContainer}>
+            <form onSubmit={handleSubmit} >
+                <input type="file" onChange={handleFileChange} className={styles.fileButton}/>
+                <button type="submit" disabled={isLoading} className={styles.uploadButton}>
                     {isLoading ? 'Uploading...' : 'Upload to IPFS'}
                 </button>
+                {isLoading && <div className={styles.loading}>Uploading, please wait...</div>}
             </form>
-            {/* Removed the uploadStatus paragraph to handle all user feedback via toasts */}
         </div>
     );
 }

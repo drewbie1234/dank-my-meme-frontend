@@ -158,6 +158,8 @@ const ContestCard = ({ contest }) => {
         <button className={styles.button} onClick={handleEndContest}>END CONTEST</button>
         <button className={styles.button} onClick={handleWithdrawUnclaimedPrize}>WITHDRAW PRIZE</button>
       </div>
+      
+      {showUploadForm && <MemeUploadForm contest={contest} />}
 
       <span onClick={toggleDetails} className={styles.detailsToggle}>
         {showDetails ? 'Hide Contest Details ▲' : 'Show Contest Details ▼'}
@@ -226,8 +228,8 @@ const ContestCard = ({ contest }) => {
         </div>
       </div>
 
-      {showUploadForm && <MemeUploadForm contest={contest} />}
-      {isLoading && <div>Loading...</div>}
+      
+      
     </div>
   );
 };
