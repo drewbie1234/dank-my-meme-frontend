@@ -74,7 +74,7 @@
 
 .submissionDetail {
   flex: 0 0 auto; /* Do not grow or shrink */
-  width: 400px; /* Fixed width for each submission */
+  width: 100%; /* Fixed width for each submission */
   scroll-snap-align: center; /* Ensure the snapping aligns items to the center */
   display: flex;
   flex-direction: column;

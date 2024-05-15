@@ -1,3 +1,5 @@
+// src/App.js
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import TopBar from "./components/TopBar/TopBar";
@@ -5,13 +7,21 @@ import HomePage from "./components/HomePage/HomePage";
 import ContestCreationPage from "./components/ContestCreationPage/ContestCreationPage";
 import VotesPage from "./components/VotesPage/VotesPage";
 import SubmissionsPage from "./components/SubmissionsPage/SubmissionsPage";
+import SubmissionPage from "./components/SubmissionPage/SubmissionPage";
 import styles from "./App.module.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { WalletProvider } from './contexts/WalletContext';
 import Footer from "./components/Footer/Footer";
-import BuyDankPage from "./components/BuyDankPage/BuyDankPage"; // Import the new BuyDankPage component
-import SubmissionPage from "./components/SubmissionPage/SubmissionPage";
+import BuyDankPage from "./components/BuyDankPage/BuyDankPage"; 
+
+const NotFound = () => (
+  <div className={styles.notFound}>
+    <h2>Page Not Found</h2>
+    <p>Sorry, the page you're looking for doesn't exist.</p>
+    <Link to="/">Go Home</Link>
+  </div>
+);
 
 const App = () => {
   return (
@@ -35,9 +45,10 @@ const App = () => {
             <Route path="/contestcreationpage" element={<ContestCreationPage />} />
             <Route path="/votes" element={<VotesPage />} />
             <Route path="/submissions" element={<SubmissionsPage />} />
-            <Route path="/buydank" element={<BuyDankPage />} /> {/* New route for BuyDankPage */}
+            <Route path="/buydank" element={<BuyDankPage />} />
             <Route path="/submission/:submissionId" element={<SubmissionPage />} />
-            <Route path="*" element={<div>Not Found — <Link to="/">Go Home</Link></div>} />
+            <Route path="/contestbysubmission/:submissionId" element={<SubmissionPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
         </div>

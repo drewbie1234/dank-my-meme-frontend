@@ -10,7 +10,7 @@ import { shortenAddress } from "../../utils/shortenAddress";
 
 const ContestCard = ({ contest }) => {
   const [showUploadForm, setShowUploadForm] = useState(false);
-  const [selectedSubmissionIndex, setSelectedSubmissionIndex] = useState(null);
+  const [selectedSubmissionIndex, setSelectedSubmissionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const { selectedAccount, isConnected, connectWallet, disconnectWallet } = useWallet();
