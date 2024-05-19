@@ -17,6 +17,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [walletAddresses, setWalletAddresses] = useState({});
     const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(0); // Initialize to 0 to show first image by default
     const [timeRemaining, setTimeRemaining] = useState('');
+    const [copiedSubmissionId, setCopiedSubmissionId] = useState(null);
 
     // Swipe Handlers using react-swipeable
     const swipeHandlers = useSwipeable({
@@ -142,6 +143,13 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ${formattedSeconds}S ⏰`;
     };
 
+    const handleCopySubmissionId = (submissionId) => {
+        navigator.clipboard.writeText(submissionId).then(() => {
+            setCopiedSubmissionId(submissionId);
+            setTimeout(() => setCopiedSubmissionId(null), 2000); // Reset after 2 seconds
+        });
+    };
+
     return (
         <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>
             {loading ? (
@@ -162,17 +170,15 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                         {submissions.map((submission, index) => (
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
-                                    <div className={styles.id}>
-                                        <p>
-                                            {submission._id}
-                                        </p>
-                                    </div>
+                                    <p className={styles.copySubmissionId} onClick={() => handleCopySubmissionId(submission._id)}>
+                                        {copiedSubmissionId === submission._id ? 'Copied Submission ID!' : `📋`}
+                                    </p>
                                     <div className={styles.etherScanLink}>
-                                        <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer" >
+                                        <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer">
                                             {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
                                         </a>
                                     </div>
-                                    <div className={styles.detailText}><p>👌{submission.votes}</p> </div>
+                                    <div className={styles.detailText}><p>👌{submission.votes}</p></div>
                                 </div>
                                 <div className={styles.memeImageContainer}>
                                     <img src={`https://crimson-rear-vole-353.mypinata.cloud/ipfs/${submission.image}?pinataGatewayToken=${GWK}`} className={styles.memeImage} alt='' loading="lazy" />

@@ -46,8 +46,7 @@ const App = () => {
             <Route path="/votes" element={<VotesPage />} />
             <Route path="/submissions" element={<SubmissionsPage />} />
             <Route path="/buydank" element={<BuyDankPage />} />
-            <Route path="/submission/:submissionId" element={<SubmissionPage />} />
-            <Route path="/contestbysubmission/:submissionId" element={<SubmissionPage />} />
+            <Route path="/submissions/:submissionId" element={<SubmissionPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

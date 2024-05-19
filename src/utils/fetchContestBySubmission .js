@@ -1,16 +1,11 @@
 import { toast } from 'react-toastify';
 
-/**
- * Fetch the contest associated with a given submission ID.
- * @param {string} submissionId - The ID of the submission.
- * @returns {Promise<Object>} - The contest data associated with the submission.
- * @throws {Error} - Throws an error if fetching the contest fails.
- */
+
 export const fetchContestBySubmission = async (submissionId) => {
     try {
         console.log(`Fetching contest for submission ID: ${submissionId}`);
 
-        const response = await fetch(`https://app.dankmymeme.xyz/api/submission`, {
+        const response = await fetch(`https://app.dankmymeme.xyz/api/submissions/${submissionId}`, {
             method: 'POST',  // Changed to POST to include submissionId in body
             headers: {
                 'Content-Type': 'application/json'
