@@ -1,10 +1,7 @@
 // utils/fetchSubmissions.js
 
 /**
- * Fetch submissions by their IDs.
- * @param {string[]} submissionIds - The IDs of the submissions to fetch.
- * @returns {Promise<Object[]>} - A promise that resolves to the list of submissions.
- * @throws {Error} - Throws an error if fetching submissions fails.
+
  */
 const fetchSubmissions = async (submissionIds) => {
     // Validate submissionIds array to prevent unnecessary API calls

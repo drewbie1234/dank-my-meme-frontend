@@ -1,5 +1,5 @@
 import React from "react";
-import ContestDisplayFeedContainer from "../ContestDisplayFeed/ContestDisplayFeed";
+import ContestDisplayFeed from "../ContestDisplayFeed/ContestDisplayFeed";
 import { fetchContestsByVote } from '../../utils/fetchContestsByVote';
 import { useWallet } from '../../contexts/WalletContext';
 import styles from "./VotesPage.module.css"; // Using shared CSS Modules
@@ -7,7 +7,14 @@ import { Helmet } from 'react-helmet';
 
 function VotesPage() {
   const { selectedAccount } = useWallet();
-  const fetchVotedContestsForWallet = () => fetchContestsByVote(selectedAccount);
+
+  const fetchVotedContestsForWallet = async () => {
+    if (selectedAccount) {
+      return await fetchContestsByVote(selectedAccount);
+    } else {
+      return [];
+    }
+  };
 
   const votesImageUrl = "https://app.dankmymeme.xyz/public/images/dank_my_meme.PNG";
 
@@ -32,7 +39,7 @@ function VotesPage() {
         <h1>Votes</h1>
         <p>This is where users can view the contests and submissions they've voted on.</p>
         <div className={styles.contestDisplayFeedContainer}>
-          <ContestDisplayFeedContainer fetchContests={fetchVotedContestsForWallet} />
+          <ContestDisplayFeed fetchContests={fetchVotedContestsForWallet} />
         </div>
       </div>
     </div>

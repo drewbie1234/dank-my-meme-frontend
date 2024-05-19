@@ -1,23 +1,19 @@
 import { toast } from 'react-toastify';
 
 /**
- * Fetch contests that the user has voted on.
- * @param {string} walletAddress - The wallet address of the user.
- * @returns {Promise<Object[]>} - The contests the user has voted on.
- * @throws {Error} - Throws an error if fetching contests fails.
- */
 
+
+ */
 const fetchContestsByVote = async (walletAddress) => {
     try {
-        // Log the wallet address being used to fetch the contests
         console.log(`Fetching contests for wallet address: ${walletAddress}`);
 
         const response = await fetch(`https://app.dankmymeme.xyz/api/contests/votedContests`, {
-            method: 'POST',  // Changed to POST to include walletAddress in body
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ walletAddress }) // Include walletAddress in the request body
+            body: JSON.stringify({ walletAddress })
         });
 
         console.log(`Response status: ${response.status}`);

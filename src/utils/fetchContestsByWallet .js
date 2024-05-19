@@ -1,20 +1,19 @@
 /**
- * Fetch contests that a user has participated in using their wallet address.
+ * Fetch contests by wallet address.
  * @param {string} walletAddress - The wallet address of the user.
- * @returns {Promise<Object[]>} - The contests the user has participated in.
+ * @returns {Promise<Object[]>} - The contests associated with the wallet address.
  * @throws {Error} - Throws an error if fetching contests fails.
  */
-export const fetchContestsByWallet = async (walletAddress) => {
+const fetchContestsByWallet = async (walletAddress) => {
     try {
-        // Log the wallet address being used to fetch the contests
         console.log(`Fetching contests for wallet address: ${walletAddress}`);
 
-        const response = await fetch(`https://app.dankmymeme.xyz/api/contests/submissionsByWallet`, {
-            method: 'POST',  // Changed to POST to include walletAddress in body
+        const response = await fetch('https://app.dankmymeme.xyz/api/contests/submissionsByWallet', {
+            method: 'POST', // Use POST to send the wallet address in the body
             headers: {
                 'Content-Type': 'application/json'
             },
-            
+            body: JSON.stringify({ walletAddress }) // Send wallet address in the body
         });
 
         console.log(`Response status: ${response.status}`);
@@ -27,10 +26,12 @@ export const fetchContestsByWallet = async (walletAddress) => {
         }
 
         const data = await response.json();
-        console.log("Fetched contests by wallet:", data);
+        console.log('Fetched contests by wallet:', data);
         return data;
     } catch (error) {
-        console.error("Fetch contests by wallet error:", error);
+        console.error('Fetch contests by wallet error:', error);
         throw error;
     }
 };
+
+export { fetchContestsByWallet };

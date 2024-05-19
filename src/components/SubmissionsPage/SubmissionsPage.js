@@ -1,15 +1,22 @@
 import React from "react";
-import ContestDisplayFeedContainer from "../ContestDisplayFeed/ContestDisplayFeed"; // Adjust the path as necessary
-import { fetchContestsByWallet } from '../../utils/fetchContestsByWallet '; // Adjust the path as necessary
+import ContestDisplayFeed from "../ContestDisplayFeed/ContestDisplayFeed";
+import { fetchContestsByWallet } from '../../utils/fetchContestsByWallet ';
 import { useWallet } from '../../contexts/WalletContext';
 import styles from "./SubmissionsPage.module.css"; // Using shared CSS Modules
 import { Helmet } from 'react-helmet';
 
 function SubmissionsPage() {
   const { selectedAccount } = useWallet();
-  const fetchContestsForWallet = () => fetchContestsByWallet(selectedAccount);
-  
-  const submissionsImageUrl = "https://app.dankmymeme.xyz/public/images/dank_my_meme.PNG"; // Replace with your actual image URL
+
+  const fetchContestsForWallet = async () => {
+    if (selectedAccount) {
+      return await fetchContestsByWallet(selectedAccount);
+    } else {
+      return [];
+    }
+  };
+
+  const submissionsImageUrl = "https://app.dankmymeme.xyz/public/images/dank_my_meme.PNG";
 
   return (
     <div className={styles.pageContainer}>
@@ -32,7 +39,7 @@ function SubmissionsPage() {
         <h1>Submissions</h1>
         <p>This is where users can view and submit their contributions.</p>
         <div className={styles.contestDisplayFeedContainer}>
-          <ContestDisplayFeedContainer fetchContests={fetchContestsForWallet} />
+          <ContestDisplayFeed fetchContests={fetchContestsForWallet} />
         </div>
       </div>
     </div>
