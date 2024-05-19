@@ -1,81 +1,53 @@
-    /* HomePage.module.css */
-.submissionsPageContainer {
-    width: auto;
-    background-color: #f2e6ff;
-    z-index: -1000;
-  }
-  
-  .contentContainer {
-    display: flex;
-    height: 80vh;
-    justify-content: center;
-    z-index: -1000;
-  }
-  
-  .contestDisplayFeedContainer {
-    width: 500px;
-  }
-  
-  .sideMenu {
-    width: 360px;
-  }
-  
-  
-    
+.pageContainer {
+  width: auto;
+  background-color: #f2e6ff;
+}
 
-  
-  .feed {
-    text-align: center;
-  
-  }
-  
-  .contestDisplayFeedContainer {
-    position: relative;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    text-align: center;
-    background-color: #f2e6ff;
-    padding: 10px;
-    width:300px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    display: block;
-    border-radius: 25px;
-    overflow: hidden; /* Ensures the shadows don't extend outside the container */
-    z-index: 0;
-    height: 70vh;
-    
-  }
+.contentContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
 
-  
-  .contestDisplayFeedContainer {
-    align-items: center;
-    justify-content: center;
-  }
+.contestDisplayFeedContainer {
+  width: 100%;
+  max-width: 500px;
+  min-width: 300px;
+  position: relative;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-align: center;
+  background-color: #f2e6ff;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: block;
+  border-radius: 25px;
+  overflow: hidden;
+  z-index: 0;
+}
 
 .submissionsList {
-    
-    flex-direction: column;
-
-    margin-top: 20px;
-
+  flex-direction: column;
+  margin-top: 20px;
 }
 
 .submission {
-    padding: 15px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;    
-    
-    min-width: 300px;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  min-width: 300px;
 }
 
 .submission h2 {
-    margin: 0;
-    color: #333;
+  margin: 0;
+  color: #333;
 }
 
 .submission p {
-    margin: 10px 0 0;
-    color: #666;
+  margin: 10px 0 0;
+  color: #666;
 }

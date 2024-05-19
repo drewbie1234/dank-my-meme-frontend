@@ -1,25 +1,53 @@
-/* HomePage.module.css */
-.homePageContainer {
+.pageContainer {
   width: auto;
   background-color: #f2e6ff;
-  z-index: -1000;
 }
 
 .contentContainer {
   display: flex;
-  height: 120vh;
   justify-content: center;
-  z-index: -1000;
-  
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
 }
 
 .contestDisplayFeedContainer {
   width: 100%;
   max-width: 500px;
   min-width: 300px;
+  position: relative;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-align: center;
+  background-color: #f2e6ff;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  display: block;
+  border-radius: 25px;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.sideMenu {
-  width: 360px;
+.submissionsList {
+  flex-direction: column;
+  margin-top: 20px;
 }
 
+.submission {
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  min-width: 300px;
+}
+
+.submission h2 {
+  margin: 0;
+  color: #333;
+}
+
+.submission p {
+  margin: 10px 0 0;
+  color: #666;
+}

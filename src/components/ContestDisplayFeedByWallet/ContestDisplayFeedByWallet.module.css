@@ -44,7 +44,6 @@
   padding-bottom: 20px; /* Space for last items not to be hidden */
 }
 
-/* Hide the scrollbar */
 .scrollableContests::-webkit-scrollbar {
   display: none;
 }

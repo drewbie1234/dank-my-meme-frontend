@@ -5,7 +5,7 @@ import leftSlider from "../../svgs/leftSlider.svg";
 import rightSlider from "../../svgs/rightSlider.svg";
 import { fetchSubmissions } from "../../utils/fetchSubmissions";
 import { shortenAddress } from "../../utils/shortenAddress";
-import ShareButton from '../ShareButton/ShareButton'
+import ShareButton from '../ShareButton/ShareButton';
 
 const GWK = 'AMVTo16ddMxP42u7zyVkDn1ckRGXeKEAZ0N8_5qp3YEzcQl3yiATgfUpDD5tSdZj';
 
@@ -32,7 +32,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [contest.endDateTime])
+    }, [contest.endDateTime]);
 
     useEffect(() => {
         const fetchAndSetSubmissions = async () => {

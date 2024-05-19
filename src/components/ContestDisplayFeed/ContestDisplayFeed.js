@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ContestDisplayFeed.module.css";
 import ContestCard from "../ContestCard/ContestCard";
-// Import the function to fetch competitions
-import { fetchContests } from '../../utils/fetchContests'; // Adjust the path according to where your function is
 
-const ContestDisplayFeed = () => {
+const ContestDisplayFeed = ({fetchContests}) => {
   const [contests, setContests] = useState([]);
 
   useEffect(() => {
@@ -18,7 +16,6 @@ const ContestDisplayFeed = () => {
 
   return (
     <>
-      <h1 className={styles.feed}>Contests</h1>
       <div className={styles.contestDisplayFeedContainer}>
         <div className={styles.scrollableContests}>
           {contests.map((contest) => (

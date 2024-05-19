@@ -1,36 +1,31 @@
-// src/components/ContestBySubmissionPage/ContestBySubmissionPage.js
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ContestCard from '../ContestCard/ContestCard';
-import styles from './SubmissionPage.module.css';
+import ContestCard from '../ContestCard/ContestCard'; // Ensure this is the correct import path
+import styles from './SubmissionPage.module.css'; // Ensure this is the correct import path
+import { fetchContestBySubmission } from '../../utils/fetchContestBySubmission '; // Adjust the import path as necessary
 
 const SubmissionPage = () => {
   const { submissionId } = useParams();
   const [contest, setContest] = useState(null);
-  const [submission, setSubmission] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchContestBySubmission = async () => {
+    const fetchContest = async () => {
+      console.log("Fetching data for submission ID:", submissionId);
       try {
-        const response = await fetch(`https://app.dankmymeme.xyz:443/api/submission/${submissionId}`);
-        const data = await response.json();
-        if (response.ok) {
-          setContest(data.contest);
-          setSubmission(data.submission);
-        } else {
-          setError(data.message);
-        }
+        const data = await fetchContestBySubmission(submissionId);
+        console.log("Fetched data:", data);
+        setContest(data);
       } catch (err) {
-        setError(err.message);
+        console.error("Fetch error:", err);
+        setError(err.message || 'Failed to fetch data');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchContestBySubmission();
+    fetchContest();
   }, [submissionId]);
 
   if (loading) return <div>Loading...</div>;
@@ -38,18 +33,12 @@ const SubmissionPage = () => {
 
   return (
     <div className={styles.contestBySubmissionPage}>
+      <h1 className={styles.feed}>Submissions</h1>
+      <p>This is where users can view their decentralised meme (deMe) submissions.</p>
       {contest ? (
-        <ContestCard contest={contest} />
+        <ContestCard key={contest._id} contest={contest} />
       ) : (
         <div>Contest not found</div>
-      )}
-      {submission ? (
-        <div className={styles.submissionContainer}>
-          <img src={submission.image} alt="Submission" className={styles.submissionImage} />
-          {/* Add other submission details as needed */}
-        </div>
-      ) : (
-        <div>Submission not found</div>
       )}
     </div>
   );
