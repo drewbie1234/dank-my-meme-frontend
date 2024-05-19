@@ -26,7 +26,7 @@
 }
 
 .arrowButton {
-  width: 10px;
+  width: 25px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -34,14 +34,15 @@
   z-index: 10; /* Ensure the buttons are above the gallery items */
   background-color: transparent; /* Optional: for styling */
   border: none; /* Remove border for a cleaner look */
+  color: #822280;
 }
 
 .arrowButton:first-of-type {
-  left: 10px; /* Distance from the left edge of the gallery */
+  left: -5px; /* Distance from the left edge of the gallery */
 }
 
 .arrowButton:last-of-type {
-  right: 10px; /* Distance from the right edge of the gallery */
+  right: -5px; /* Distance from the right edge of the gallery */
 }
 
 .scrollRegionLeft, .scrollRegionRight {

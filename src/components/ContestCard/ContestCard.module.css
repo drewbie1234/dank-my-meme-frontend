@@ -110,11 +110,12 @@
   color: #666;
   width: 100%;
   padding: 15px;
-  max-height: 0;
+  max-height: 0px;
   overflow: hidden;
   transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+  box-sizing: border-box;
   opacity: 0;
-  display: none;
+  
 }
 
 .detailsToggle {
