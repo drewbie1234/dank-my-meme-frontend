@@ -1,5 +1,5 @@
 import React from "react";
-import ContestDisplayFeedContainer from "../ContestDisplayFeed/ContestDisplayFeed"; // Adjust the path as necessary
+import ContestDisplayFeed from "../ContestDisplayFeed/ContestDisplayFeed"; // Adjust the path as necessary
 import { fetchContests } from '../../utils/fetchContests'; // Adjust the path as necessary
 import styles from "./HomePage.module.css"; // Using shared CSS Modules
 import { Helmet } from 'react-helmet';
@@ -28,7 +28,7 @@ function HomePage() {
       <h1 className={styles.feed}>DeMe Feed</h1>
       <p>This is where users can view the Decentralised Meme (deMe) Feed.</p>
         <div className={styles.contestDisplayFeedContainer}>
-          <ContestDisplayFeedContainer fetchContests={fetchContests} />
+          <ContestDisplayFeed fetchContests={fetchContests} />
         </div>
       </div>
     </div>

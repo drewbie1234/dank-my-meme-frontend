@@ -1,3 +1,11 @@
+// utils/fetchSubmissions.js
+
+/**
+ * Fetch submissions by their IDs.
+ * @param {string[]} submissionIds - The IDs of the submissions to fetch.
+ * @returns {Promise<Object[]>} - A promise that resolves to the list of submissions.
+ * @throws {Error} - Throws an error if fetching submissions fails.
+ */
 const fetchSubmissions = async (submissionIds) => {
     // Validate submissionIds array to prevent unnecessary API calls
     if (!submissionIds || !submissionIds.length) {
@@ -6,20 +14,27 @@ const fetchSubmissions = async (submissionIds) => {
     }
 
     try {
+        // Log the submission IDs being fetched
+        console.log(`Fetching submissions for IDs: ${submissionIds.join(',')}`);
+
         const response = await fetch(`https://app.dankmymeme.xyz:443/api/submissions?submissionIds=${submissionIds.join(',')}`, {
-            method: 'GET', // Use GET method to fetch data
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
 
+        // Log the response status
+        console.log(`Response status: ${response.status}`);
+
         if (!response.ok) {
             throw new Error(`Failed to fetch submissions: ${response.status} ${response.statusText}`);
         }
 
-        return await response.json();
+        const data = await response.json();
+        console.log('Fetched submissions:', data);
+        return data;
     } catch (error) {
-        // Handle fetch errors (e.g., network issues)
         console.error("Error fetching submissions:", error.message);
         return []; // Return an empty array or other default value on error
     }

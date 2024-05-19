@@ -1,6 +1,6 @@
 import React from "react";
-import ContestDisplayFeedContainer from "../ContestDisplayFeed/ContestDisplayFeed"; // Adjust the path as necessary
-import { fetchContestsByVote } from '../../utils/fetchContestsByVote'; // Adjust the path as necessary
+import ContestDisplayFeedContainer from "../ContestDisplayFeed/ContestDisplayFeed";
+import { fetchContestsByVote } from '../../utils/fetchContestsByVote';
 import { useWallet } from '../../contexts/WalletContext';
 import styles from "./VotesPage.module.css"; // Using shared CSS Modules
 import { Helmet } from 'react-helmet';
@@ -9,7 +9,7 @@ function VotesPage() {
   const { selectedAccount } = useWallet();
   const fetchVotedContestsForWallet = () => fetchContestsByVote(selectedAccount);
 
-  const votesImageUrl = "https://app.dankmymeme.xyz/public/images/dank_my_meme.PNG"; // Replace with your actual image URL
+  const votesImageUrl = "https://app.dankmymeme.xyz/public/images/dank_my_meme.PNG";
 
   return (
     <div className={styles.pageContainer}>
