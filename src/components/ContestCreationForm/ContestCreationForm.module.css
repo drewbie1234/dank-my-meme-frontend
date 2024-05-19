@@ -2,7 +2,7 @@
     display: flex;          /* Enables Flexbox layout */
     justify-content: center; /* Center content horizontally */
     align-items: start;     /* Center content vertically */
-    height: 76vh;           /* Full height of the viewport */
+    height: auto;          /* Full height of the viewport */
     width: 100vw;            /* Full width of the viewport */
     background-color: #f4f4f4; /* Optional: Adds a background color */
 }

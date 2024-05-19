@@ -184,7 +184,7 @@ const ContestCard = ({ contest }) => {
         </div>
         <div className={styles.infoItem}>
           <strong>Winners Prize:</strong>
-          <span>{contest.winnerPercentage}% ({totalPrizePot * (contest.winnerPercentage/100)} DANK)</span>
+          <span>{contest.winnerPercentage}% ({(totalPrizePot * (contest.winnerPercentage/100)).toPrecision(4)} DANK)</span>
         </div>
         <div className={styles.infoItem}>
           <strong>Number of Lucky Voters:</strong>
@@ -206,7 +206,6 @@ const ContestCard = ({ contest }) => {
           <strong>Distribution Tx:</strong>
           <span>{contest.distributionTX || 'TBC'}</span>
         </div>
-        <div className={styles.addressItem}>
           <div className={styles.infoItem}>
             <strong>Owner Address: </strong>
             <a href={`https://magmascan.org/address/${contest.contestOwner}`} target="_blank" rel="noopener noreferrer">
@@ -224,7 +223,6 @@ const ContestCard = ({ contest }) => {
             <a href={`https://magmascan.org/address/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
               {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[2] = el} />
             </a>
-          </div>
         </div>
       </div>
 

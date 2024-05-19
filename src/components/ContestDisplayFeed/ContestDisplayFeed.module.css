@@ -38,7 +38,7 @@
 }
 
 .scrollableContests {
-  max-height: calc(100vh - 150px); /* Adjust */
+  max-height: calc(120vh - 150px); /* Adjust */
   overflow-y: auto;
   scroll-behavior: smooth;
   padding-bottom: 20px; /* Space for last items not to be hidden */

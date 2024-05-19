@@ -1,14 +1,18 @@
 .pageContainer {
   width: auto;
   background-color: #f2e6ff;
+  text-align: center;
 }
 
 .contentContainer {
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 100vh;
   flex-direction: column;
+}
+
+p {
+  padding: 0 25px;;
 }
 
 .contestDisplayFeedContainer {

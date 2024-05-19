@@ -1,3 +1,4 @@
 .contestCreationPage {
-    height: 76vh;
+    height: auto;
+    min-height: 100vw;
 }

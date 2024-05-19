@@ -15,7 +15,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [submissions, setSubmissions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [walletAddresses, setWalletAddresses] = useState({});
-    const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(null);
+    const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(0); // Initialize to 0 to show first image by default
     const [timeRemaining, setTimeRemaining] = useState('');
 
     // Swipe Handlers using react-swipeable
@@ -101,11 +101,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     };
 
     const scrollByOneImage = (direction) => {
-        const currentIndex = imageRefs.current.findIndex(
-            (ref) => ref && galleryRef.current.scrollLeft + galleryRef.current.offsetWidth / 2 >= ref.offsetLeft &&
-                     galleryRef.current.scrollLeft + galleryRef.current.offsetWidth / 2 <= ref.offsetLeft + ref.offsetWidth
-        );
-        const nextIndex = direction === "left" ? Math.max(currentIndex - 1, 0) : Math.min(currentIndex + 1, submissions.length - 1);
+        const nextIndex = direction === "left" ? Math.max(currentSubmissionIndex - 1, 0) : Math.min(currentSubmissionIndex + 1, submissions.length - 1);
         scrollToCenter(nextIndex);
     };
 
@@ -154,16 +150,27 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                 <div>No submissions available</div>
             ) : (
                 <>
-                    <img src={leftSlider} alt="Scroll left" onClick={() => scrollByOneImage("left")} className={styles.arrowButton} />
+                    <img
+                        src={leftSlider}
+                        alt="Scroll left"
+                        onClick={() => scrollByOneImage("left")}
+                        className={styles.arrowButton}
+                        style={{ opacity: currentSubmissionIndex > 0 ? 1 : 0 }}
+                    />
                     <div className={styles.memeContestGallery} ref={galleryRef}>
                         <div className={styles.scrollRegionLeft} onClick={() => scrollByOneImage("left")} />
                         {submissions.map((submission, index) => (
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
+                                    <div className={styles.id}>
+                                        <p>
+                                            {submission._id}
+                                        </p>
+                                    </div>
                                     <div className={styles.etherScanLink}>
-                                    <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer" >
-                                        {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
-                                    </a>
+                                        <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer" >
+                                            {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
+                                        </a>
                                     </div>
                                     <div className={styles.detailText}><p>👌{submission.votes}</p> </div>
                                 </div>
@@ -178,7 +185,13 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                         ))}
                         <div className={styles.scrollRegionRight} onClick={() => scrollByOneImage("right")} />
                     </div>
-                    <img src={rightSlider} alt="Scroll right" onClick={() => scrollByOneImage("right")} className={styles.arrowButton} />
+                    <img
+                        src={rightSlider}
+                        alt="Scroll right"
+                        onClick={() => scrollByOneImage("right")}
+                        className={styles.arrowButton}
+                        style={{ opacity: currentSubmissionIndex < submissions.length - 1 ? 1 : 0 }}
+                    />
                 </>
             )}
         </div>
