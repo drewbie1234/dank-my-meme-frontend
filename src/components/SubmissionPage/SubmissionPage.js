@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ContestCard from '../ContestCard/ContestCard'; // Ensure this is the correct import path
-import styles from './SubmissionPage.module.css'; // Ensure this is the correct import path
-import { fetchContestBySubmission } from '../../utils/fetchContestBySubmission '; // Adjust the import path as necessary
+import ContestCard from '../ContestCard/ContestCard';
+import styles from './SubmissionPage.module.css';
+import { fetchContestBySubmission } from '../../utils/fetchContestBySubmission ';
 
 const SubmissionPage = () => {
   const { submissionId } = useParams();
@@ -32,14 +32,16 @@ const SubmissionPage = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className={styles.contestBySubmissionPage}>
-      <h1 className={styles.feed}>Submissions</h1>
+    <div className={styles.SubmissionPageCpntainer}>
+      <div className={styles.contestBySubmissionPage}>
+      <h1 className={styles.feed}>Submission #{submissionId}</h1>
       <p>This is where users can view their decentralised meme (deMe) submissions.</p>
       {contest ? (
         <ContestCard key={contest._id} contest={contest} />
       ) : (
         <div>Contest not found</div>
       )}
+    </div>
     </div>
   );
 };

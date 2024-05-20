@@ -1,5 +1,3 @@
-// src/App.js
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import TopBar from "./components/TopBar/TopBar";
@@ -13,7 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { WalletProvider } from './contexts/WalletContext';
 import Footer from "./components/Footer/Footer";
-import BuyDankPage from "./components/BuyDankPage/BuyDankPage"; 
+import BuyDankPage from "./components/BuyDankPage/BuyDankPage";
 
 const NotFound = () => (
   <div className={styles.notFound}>
