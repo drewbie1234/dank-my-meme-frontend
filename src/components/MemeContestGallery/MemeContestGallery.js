@@ -5,7 +5,7 @@ import leftSlider from "../../svgs/leftSlider.svg";
 import rightSlider from "../../svgs/rightSlider.svg";
 import { fetchSubmissions } from "../../utils/fetchSubmissions";
 import { shortenAddress } from "../../utils/shortenAddress";
-import ShareButton from '../ShareButton/ShareButton';
+
 
 const GWK = 'AMVTo16ddMxP42u7zyVkDn1ckRGXeKEAZ0N8_5qp3YEzcQl3yiATgfUpDD5tSdZj';
 
@@ -15,16 +15,16 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [submissions, setSubmissions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [walletAddresses, setWalletAddresses] = useState({});
-    const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(0); // Initialize to 0 to show first image by default
+    const [currentSubmissionIndex, setCurrentSubmissionIndex] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState('');
     const [copiedSubmissionId, setCopiedSubmissionId] = useState(null);
+    const [showTooltip, setShowTooltip] = useState(false);
 
-    // Swipe Handlers using react-swipeable
     const swipeHandlers = useSwipeable({
         onSwipedLeft: () => scrollByOneImage("right"),
         onSwipedRight: () => scrollByOneImage("left"),
         preventDefaultTouchmoveEvent: true,
-        trackMouse: true // Also support mouse swipes
+        trackMouse: true
     });
 
     useEffect(() => {
@@ -109,17 +109,10 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const formatTimeRemaining = (endDateTime) => {
         if (isNaN(Date.parse(endDateTime))) return "Invalid date format";
     
-        // Current date and time in local time zone
         const now = new Date();
-    
-        // Convert endDateTime to a Date object in local time zone
         const endDate = new Date(endDateTime);
-    
-        // Calculate local time offset in milliseconds (GMT+1)
-        const localTimeOffset = endDate.getTimezoneOffset() * 60000; // Convert from minutes to milliseconds
-        const gmtPlusOneOffset = localTimeOffset - (60 * 60000); // Adjust for GMT+1
-    
-        // Adjust endDate to GMT+1
+        const localTimeOffset = endDate.getTimezoneOffset() * 60000;
+        const gmtPlusOneOffset = localTimeOffset - (60 * 60000);
         endDate.setTime(endDate.getTime() + gmtPlusOneOffset);
     
         const diffMs = endDate - now;
@@ -146,10 +139,11 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const handleCopySubmissionId = (submissionId) => {
         navigator.clipboard.writeText(submissionId).then(() => {
             setCopiedSubmissionId(submissionId);
-            setTimeout(() => setCopiedSubmissionId(null), 2000); // Reset after 2 seconds
+            setShowTooltip(true);
+            setTimeout(() => setShowTooltip(false), 2000);
         });
     };
-
+    
     return (
         <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>
             {loading ? (
@@ -170,21 +164,31 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                         {submissions.map((submission, index) => (
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
-                                    <p className={styles.copySubmissionId} onClick={() => handleCopySubmissionId(submission._id)}>
-                                        {copiedSubmissionId === submission._id ? 'Copied Submission ID!' : `📋`}
-                                    </p>
-                                    <div className={styles.etherScanLink}>
-                                        <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer">
-                                            {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
-                                        </a>
+                                    <div className={styles.leftSection}>
+                                        <div
+                                            className={`${styles.circleID} ${copiedSubmissionId === submission._id && showTooltip ? styles.showTooltip : ''}`}
+                                            onClick={() => handleCopySubmissionId(submission._id)}
+                                        >
+                                            ID
+                                            {copiedSubmissionId === submission._id && showTooltip && (
+                                                <div className={styles.tooltip}>Copied Submission ID!</div>
+                                            )}
+                                        </div>
+                                        <div className={styles.etherScanLink}>
+                                            <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer">
+                                                {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div className={styles.detailText}><p>👌{submission.votes}</p></div>
+                                    <div className={styles.rightSection}>
+                                        <p className={styles.detailText}>👌 {submission.votes}</p>
+                                    </div>
                                 </div>
                                 <div className={styles.memeImageContainer}>
                                     <img src={`https://crimson-rear-vole-353.mypinata.cloud/ipfs/${submission.image}?pinataGatewayToken=${GWK}`} className={styles.memeImage} alt='' loading="lazy" />
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
-                                    <p># {String(index + 1).padStart(3, '0')}{String(submissions.length).padStart(3, '0')}</p>
+                                    <p># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</p>
                                     <p>{timeRemaining}</p>
                                 </div>
                             </div>
@@ -202,6 +206,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
             )}
         </div>
     );
+    
 };
 
 export default MemeContestGallery;

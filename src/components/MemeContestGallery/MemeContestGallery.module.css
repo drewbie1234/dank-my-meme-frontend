@@ -3,27 +3,26 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden; /* Hide overflow to ensure a clean look */
-  width: 100%; /* Adjust based on your layout needs */
-  max-width: 600px; /* Maximum width of the gallery, adjust as needed */
-  margin: auto; /* Center the gallery in its parent container */
-  font-size: 10px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  font-size: 12px;
 }
 
-/* Prevent text selection and highlighting */
 .memeContestGalleryWrapper,
 .submissionDetail {
-  user-select: none; /* Prevent text selection in modern browsers */
-  -webkit-user-select: none; /* Prevent text selection in Safari/Chrome */
-  -moz-user-select: none; /* Prevent text selection in Firefox */
-  -ms-user-select: none; /* Prevent text selection in IE */
-  -webkit-tap-highlight-color: transparent; /* Prevents highlighting on touch devices */
-  cursor: grab; /* Indicate that the gallery is draggable */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: grab;
 }
 
 .memeContestGalleryWrapper:active,
 .submissionDetail:active {
-  cursor: grabbing; /* Change the cursor to grabbing while dragging */
+  cursor: grabbing;
 }
 
 .arrowButton {
@@ -32,26 +31,26 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  z-index: 10; /* Ensure the buttons are above the gallery items */
-  background-color: transparent; /* Optional: for styling */
-  border: none; /* Remove border for a cleaner look */
+  z-index: 10;
+  background-color: transparent;
+  border: none;
   color: #822280;
 }
 
 .arrowButton:first-of-type {
-  left: -5px; /* Distance from the left edge of the gallery */
+  left: -5px;
 }
 
 .arrowButton:last-of-type {
-  right: -5px; /* Distance from the right edge of the gallery */
+  right: -5px;
 }
 
 .scrollRegionLeft, .scrollRegionRight {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 50%; /* Adjust the width as needed for the clickable area */
-  z-index: 5; /* Lower than the entry bar but high enough for functionality */
+  width: 50px;
+  z-index: 5;
   cursor: pointer;
 }
 
@@ -68,14 +67,13 @@
   flex-direction: row;
   overflow-x: auto;
   scroll-behavior: smooth;
-  scroll-snap-type: x mandatory; /* Enable snapping */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS devices */
-  gap: 20px; /* Space between items */
-  padding: 5px 20px; /* Padding inside the gallery for aesthetics */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 20px;
+  padding: 5px 20px;
   width: 100%;
 }
 
-/* Hide the scrollbar */
 .memeContestGallery::-webkit-scrollbar {
   display: none;
 }
@@ -86,9 +84,9 @@
 }
 
 .submissionDetail {
-  flex: 0 0 auto; /* Do not grow or shrink */
-  width: 100%; /* Fixed width for each submission */
-  scroll-snap-align: center; /* Ensure the snapping aligns items to the center */
+  flex: 0 0 auto;
+  width: 100%;
+  scroll-snap-align: center;
   display: flex;
   flex-direction: column;
   color: white;
@@ -96,13 +94,8 @@
   width: 100%;
 }
 
-.detailText {
-  margin: 12px;
-}
-
 .entryBar {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   background-color: #822280;
@@ -110,6 +103,65 @@
   border-top-right-radius: 8px;
   height: 30px;
   z-index: 20;
+  padding: 0 10px;
+  font-size: 10px;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+}
+
+.circleID {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ff007a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(10%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  
+}
+
+.circleID.showTooltip .tooltip {
+  opacity: 1;
+  visibility: visible;
+  z-index: 30;
+}
+
+.detailText {
+  padding: 0;
+}
+
+.etherScanLink {
+  margin-right: 0;
 }
 
 .bottomGalleryBar {
@@ -122,10 +174,9 @@
   margin-bottom: 8px;
   color: #fff;
   padding: 8px;
-  
 }
 
-.bottomGalleryBar p{
+.bottomGalleryBar p {
   font-size: 10px;
 }
 
@@ -153,27 +204,6 @@
 .etherScanLink {
   color: #fff;
   text-decoration: underline;
-  background-color: transparent;
-  margin: 10px;
-}
-
-.buttonWrapperLeft {
-  left: 10px;
-  padding: 20px;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-}
-
-.buttonWrapperRight {
-  right: 10px;
-  padding: 20px;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-}
-
-.etherScanLink {
   background-color: transparent;
   margin: 10px;
 }

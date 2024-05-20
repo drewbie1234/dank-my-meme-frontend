@@ -9,6 +9,7 @@
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
+  font-size: 12px;
 }
 
 .contestCard:hover {
@@ -25,7 +26,6 @@
 }
 
 .contestId {
-  font-size: 1.5em;
   margin: 0;
 }
 
@@ -55,7 +55,6 @@
 
 .smallEtherscanLogo {
   width: 15px;
-  margin-right: 5px;
   vertical-align: middle;
   transition: transform 0.5s ease, filter 0.3s ease;
 }
@@ -77,7 +76,7 @@
 .prize {
   font-size: 1.2em;
   color: #822280;
-  margin: 10px 0;
+  margin: 10px 0px 25px 0;
 }
 
 .prizeEmoji {

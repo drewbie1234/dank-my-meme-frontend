@@ -3,12 +3,13 @@
     background-color: #f2e6ff;
     text-align: center;
     height: auto;
+    font-size: 12px;
   }
   
   .contentContainer {
     display: flex;
     align-items: center;
-    height: 120vh;
+    height: 100vh;
     flex-direction: column;
   }
   
@@ -17,7 +18,7 @@
     max-width: 500px;
     min-width: 300px;
     position: relative;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    
     text-align: center;
     background-color: #f2e6ff;
     padding: 10px;

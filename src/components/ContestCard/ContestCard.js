@@ -167,6 +167,10 @@ const ContestCard = ({ contest }) => {
 
       <div className={`${styles.infoPanel} ${showDetails ? styles.show : ''}`}>
         <div className={styles.infoItem}>
+          <strong>Contest ID:</strong>
+          <span>{contest._id}</span>
+        </div>
+        <div className={styles.infoItem}>
           <strong>Start:</strong>
           <span>{new Date(contest.startDateTime).toLocaleString()}</span>
         </div>
@@ -206,24 +210,24 @@ const ContestCard = ({ contest }) => {
           <strong>Distribution Tx:</strong>
           <span>{contest.distributionTX || 'TBC'}</span>
         </div>
-          <div className={styles.infoItem}>
-            <strong>Owner Address: </strong>
-            <a href={`https://magmascan.org/address/${contest.contestOwner}`} target="_blank" rel="noopener noreferrer">
-              {shortenAddress(contest.contestOwner)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[0] = el} />
-            </a>
-          </div>
-          <div className={styles.infoItem}>
-            <strong>Contract Address: </strong>
-            <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
-              {shortenAddress(contest.contractAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[1] = el} />
-            </a>
-          </div>
-          <div className={styles.infoItem}>
-            <strong>Token Address: </strong>
-            <a href={`https://magmascan.org/address/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
-              {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[2] = el} />
-            </a>
+        <div className={styles.infoItem}>
+          <strong>Owner Address: </strong>
+          <a href={`https://magmascan.org/address/${contest.contestOwner}`} target="_blank" rel="noopener noreferrer">
+            {shortenAddress(contest.contestOwner)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[0] = el} />
+          </a>
         </div>
+        <div className={styles.infoItem}>
+          <strong>Contract Address: </strong>
+          <a href={`https://magmascan.org/address/${contest.contractAddress}`} target="_blank" rel="noopener noreferrer">
+            {shortenAddress(contest.contractAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[1] = el} />
+          </a>
+        </div>
+        <div className={styles.infoItem}>
+          <strong>Token Address: </strong>
+          <a href={`https://magmascan.org/address/${contest.tokenAddress}`} target="_blank" rel="noopener noreferrer">
+            {shortenAddress(contest.tokenAddress)} <img src={etherscanLogo} alt="Etherscan" className={styles.smallEtherscanLogo} ref={el => smallEtherscanLogoRefs.current[2] = el} />
+          </a>
+      </div>
       </div>
 
       
