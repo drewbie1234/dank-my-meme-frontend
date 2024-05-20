@@ -140,7 +140,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedSeconds = String(seconds).padStart(2, '0');
     
-        return `${formattedDays}D ${formattedHours}H ${formattedMinutes}M ${formattedSeconds}S ⏰`;
+        return `⏰ ${formattedDays}D ${formattedHours}H ${formattedMinutes}M ${formattedSeconds}S `;
     };
 
     const handleCopySubmissionId = (submissionId) => {
@@ -184,8 +184,8 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                     <img src={`https://crimson-rear-vole-353.mypinata.cloud/ipfs/${submission.image}?pinataGatewayToken=${GWK}`} className={styles.memeImage} alt='' loading="lazy" />
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
-                                    <div><p># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</p></div>
-                                    <div><p>{timeRemaining}</p></div>
+                                    <p># {String(index + 1).padStart(3, '0')}{String(submissions.length).padStart(3, '0')}</p>
+                                    <p>{timeRemaining}</p>
                                 </div>
                             </div>
                         ))}
