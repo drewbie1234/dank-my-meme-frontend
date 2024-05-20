@@ -185,7 +185,7 @@ const useContest = (contest) => {
             toast.success("Vote cast successfully!");
 
             try {
-                const response = await axios.post('https://app.dankmymeme.xyz:443/api/vote', {
+                const response = await axios.post('https://app.dankmymeme.xyz:443/api/votes', {
                     contestId: contest._id,
                     voter: selectedAccount,
                     submissionIndex,

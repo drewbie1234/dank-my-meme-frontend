@@ -143,7 +143,11 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
             setTimeout(() => setShowTooltip(false), 2000);
         });
     };
-    
+
+    const handleSubmissionIdClick = (submissionId) => {
+        window.open(`https://www.dankmymeme.xyz/submissions/${submissionId}`, '_blank');
+    };
+
     return (
         <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>
             {loading ? (
@@ -164,21 +168,13 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                         {submissions.map((submission, index) => (
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
-                                    <div className={styles.leftSection}>
-                                        <div
-                                            className={`${styles.circleID} ${copiedSubmissionId === submission._id && showTooltip ? styles.showTooltip : ''}`}
-                                            onClick={() => handleCopySubmissionId(submission._id)}
-                                        >
-                                            ID
-                                            {copiedSubmissionId === submission._id && showTooltip && (
-                                                <div className={styles.tooltip}>Copied Submission ID!</div>
-                                            )}
-                                        </div>
-                                        <div className={styles.etherScanLink}>
+                                    <div className={styles.middleSection}><div className={styles.etherScanLink}>
                                             <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer">
                                                 {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
                                             </a>
-                                        </div>
+                                        </div></div>
+                                    <div className={styles.leftSection}>
+                                        <div className={styles.circleID} onClick={() => handleSubmissionIdClick(submission._id)}>SHARE</div>
                                     </div>
                                     <div className={styles.rightSection}>
                                         <p className={styles.detailText}>👌 {submission.votes}</p>
@@ -206,7 +202,6 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
             )}
         </div>
     );
-    
 };
 
 export default MemeContestGallery;

@@ -108,28 +108,40 @@
 }
 
 .leftSection {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 10px;
 }
 
 .rightSection {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: end;
+  font-size: 10px;
+}
+
+.middleSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: start;
   font-size: 10px;
 }
 
 .circleID {
   position: relative;
-  width: 20px;
+  width: 60px;
   height: 20px;
-  border-radius: 50%;
+  border-radius: 10px;
   background-color: #ff007a;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: black;
+  color: white;
   cursor: pointer;
-  margin-right: 10px;
   font-weight: bold;
 }
 
@@ -161,7 +173,7 @@
 }
 
 .etherScanLink {
-  margin-right: 0;
+  margin: 0;
 }
 
 .bottomGalleryBar {
