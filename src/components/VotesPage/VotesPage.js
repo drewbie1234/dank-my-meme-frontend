@@ -37,7 +37,7 @@ function VotesPage() {
       </Helmet>
       <div className={styles.contentContainer}>
         <h1>Votes</h1>
-        <p>This is where users can view the contests and submissions they've voted on.</p>
+        <p>This is where users can view their decentralised meme (DeMe) votes.</p>
         <div className={styles.contestDisplayFeedContainer}>
           <ContestDisplayFeed fetchContests={fetchVotedContestsForWallet} />
         </div>

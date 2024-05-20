@@ -37,7 +37,7 @@ function SubmissionsPage() {
       </Helmet>
       <div className={styles.contentContainer}>
         <h1>Submissions</h1>
-        <p>This is where users can view and submit their contributions.</p>
+        <p>This is where users can view their decentralised meme (DeMe) submisisons.</p>
         <div className={styles.contestDisplayFeedContainer}>
           <ContestDisplayFeed fetchContests={fetchContestsForWallet} />
         </div>

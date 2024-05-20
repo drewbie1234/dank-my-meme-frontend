@@ -26,7 +26,7 @@ function HomePage() {
       </Helmet>
       <div className={styles.contentContainer}>
       <h1 className={styles.feed}>DeMe Feed</h1>
-      <p>This is where users can view the Decentralised Meme (deMe) Feed.</p>
+      <p>This is where users can view the decentralised meme (DeMe) contest feed.</p>
         <div className={styles.contestDisplayFeedContainer}>
           <ContestDisplayFeed fetchContests={fetchContests} />
         </div>

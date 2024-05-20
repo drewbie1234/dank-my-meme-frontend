@@ -34,8 +34,8 @@ const ContestPage = () => {
   return (
     <div className={styles.ContestPageContainer}>
       <div className={styles.contestByIdPage}>
-      <h1 className={styles.feed}>Submission #{contestId}</h1>
-      <p>This is where users can view their decentralised meme (deMe) submissions.</p>
+      <h1 className={styles.feed}>Contest #{contestId}</h1>
+      <p>This is the {contest.name} decantrised meme (DeMe) contest card, the contract was deployed by {contest.contestOwner} </p>
       {contest ? (
         <ContestCard key={contest._id} contest={contest} />
       ) : (
