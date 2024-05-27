@@ -11,8 +11,6 @@ const CreatePage = () => {
   const [pinkLevel, setPinkLevel] = useState(221);
   const [saturation, setSaturation] = useState(120);
   const [brightness, setBrightness] = useState(115);
-  const [adjustSaturation, setAdjustSaturation] = useState(true);
-  const [adjustBrightness, setAdjustBrightness] = useState(true);
   const [inputThreshold, setInputThreshold] = useState(greenThreshold);
   const [inputDifference, setInputDifference] = useState(greenDifference);
   const [inputPinkLevel, setInputPinkLevel] = useState(pinkLevel);
@@ -26,7 +24,7 @@ const CreatePage = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [adjustSaturation, adjustBrightness, saturation, brightness]);
+  }, [saturation, brightness]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -85,12 +83,7 @@ const CreatePage = () => {
     const imgElement = document.getElementById('processedImage');
     if (imgElement) {
       let filters = '';
-      if (adjustBrightness) {
-        filters += `brightness(${brightness}%) `;
-      }
-      if (adjustSaturation) {
-        filters += `saturate(${saturation}%) `;
-      }
+      filters += `brightness(${brightness}%) saturate(${saturation}%)`;
       imgElement.style.filter = filters.trim();
     }
   };
@@ -229,16 +222,6 @@ const CreatePage = () => {
     updateBrightness(value);
   };
 
-  const handleAdjustSaturationToggle = () => {
-    setAdjustSaturation(!adjustSaturation);
-    applyFilters();
-  };
-
-  const handleAdjustBrightnessToggle = () => {
-    setAdjustBrightness(!adjustBrightness);
-    applyFilters();
-  };
-
   return (
     <div className={styles.createContainer}>
       <h1 className={styles.contestId}>Create</h1>
@@ -279,65 +262,51 @@ const CreatePage = () => {
             <label>Green Threshold: {inputThreshold}</label>
             <input type="range" min="0" max="255" value={inputThreshold} onChange={handleThresholdChange} className={styles.slider} />
             <div className={styles.adjustButtons}>
+              <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(0, ${inputThreshold}, 0)` }}></div>
+              <input type="number" value={inputThreshold} onChange={handleThresholdChange} className={styles.input} />
               <button onClick={() => updateThreshold(greenThreshold + 1)} className={styles.button}>+</button>
               <button onClick={() => updateThreshold(greenThreshold - 1)} className={styles.button}>-</button>
-              <input type="number" value={inputThreshold} onChange={handleThresholdChange} className={styles.input} />
-              <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(0, ${inputThreshold}, 0)` }}></div>
             </div>
           </div>
           <div className={styles.formGroup}>
             <label>Green Difference: {inputDifference}</label>
             <input type="range" min="0" max="100" value={inputDifference} onChange={handleDifferenceChange} className={styles.slider} />
             <div className={styles.adjustButtons}>
+              <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(0, ${inputDifference + 100}, 0)` }}></div>
+              <input type="number" value={inputDifference} onChange={handleDifferenceChange} className={styles.input} />
               <button onClick={() => updateDifference(greenDifference + 1)} className={styles.button}>+</button>
               <button onClick={() => updateDifference(greenDifference - 1)} className={styles.button}>-</button>
-              <input type="number" value={inputDifference} onChange={handleDifferenceChange} className={styles.input} />
-              <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(0, ${inputDifference + 100}, 0)` }}></div>
             </div>
           </div>
           <div className={styles.formGroup}>
             <label>Pink Level: {inputPinkLevel}</label>
             <input type="range" min="0" max="255" value={inputPinkLevel} onChange={handlePinkLevelChange} className={styles.slider} />
             <div className={styles.adjustButtons}>
+              <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(254, 167, ${inputPinkLevel})` }}></div>
+              <input type="number" value={inputPinkLevel} onChange={handlePinkLevelChange} className={styles.input} />
               <button onClick={() => updatePinkLevel(pinkLevel + 1)} className={styles.button}>+</button>
               <button onClick={() => updatePinkLevel(pinkLevel - 1)} className={styles.button}>-</button>
-              <input type="number" value={inputPinkLevel} onChange={handlePinkLevelChange} className={styles.input} />
-              <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(254, 167, ${inputPinkLevel})` }}></div>
             </div>
           </div>
           <div className={styles.formGroup}>
-            <label>
-              Adjust Saturation: 
-              <input type="checkbox" checked={adjustSaturation} onChange={handleAdjustSaturationToggle} className={styles.checkbox} />
-            </label>
-            {adjustSaturation && (
-              <div>
-                <label>Saturation: {saturation}%</label>
-                <input type="range" min="0" max="200" value={saturation} onChange={handleSaturationChange} className={styles.slider} />
-                <div className={styles.adjustButtons}>
-                  <button onClick={() => updateSaturation(saturation + 1)} className={styles.button}>+</button>
-                  <button onClick={() => updateSaturation(saturation - 1)} className={styles.button}>-</button>
-                  <input type="number" value={saturation} onChange={handleSaturationChange} className={styles.input} />
-                </div>
-              </div>
-            )}
+            <label>Saturation: {saturation}%</label>
+            <input type="range" min="0" max="200" value={saturation} onChange={handleSaturationChange} className={styles.slider} />
+            <div className={styles.adjustButtons}>
+              <div className={styles.colorDisplay} style={{ backgroundColor: `hsl(120, ${saturation}%, 50%)` }}></div>
+              <input type="number" value={saturation} onChange={handleSaturationChange} className={styles.input} />
+              <button onClick={() => updateSaturation(saturation + 1)} className={styles.button}>+</button>
+              <button onClick={() => updateSaturation(saturation - 1)} className={styles.button}>-</button>
+            </div>
           </div>
           <div className={styles.formGroup}>
-            <label>
-              Adjust Brightness: 
-              <input type="checkbox" checked={adjustBrightness} onChange={handleAdjustBrightnessToggle} className={styles.checkbox} />
-            </label>
-            {adjustBrightness && (
-              <div>
-                <label>Brightness: {brightness}%</label>
-                <input type="range" min="0" max="200" value={brightness} onChange={handleBrightnessChange} className={styles.slider} />
-                <div className={styles.adjustButtons}>
-                  <button onClick={() => updateBrightness(brightness + 1)} className={styles.button}>+</button>
-                  <button onClick={() => updateBrightness(brightness - 1)} className={styles.button}>-</button>
-                  <input type="number" value={brightness} onChange={handleBrightnessChange} className={styles.input} />
-                </div>
-              </div>
-            )}
+            <label>Brightness: {brightness}%</label>
+            <input type="range" min="0" max="200" value={brightness} onChange={handleBrightnessChange} className={styles.slider} />
+            <div className={styles.adjustButtons}>
+              <div className={styles.colorDisplay} style={{ backgroundColor: `hsl(0, 0%, ${brightness}%)` }}></div>
+              <input type="number" value={brightness} onChange={handleBrightnessChange} className={styles.input} />
+              <button onClick={() => updateBrightness(brightness + 1)} className={styles.button}>+</button>
+              <button onClick={() => updateBrightness(brightness - 1)} className={styles.button}>-</button>
+            </div>
           </div>
         </div>
       </div>

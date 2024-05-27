@@ -19,8 +19,6 @@
   
   .uploadContainer {
     margin: 0;
-    
-    
   }
   
   .uploadInput {
@@ -33,12 +31,11 @@
   
   .imageContainer {
     margin-bottom: 20px;
-    width: auto;
+    width: 100%;
   }
   
   .imageBox {
     width: 100%;
-    
     position: relative;
     text-align: center;
     border: 1px solid #ccc;
@@ -103,8 +100,9 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: auto;
+    width: 100%;
     margin-top: 20px;
+    box-sizing: border-box;
   }
   
   .formGroup {
@@ -112,10 +110,11 @@
     flex-direction: column;
     align-items: flex-start;
     background-color: #f9f9f9;
+    box-sizing: border-box;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: auto;
+    width: 100%;
   }
   
   .formGroup label {
@@ -124,10 +123,22 @@
   
   .adjustButtons {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     gap: 10px;
-    width: auto;
+    width: 100%;
+  }
+  
+  .adjustButtons .colorDisplay {
+    margin-right: auto;
+  }
+  
+  .adjustButtons input {
+    order: 2;
+  }
+  
+  .adjustButtons button {
+    order: 3;
   }
   
   .adjustButtons button {
@@ -166,10 +177,6 @@
     height: 30px;
     border: 1px solid #000;
     margin-top: 10px;
-  }
-  
-  .checkbox {
-    margin-left: 10px;
   }
   
   .placeholder {
