@@ -263,7 +263,7 @@ const CreatePage = () => {
         </div>
         <div className={styles.imageContainer}>
           <div className={`${styles.imageBox} ${isProcessedEnlarged ? styles.enlarged : ''}`}>
-            <h3>Processed Image</h3>
+            <h3>Pork'd Image</h3>
             {processedImage ? (
               <img id="processedImage" src={processedImage} alt="Processed" className={styles.image} />
             ) : (
