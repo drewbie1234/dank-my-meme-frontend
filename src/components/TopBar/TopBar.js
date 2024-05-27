@@ -32,6 +32,7 @@ const TopBar = () => {
           <Link to="/submissions" className={styles.navButton}>Submits</Link>
           <Link to="/" className={styles.navButton}>Contests</Link>
           <Link to="/votes" className={styles.navButton}>Votes</Link>
+          <Link to="/create" className={styles.navButton}>Create</Link>
         </div>
       </div>
     </div>

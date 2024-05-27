@@ -7,6 +7,7 @@ import VotesPage from "./components/VotesPage/VotesPage";
 import SubmissionsPage from "./components/SubmissionsPage/SubmissionsPage";
 import SubmissionPage from "./components/SubmissionPage/SubmissionPage";
 import ContestPage from "./components/ContestPage/ContestPage";
+import CreatePage from "./components/CreatePage/CreatePage"; // Import the new component
 import styles from "./App.module.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -47,6 +48,7 @@ const App = () => {
             <Route path="/buydank" element={<BuyDankPage />} />
             <Route path="/submissions/:submissionId" element={<SubmissionPage />} />
             <Route path="/contests/:contestId" element={<ContestPage />} />
+            <Route path="/create" element={<CreatePage />} /> {/* Add the new route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
