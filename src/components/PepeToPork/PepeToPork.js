@@ -295,16 +295,16 @@ const PepeToPork = () => {
     const tweetIdMatch = url.match(/status\/(\d+)/);
     return tweetIdMatch ? tweetIdMatch[1] : null;
   };
-
+  
   const handleExtractImageFromTweet = async () => {
     const tweetId = extractTweetId(tweetUrl);
     if (!tweetId) {
       alert('Invalid tweet URL');
       return;
     }
-
+  
     try {
-      const response = await axios.get(`https://app.dankmymeme.xyz/api/twitter/tweet/${tweetId}`);
+      const response = await axios.get(`/api/twitter/tweet/${tweetId}`);
       const imageUrl = response.data.imageUrl;
       setOriginalImage(imageUrl);
     } catch (error) {
@@ -312,17 +312,7 @@ const PepeToPork = () => {
       alert('Error fetching tweet image. Please try again.');
     }
   };
-
-  const handleTweet = async () => {
-    try {
-      const response = await axios.post('https://app.dankmymeme.xyz/api/twitter/tweet', { text: tweetText, imageUrl: processedImage });
-      alert('Tweet posted successfully.');
-      setTweetUrl(response.data.tweetUrl);
-    } catch (error) {
-      console.error('Error posting tweet:', error);
-      alert('Error posting tweet. Please try again.');
-    }
-  };
+  
 
   return (
     <div className={styles.pepeToPink}>
