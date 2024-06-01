@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaCopy } from 'react-icons/fa';
+import axios from 'axios';
 import styles from './PepeToPork.module.css';
 
 const PepeToPork = () => {
@@ -24,6 +25,9 @@ const PepeToPork = () => {
   const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
   const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
   const [inputPinkLevel, setInputPinkLevel] = useState(defaultSettings.pinkLevel);
+  const [tweetUrl, setTweetUrl] = useState('');
+  const [accessToken, setAccessToken] = useState(null);
+  const [accessSecret, setAccessSecret] = useState(null);
   const canvasRef = useRef(null);
   const copyCanvasRef = useRef(null);
 
@@ -47,6 +51,27 @@ const PepeToPork = () => {
   useEffect(() => {
     applyFilters();
   }, [saturation, brightness]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('accessToken');
+    const secret = urlParams.get('accessSecret');
+
+    if (token && secret) {
+      setAccessToken(token);
+      setAccessSecret(secret);
+    }
+  }, []);
+
+  const handleTweetUrlInput = async () => {
+    const tweetId = tweetUrl.split('/').pop();
+    try {
+      const response = await axios.post('/api/fetchTweetImage', { tweetId });
+      setOriginalImage(response.data.imageUrl);
+    } catch (error) {
+      console.error('Error fetching tweet image:', error);
+    }
+  };
 
   const convertGreenToPink = () => {
     const canvas = canvasRef.current;
@@ -267,25 +292,63 @@ const PepeToPork = () => {
   const handleCopyImage = () => {
     const canvas = copyCanvasRef.current;
     const ctx = canvas.getContext('2d');
-    const imgElement = document.getElementById('processedImage');
-
     const img = new Image();
     img.src = processedImage;
     img.onload = () => {
       canvas.width = img.width;
       canvas.height = img.height;
-
-      // Apply the same filters
       ctx.filter = `brightness(${brightness}%) saturate(${saturation}%)`;
       ctx.drawImage(img, 0, 0);
-
       canvas.toBlob((blob) => {
-        const item = new ClipboardItem({ "image/png": blob });
-        navigator.clipboard.write([item]).then(() => {
-          alert("Image copied to clipboard!");
-        }).catch(err => {
-          console.error("Failed to copy image: ", err);
-        });
+        const item = new ClipboardItem({ 'image/png': blob });
+        navigator.clipboard.write([item]);
+      });
+    };
+  };
+
+  const handleTweetReply = async () => {
+    const canvas = copyCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = processedImage;
+    img.onload = async () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.filter = `brightness(${brightness}%) saturate(${saturation}%)`;
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(async (blob) => {
+        const formData = new FormData();
+        formData.append('media', blob, 'porked_image.png');
+
+        try {
+          const mediaUploadResponse = await axios.post(
+            'https://upload.twitter.com/1.1/media/upload.json',
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
+          const mediaId = mediaUploadResponse.data.media_id_string;
+
+          await axios.post(
+            'https://api.twitter.com/1.1/statuses/update.json',
+            {
+              status: "You've been porked!",
+              media_ids: mediaId,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          alert('Tweet posted successfully!');
+        } catch (error) {
+          console.error('Error posting tweet:', error);
+        }
       });
     };
   };
@@ -302,6 +365,18 @@ const PepeToPork = () => {
         )}
         <button className={styles.uploadButton}>
           Choose File
+        </button>
+      </div>
+      <div className={styles.tweetInputContainer}>
+        <input
+          type="text"
+          placeholder="Enter Tweet URL"
+          value={tweetUrl}
+          onChange={(e) => setTweetUrl(e.target.value)}
+          className={styles.tweetInput}
+        />
+        <button onClick={handleTweetUrlInput} className={styles.tweetButton}>
+          Fetch Image
         </button>
       </div>
       <div className={styles.imageContainer}>
@@ -338,8 +413,8 @@ const PepeToPork = () => {
           ) : (
             <div className={styles.placeholder}>No Processed Image</div>
           )}
-          <button onClick={toggleProcessedSize} className={styles.enlargeButton}>
-            {isProcessedEnlarged ? 'Minimize' : 'Enlarge'}
+          <button onClick={handleTweetReply} className={styles.enlargeButton} disabled={!accessToken}>
+            Tweet Processed Image
           </button>
         </div>
       </div>
