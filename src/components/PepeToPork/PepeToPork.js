@@ -304,7 +304,7 @@ const PepeToPork = () => {
     }
 
     try {
-      const response = await axios.get(`/api/twitter/tweet/${tweetId}`);
+      const response = await axios.get(`https://app.dankmymeme.xyz/api/twitter/tweet/${tweetId}`);
       const imageUrl = response.data.imageUrl;
       setOriginalImage(imageUrl);
     } catch (error) {
@@ -439,15 +439,7 @@ const PepeToPork = () => {
         </div>
         <button onClick={resetToDefaultSettings} className={styles.defaultButton}>Default Settings</button>
       </div>
-      <div className={styles.tweetSection}>
-        <textarea
-          value={tweetText}
-          onChange={(e) => setTweetText(e.target.value)}
-          placeholder="Write your tweet here"
-          className={styles.tweetText}
-        />
-        <button onClick={handleTweet} className={styles.tweetButton}>Tweet</button>
-      </div>
+      
     </div>
   );
 };
