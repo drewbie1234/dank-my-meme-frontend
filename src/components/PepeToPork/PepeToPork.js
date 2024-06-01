@@ -291,9 +291,31 @@ const PepeToPork = () => {
     };
   };
 
+  const extractTweetId = (url) => {
+    const tweetIdMatch = url.match(/status\/(\d+)/);
+    return tweetIdMatch ? tweetIdMatch[1] : null;
+  };
+
+  const handleExtractImageFromTweet = async () => {
+    const tweetId = extractTweetId(tweetUrl);
+    if (!tweetId) {
+      alert('Invalid tweet URL');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`/api/twitter/tweet/${tweetId}`);
+      const imageUrl = response.data.imageUrl;
+      setOriginalImage(imageUrl);
+    } catch (error) {
+      console.error('Error fetching tweet image:', error);
+      alert('Error fetching tweet image. Please try again.');
+    }
+  };
+
   const handleTweet = async () => {
     try {
-      const response = await axios.post('https://app.dankmymeme.xyz:443/api/twitter/tweet', { text: tweetText, imageUrl: processedImage });
+      const response = await axios.post('https://app.dankmymeme.xyz/api/twitter/tweet', { text: tweetText, imageUrl: processedImage });
       alert('Tweet posted successfully.');
       setTweetUrl(response.data.tweetUrl);
     } catch (error) {
@@ -302,11 +324,19 @@ const PepeToPork = () => {
     }
   };
 
-
-
   return (
     <div className={styles.pepeToPink}>
       <h2>Pepe to Pork</h2>
+      <div className={styles.tweetUrlSection}>
+        <input
+          type="text"
+          value={tweetUrl}
+          onChange={(e) => setTweetUrl(e.target.value)}
+          placeholder="Paste tweet URL here"
+          className={styles.tweetUrlInput}
+        />
+        <button onClick={handleExtractImageFromTweet} className={styles.extractImageButton}>Extract Image</button>
+      </div>
       <div className={styles.uploadContainer} {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -418,7 +448,6 @@ const PepeToPork = () => {
         />
         <button onClick={handleTweet} className={styles.tweetButton}>Tweet</button>
       </div>
-
     </div>
   );
 };
