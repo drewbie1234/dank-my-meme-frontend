@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaCopy } from 'react-icons/fa';
+import axios from 'axios';
+import TwitterLogin from 'react-twitter-auth';
 import styles from './PepeToPork.module.css';
 
 const PepeToPork = () => {
@@ -24,6 +26,8 @@ const PepeToPork = () => {
   const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
   const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
   const [inputPinkLevel, setInputPinkLevel] = useState(defaultSettings.pinkLevel);
+  const [tweetText, setTweetText] = useState('');
+  const [tweetUrl, setTweetUrl] = useState('');
   const canvasRef = useRef(null);
   const copyCanvasRef = useRef(null);
 
@@ -267,8 +271,6 @@ const PepeToPork = () => {
   const handleCopyImage = () => {
     const canvas = copyCanvasRef.current;
     const ctx = canvas.getContext('2d');
-    const imgElement = document.getElementById('processedImage');
-
     const img = new Image();
     img.src = processedImage;
     img.onload = () => {
@@ -288,6 +290,18 @@ const PepeToPork = () => {
         });
       });
     };
+  };
+
+  const handleTweet = () => {
+    axios.post('/api/tweet', { text: tweetText, imageUrl: processedImage })
+      .then(response => {
+        alert('Tweet posted successfully.');
+        setTweetUrl(response.data.tweetUrl);
+      })
+      .catch(error => {
+        console.error('Error posting tweet:', error);
+        alert('Error posting tweet. Please try again.');
+      });
   };
 
   return (
@@ -395,6 +409,42 @@ const PepeToPork = () => {
         </div>
         <button onClick={resetToDefaultSettings} className={styles.defaultButton}>Default Settings</button>
       </div>
+      <div className={styles.tweetSection}>
+        <textarea
+          value={tweetText}
+          onChange={(e) => setTweetText(e.target.value)}
+          placeholder="Write your tweet here..."
+        />
+        <button onClick={handleTweet} className={styles.tweetButton}>
+          Tweet
+        </button>
+      </div>
+      {tweetUrl && (
+        <div className={styles.tweetSuccess}>
+          <p>Tweet posted successfully! Check it out <a href={tweetUrl} target="_blank" rel="noopener noreferrer">here</a>.</p>
+        </div>
+      )}
+      <TwitterLogin
+        loginUrl="/api/twitter/reverse"
+        onFailure={(error) => {
+          console.error('Twitter login failed:', error);
+          alert('Twitter login failed. Please try again.');
+        }}
+        onSuccess={(data) => {
+          console.log('Twitter login successful:', data);
+          axios.post('/api/tweet', { text: tweetText, imageUrl: processedImage })
+            .then(response => {
+              alert('Tweet posted successfully.');
+              setTweetUrl(response.data.tweetUrl);
+            })
+            .catch(error => {
+              console.error('Error posting tweet:', error);
+              alert('Error posting tweet. Please try again.');
+            });
+        }}
+        requestTokenUrl="https://app.dankmymeme.xyz:443/api/twitter/request_token"
+        className={styles.twitterButton}
+      />
     </div>
   );
 };
