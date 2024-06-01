@@ -303,16 +303,15 @@ const PepeToPork = () => {
       });
   };
 
-  const handleTwitterLogin = () => {
-    axios.get('/api/twitter/reverse')
-      .then(response => {
-        const { oauth_token } = response.data;
-        window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oauth_token}`;
-      })
-      .catch(error => {
-        console.error('Twitter login failed:', error);
-        alert('Twitter login failed. Please try again.');
-      });
+  const handleTwitterLogin = async () => {
+    try {
+      const response = await axios.get('/api/twitter/login');
+      const { authUrl } = response.data;
+      window.location.href = authUrl;
+    } catch (error) {
+      console.error('Twitter login failed:', error);
+      alert('Twitter login failed. Please try again.');
+    }
   };
 
   return (
