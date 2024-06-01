@@ -27,6 +27,8 @@ const PepeToPork = () => {
   const [inputPinkLevel, setInputPinkLevel] = useState(defaultSettings.pinkLevel);
   const [tweetText, setTweetText] = useState('');
   const [tweetUrl, setTweetUrl] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authUrl, setAuthUrl] = useState('');
   const canvasRef = useRef(null);
   const copyCanvasRef = useRef(null);
 
@@ -295,14 +297,14 @@ const PepeToPork = () => {
     const tweetIdMatch = url.match(/status\/(\d+)/);
     return tweetIdMatch ? tweetIdMatch[1] : null;
   };
-  
+
   const handleExtractImageFromTweet = async () => {
     const tweetId = extractTweetId(tweetUrl);
     if (!tweetId) {
       alert('Invalid tweet URL');
       return;
     }
-  
+
     try {
       const response = await axios.get(`https://app.dankmymeme.xyz/api/twitter/tweet/${tweetId}`);
       const imageUrl = response.data.imageUrl;
@@ -312,21 +314,61 @@ const PepeToPork = () => {
       alert('Error fetching tweet image. Please try again.');
     }
   };
-  
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.get('/api/twitter/request_token');
+      setAuthUrl(response.data.authUrl);
+    } catch (error) {
+      console.error('Error initiating OAuth:', error);
+      alert('Error initiating OAuth. Please try again.');
+    }
+  };
+
+  const handleCallback = async () => {
+    const query = new URLSearchParams(window.location.search);
+    const oauth_token = query.get('oauth_token');
+    const oauth_verifier = query.get('oauth_verifier');
+
+    if (oauth_token && oauth_verifier) {
+      try {
+        const response = await axios.get(`/api/twitter/callback?oauth_token=${oauth_token}&oauth_verifier=${oauth_verifier}`);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error('Error handling OAuth callback:', error);
+        alert('Error handling OAuth callback. Please try again.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleCallback();
+  }, []);
 
   return (
     <div className={styles.pepeToPink}>
       <h2>Pepe to Pork</h2>
-      <div className={styles.tweetUrlSection}>
-        <input
-          type="text"
-          value={tweetUrl}
-          onChange={(e) => setTweetUrl(e.target.value)}
-          placeholder="Paste tweet URL here"
-          className={styles.tweetUrlInput}
-        />
-        <button onClick={handleExtractImageFromTweet} className={styles.extractImageButton}>Extract Image</button>
-      </div>
+      {!isAuthenticated ? (
+        <button onClick={handleLogin} className={styles.loginButton}>Login with Twitter</button>
+      ) : (
+        <div className={styles.loggedInSection}>
+          <div className={styles.tweetUrlSection}>
+            <input
+              type="text"
+              value={tweetUrl}
+              onChange={(e) => setTweetUrl(e.target.value)}
+              placeholder="Paste tweet URL here"
+              className={styles.tweetUrlInput}
+            />
+            <button onClick={handleExtractImageFromTweet} className={styles.extractImageButton}>Extract Image</button>
+          </div>
+        </div>
+      )}
+      {authUrl && (
+        <div className={styles.authSection}>
+          <p>Please <a href={authUrl} target="_blank" rel="noopener noreferrer">authorize the app on Twitter</a> and then come back.</p>
+        </div>
+      )}
       <div className={styles.uploadContainer} {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
