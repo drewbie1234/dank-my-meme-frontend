@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaCopy } from 'react-icons/fa';
 import axios from 'axios';
-import TwitterLogin from 'react-twitter-auth';
 import styles from './PepeToPork.module.css';
 
 const PepeToPork = () => {
@@ -304,6 +303,18 @@ const PepeToPork = () => {
       });
   };
 
+  const handleTwitterLogin = () => {
+    axios.get('/api/twitter/reverse')
+      .then(response => {
+        const { oauth_token } = response.data;
+        window.location.href = `https://api.twitter.com/oauth/authenticate?oauth_token=${oauth_token}`;
+      })
+      .catch(error => {
+        console.error('Twitter login failed:', error);
+        alert('Twitter login failed. Please try again.');
+      });
+  };
+
   return (
     <div className={styles.pepeToPink}>
       <h2>Pepe to Pork</h2>
@@ -424,27 +435,9 @@ const PepeToPork = () => {
           <p>Tweet posted successfully! Check it out <a href={tweetUrl} target="_blank" rel="noopener noreferrer">here</a>.</p>
         </div>
       )}
-      <TwitterLogin
-        loginUrl="/api/twitter/reverse"
-        onFailure={(error) => {
-          console.error('Twitter login failed:', error);
-          alert('Twitter login failed. Please try again.');
-        }}
-        onSuccess={(data) => {
-          console.log('Twitter login successful:', data);
-          axios.post('/api/tweet', { text: tweetText, imageUrl: processedImage })
-            .then(response => {
-              alert('Tweet posted successfully.');
-              setTweetUrl(response.data.tweetUrl);
-            })
-            .catch(error => {
-              console.error('Error posting tweet:', error);
-              alert('Error posting tweet. Please try again.');
-            });
-        }}
-        requestTokenUrl="https://app.dankmymeme.xyz:443/api/twitter/request_token"
-        className={styles.twitterButton}
-      />
+      <button onClick={handleTwitterLogin} className={styles.twitterButton}>
+        Login with Twitter
+      </button>
     </div>
   );
 };
