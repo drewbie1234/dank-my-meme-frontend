@@ -292,7 +292,7 @@ const PepeToPork = () => {
   };
 
   const handleTweet = () => {
-    axios.post('/api/tweet', { text: tweetText, imageUrl: processedImage })
+    axios.post('/https://dankmymeme.xyz:443/api/twitter/tweet', { text: tweetText, imageUrl: processedImage })
       .then(response => {
         alert('Tweet posted successfully.');
         setTweetUrl(response.data.tweetUrl);
@@ -305,7 +305,7 @@ const PepeToPork = () => {
 
   const handleTwitterLogin = async () => {
     try {
-      const response = await axios.get('/api/twitter/login');
+      const response = await axios.get('https://dankmymeme.xyz:443/api/twitter/login');
       const { authUrl } = response.data;
       window.location.href = authUrl;
     } catch (error) {
@@ -420,23 +420,7 @@ const PepeToPork = () => {
         <button onClick={resetToDefaultSettings} className={styles.defaultButton}>Default Settings</button>
       </div>
       <div className={styles.tweetSection}>
-        <textarea
-          value={tweetText}
-          onChange={(e) => setTweetText(e.target.value)}
-          placeholder="Write your tweet here..."
-        />
-        <button onClick={handleTweet} className={styles.tweetButton}>
-          Tweet
-        </button>
       </div>
-      {tweetUrl && (
-        <div className={styles.tweetSuccess}>
-          <p>Tweet posted successfully! Check it out <a href={tweetUrl} target="_blank" rel="noopener noreferrer">here</a>.</p>
-        </div>
-      )}
-      <button onClick={handleTwitterLogin} className={styles.twitterButton}>
-        Login with Twitter
-      </button>
     </div>
   );
 };
