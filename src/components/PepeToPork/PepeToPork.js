@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaCopy } from 'react-icons/fa';
+import axios from 'axios';
 import styles from './PepeToPork.module.css';
 
 const PepeToPork = () => {
@@ -24,6 +25,8 @@ const PepeToPork = () => {
   const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
   const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
   const [inputPinkLevel, setInputPinkLevel] = useState(defaultSettings.pinkLevel);
+  const [tweetText, setTweetText] = useState('');
+  const [tweetUrl, setTweetUrl] = useState('');
   const canvasRef = useRef(null);
   const copyCanvasRef = useRef(null);
 
@@ -288,6 +291,17 @@ const PepeToPork = () => {
     };
   };
 
+  const handleTweet = async () => {
+    try {
+      const response = await axios.post('https://app.dankmymeme.xyz:443/api/twitter/tweet', { text: tweetText, imageUrl: processedImage });
+      alert('Tweet posted successfully.');
+      setTweetUrl(response.data.tweetUrl);
+    } catch (error) {
+      console.error('Error posting tweet:', error);
+      alert('Error posting tweet. Please try again.');
+    }
+  };
+
 
 
   return (
@@ -396,7 +410,15 @@ const PepeToPork = () => {
         <button onClick={resetToDefaultSettings} className={styles.defaultButton}>Default Settings</button>
       </div>
       <div className={styles.tweetSection}>
+        <textarea
+          value={tweetText}
+          onChange={(e) => setTweetText(e.target.value)}
+          placeholder="Write your tweet here"
+          className={styles.tweetText}
+        />
+        <button onClick={handleTweet} className={styles.tweetButton}>Tweet</button>
       </div>
+
     </div>
   );
 };
