@@ -304,7 +304,7 @@ const PepeToPork = () => {
     }
   
     try {
-      const response = await axios.get(`/api/twitter/tweet/${tweetId}`);
+      const response = await axios.get(`https://app.dankmymeme.xyz/api/twitter/tweet/${tweetId}`);
       const imageUrl = response.data.imageUrl;
       setOriginalImage(imageUrl);
     } catch (error) {
