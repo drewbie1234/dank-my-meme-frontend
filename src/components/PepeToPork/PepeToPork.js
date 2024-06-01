@@ -1,22 +1,42 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { FaCopy } from 'react-icons/fa';
 import styles from './PepeToPork.module.css';
 
 const PepeToPork = () => {
+  const defaultSettings = {
+    greenThreshold: 255,
+    greenDifference: 20,
+    pinkLevel: 221,
+    saturation: 120,
+    brightness: 115,
+  };
+
   const [originalImage, setOriginalImage] = useState(null);
   const [processedImage, setProcessedImage] = useState(null);
   const [isOriginalEnlarged, setIsOriginalEnlarged] = useState(false);
   const [isProcessedEnlarged, setIsProcessedEnlarged] = useState(false);
-  const [greenThreshold, setGreenThreshold] = useState(255);
-  const [greenDifference, setGreenDifference] = useState(20);
-  const [pinkLevel, setPinkLevel] = useState(221);
-  const [saturation, setSaturation] = useState(120);
-  const [brightness, setBrightness] = useState(115);
-  const [adjustSaturation, setAdjustSaturation] = useState(true);
-  const [adjustBrightness, setAdjustBrightness] = useState(true);
-  const [inputThreshold, setInputThreshold] = useState(greenThreshold);
-  const [inputDifference, setInputDifference] = useState(greenDifference);
-  const [inputPinkLevel, setInputPinkLevel] = useState(pinkLevel);
+  const [greenThreshold, setGreenThreshold] = useState(defaultSettings.greenThreshold);
+  const [greenDifference, setGreenDifference] = useState(defaultSettings.greenDifference);
+  const [pinkLevel, setPinkLevel] = useState(defaultSettings.pinkLevel);
+  const [saturation, setSaturation] = useState(defaultSettings.saturation);
+  const [brightness, setBrightness] = useState(defaultSettings.brightness);
+  const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
+  const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
+  const [inputPinkLevel, setInputPinkLevel] = useState(defaultSettings.pinkLevel);
   const canvasRef = useRef(null);
+  const copyCanvasRef = useRef(null);
+
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setOriginalImage(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   useEffect(() => {
     if (originalImage) {
@@ -26,16 +46,7 @@ const PepeToPork = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [adjustSaturation, adjustBrightness, saturation, brightness]);
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setOriginalImage(e.target.result);
-    };
-    reader.readAsDataURL(file);
-  };
+  }, [saturation, brightness]);
 
   const convertGreenToPink = () => {
     const canvas = canvasRef.current;
@@ -85,12 +96,8 @@ const PepeToPork = () => {
     const imgElement = document.getElementById('processedImage');
     if (imgElement) {
       let filters = '';
-      if (adjustBrightness) {
-        filters += `brightness(${brightness}%) `;
-      }
-      if (adjustSaturation) {
-        filters += `saturate(${saturation}%) `;
-      }
+      filters += `brightness(${brightness}%) `;
+      filters += `saturate(${saturation}%) `;
       imgElement.style.filter = filters.trim();
     }
   };
@@ -229,32 +236,90 @@ const PepeToPork = () => {
     updateBrightness(value);
   };
 
-  const handleAdjustSaturationToggle = () => {
-    setAdjustSaturation(!adjustSaturation);
+  const resetToDefaultSettings = () => {
+    setGreenThreshold(defaultSettings.greenThreshold);
+    setGreenDifference(defaultSettings.greenDifference);
+    setPinkLevel(defaultSettings.pinkLevel);
+    setSaturation(defaultSettings.saturation);
+    setBrightness(defaultSettings.brightness);
+    setInputThreshold(defaultSettings.greenThreshold);
+    setInputDifference(defaultSettings.greenDifference);
+    setInputPinkLevel(defaultSettings.pinkLevel);
     applyFilters();
   };
 
-  const handleAdjustBrightnessToggle = () => {
-    setAdjustBrightness(!adjustBrightness);
-    applyFilters();
+  const handleClickOutside = (e) => {
+    if (isOriginalEnlarged || isProcessedEnlarged) {
+      if (!e.target.closest(`.${styles.imageBox}`)) {
+        setIsOriginalEnlarged(false);
+        setIsProcessedEnlarged(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isOriginalEnlarged, isProcessedEnlarged]);
+
+  const handleCopyImage = () => {
+    const canvas = copyCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const imgElement = document.getElementById('processedImage');
+
+    const img = new Image();
+    img.src = processedImage;
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Apply the same filters
+      ctx.filter = `brightness(${brightness}%) saturate(${saturation}%)`;
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob((blob) => {
+        const item = new ClipboardItem({ "image/png": blob });
+        navigator.clipboard.write([item]).then(() => {
+          alert("Image copied to clipboard!");
+        }).catch(err => {
+          console.error("Failed to copy image: ", err);
+        });
+      });
+    };
   };
 
   return (
     <div className={styles.pepeToPink}>
       <h2>Pepe to Pork</h2>
-      <div className={styles.uploadContainer}>
-        <input type="file" id="imageUpload" accept="image/*" onChange={handleImageUpload} className={styles.uploadInput} />
+      <div className={styles.uploadContainer} {...getRootProps()}>
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop the files here ...</p>
+        ) : (
+          <p>Drag 'n' drop some files here, or click to select files</p>
+        )}
+        <button className={styles.uploadButton}>
+          Choose File
+        </button>
       </div>
       <div className={styles.imageContainer}>
         <div className={`${styles.imageBox} ${isOriginalEnlarged ? styles.enlarged : ''}`}>
           <h3>Original Image</h3>
           <canvas ref={canvasRef} style={{ display: 'none' }} />
           {originalImage ? (
-            <img src={originalImage} alt="Original" className={styles.image} />
+            <>
+              <img src={originalImage} alt="Original" className={styles.image} />
+              <FaCopy
+                onClick={handleCopyImage}
+                className={styles.copyIcon}
+              />
+            </>
           ) : (
             <div className={styles.placeholder}>No Original Image</div>
           )}
-          <button onClick={toggleOriginalSize} className={styles.button}>
+          <button onClick={toggleOriginalSize} className={styles.defaultButton}>
             {isOriginalEnlarged ? 'Minimize' : 'Enlarge'}
           </button>
         </div>
@@ -263,15 +328,22 @@ const PepeToPork = () => {
         <div className={`${styles.imageBox} ${isProcessedEnlarged ? styles.enlarged : ''}`}>
           <h3>Pork'd Image</h3>
           {processedImage ? (
-            <img id="processedImage" src={processedImage} alt="Processed" className={styles.image} />
+            <>
+              <img id="processedImage" src={processedImage} alt="Processed" className={styles.image} />
+              <FaCopy
+                onClick={handleCopyImage}
+                className={styles.copyIcon}
+              />
+            </>
           ) : (
             <div className={styles.placeholder}>No Processed Image</div>
           )}
-          <button onClick={toggleProcessedSize} className={styles.button}>
+          <button onClick={toggleProcessedSize} className={styles.enlargeButton}>
             {isProcessedEnlarged ? 'Minimize' : 'Enlarge'}
           </button>
         </div>
       </div>
+      <canvas ref={copyCanvasRef} style={{ display: 'none' }} />
       <div className={styles.slidersContainer}>
         <div className={styles.formGroup}>
           <label>Green Threshold: {inputThreshold}</label>
@@ -304,39 +376,24 @@ const PepeToPork = () => {
           </div>
         </div>
         <div className={styles.formGroup}>
-          <label>
-            Adjust Saturation:
-            <input type="checkbox" checked={adjustSaturation} onChange={handleAdjustSaturationToggle} className={styles.checkbox} />
-          </label>
-          {adjustSaturation && (
-            <>
-              <label>Saturation: {saturation}%</label>
-              <input type="range" min="0" max="200" value={saturation} onChange={handleSaturationChange} className={styles.slider} />
-              <div className={styles.adjustButtons}>
-                <input type="number" value={saturation} onChange={handleSaturationChange} className={styles.input} />
-                <button onClick={() => updateSaturation(saturation + 1)} className={styles.button}>+</button>
-                <button onClick={() => updateSaturation(saturation - 1)} className={styles.button}>-</button>
-              </div>
-            </>
-          )}
+          <label>Saturation: {saturation}%</label>
+          <input type="range" min="0" max="200" value={saturation} onChange={handleSaturationChange} className={styles.slider} />
+          <div className={styles.adjustButtons}>
+            <input type="number" value={saturation} onChange={handleSaturationChange} className={styles.input} />
+            <button onClick={() => updateSaturation(saturation + 1)} className={styles.button}>+</button>
+            <button onClick={() => updateSaturation(saturation - 1)} className={styles.button}>-</button>
+          </div>
         </div>
         <div className={styles.formGroup}>
-          <label>
-            Adjust Brightness:
-            <input type="checkbox" checked={adjustBrightness} onChange={handleAdjustBrightnessToggle} className={styles.checkbox} />
-          </label>
-          {adjustBrightness && (
-            <>
-              <label>Brightness: {brightness}%</label>
-              <input type="range" min="0" max="200" value={brightness} onChange={handleBrightnessChange} className={styles.slider} />
-              <div className={styles.adjustButtons}>
-                <input type="number" value={brightness} onChange={handleBrightnessChange} className={styles.input} />
-                <button onClick={() => updateBrightness(brightness + 1)} className={styles.button}>+</button>
-                <button onClick={() => updateBrightness(brightness - 1)} className={styles.button}>-</button>
-              </div>
-            </>
-          )}
+          <label>Brightness: {brightness}%</label>
+          <input type="range" min="0" max="200" value={brightness} onChange={handleBrightnessChange} className={styles.slider} />
+          <div className={styles.adjustButtons}>
+            <input type="number" value={brightness} onChange={handleBrightnessChange} className={styles.input} />
+            <button onClick={() => updateBrightness(brightness + 1)} className={styles.button}>+</button>
+            <button onClick={() => updateBrightness(brightness - 1)} className={styles.button}>-</button>
+          </div>
         </div>
+        <button onClick={resetToDefaultSettings} className={styles.defaultButton}>Default Settings</button>
       </div>
     </div>
   );

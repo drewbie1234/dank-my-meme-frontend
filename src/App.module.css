@@ -24,7 +24,7 @@
     font-family: '2Dumb', sans-serif; /* Use the custom font families */
   }
 
-  a, button, li, p, span, strong {
+  a, button, li, p, span, strong, label {
     font-family: "Ubuntu", sans-serif;
     font-weight: 500;
     font-style: normal;
