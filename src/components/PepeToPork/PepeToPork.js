@@ -317,7 +317,7 @@ const PepeToPork = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.get('/api/twitter/request_token');
+      const response = await axios.get('https://app.dankmymeme.xyz/api/twitter/request_token');
       setAuthUrl(response.data.authUrl);
     } catch (error) {
       console.error('Error initiating OAuth:', error);
@@ -332,7 +332,7 @@ const PepeToPork = () => {
 
     if (oauth_token && oauth_verifier) {
       try {
-        const response = await axios.get(`/api/twitter/callback?oauth_token=${oauth_token}&oauth_verifier=${oauth_verifier}`);
+        const response = await axios.get(`https://app.dankmymeme.xyz/api/twitter/callback?oauth_token=${oauth_token}&oauth_verifier=${oauth_verifier}`);
         setIsAuthenticated(true);
       } catch (error) {
         console.error('Error handling OAuth callback:', error);
