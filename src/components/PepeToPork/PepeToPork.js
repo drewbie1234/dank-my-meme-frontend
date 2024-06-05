@@ -25,7 +25,6 @@ const PepeToPork = () => {
   const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
   const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
   const [inputPinkLevel, setInputPinkLevel] = useState(defaultSettings.pinkLevel);
-  const [tweetText, setTweetText] = useState('');
   const [tweetUrl, setTweetUrl] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authUrl, setAuthUrl] = useState('');
@@ -94,17 +93,20 @@ const PepeToPork = () => {
     });
 
     ctx.putImageData(imageData, 0, 0);
+    applyFilters();
     setProcessedImage(canvas.toDataURL());
   };
 
   const applyFilters = () => {
-    const imgElement = document.getElementById('processedImage');
-    if (imgElement) {
-      let filters = '';
-      filters += `brightness(${brightness}%) `;
-      filters += `saturate(${saturation}%) `;
-      imgElement.style.filter = filters.trim();
-    }
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const image = new Image();
+    image.src = canvas.toDataURL();
+    image.onload = () => {
+      ctx.filter = `brightness(${brightness}%) saturate(${saturation}%)`;
+      ctx.drawImage(image, 0, 0);
+      setProcessedImage(canvas.toDataURL());
+    };
   };
 
   const isGreen = (r, g, b) => {
@@ -278,7 +280,6 @@ const PepeToPork = () => {
       canvas.width = img.width;
       canvas.height = img.height;
 
-      // Apply the same filters
       ctx.filter = `brightness(${brightness}%) saturate(${saturation}%)`;
       ctx.drawImage(img, 0, 0);
 
@@ -427,8 +428,6 @@ const PepeToPork = () => {
           <div className={styles.adjustButtons}>
             <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(0, ${inputThreshold}, 0)` }}></div>
             <input type="number" value={inputThreshold} onChange={handleThresholdChange} className={styles.input} />
-            <button onClick={() => updateThreshold(greenThreshold + 1)} className={styles.button}>+</button>
-            <button onClick={() => updateThreshold(greenThreshold - 1)} className={styles.button}>-</button>
           </div>
         </div>
         <div className={styles.formGroup}>
@@ -437,8 +436,6 @@ const PepeToPork = () => {
           <div className={styles.adjustButtons}>
             <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(0, ${inputDifference + 100}, 0)` }}></div>
             <input type="number" value={inputDifference} onChange={handleDifferenceChange} className={styles.input} />
-            <button onClick={() => updateDifference(greenDifference + 1)} className={styles.button}>+</button>
-            <button onClick={() => updateDifference(greenDifference - 1)} className={styles.button}>-</button>
           </div>
         </div>
         <div className={styles.formGroup}>
@@ -447,8 +444,6 @@ const PepeToPork = () => {
           <div className={styles.adjustButtons}>
             <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(254, 167, ${inputPinkLevel})` }}></div>
             <input type="number" value={inputPinkLevel} onChange={handlePinkLevelChange} className={styles.input} />
-            <button onClick={() => updatePinkLevel(pinkLevel + 1)} className={styles.button}>+</button>
-            <button onClick={() => updatePinkLevel(pinkLevel - 1)} className={styles.button}>-</button>
           </div>
         </div>
         <div className={styles.formGroup}>
@@ -456,8 +451,6 @@ const PepeToPork = () => {
           <input type="range" min="0" max="200" value={saturation} onChange={handleSaturationChange} className={styles.slider} />
           <div className={styles.adjustButtons}>
             <input type="number" value={saturation} onChange={handleSaturationChange} className={styles.input} />
-            <button onClick={() => updateSaturation(saturation + 1)} className={styles.button}>+</button>
-            <button onClick={() => updateSaturation(saturation - 1)} className={styles.button}>-</button>
           </div>
         </div>
         <div className={styles.formGroup}>
@@ -465,8 +458,6 @@ const PepeToPork = () => {
           <input type="range" min="0" max="200" value={brightness} onChange={handleBrightnessChange} className={styles.slider} />
           <div className={styles.adjustButtons}>
             <input type="number" value={brightness} onChange={handleBrightnessChange} className={styles.input} />
-            <button onClick={() => updateBrightness(brightness + 1)} className={styles.button}>+</button>
-            <button onClick={() => updateBrightness(brightness - 1)} className={styles.button}>-</button>
           </div>
         </div>
         <button onClick={resetToDefaultSettings} className={styles.defaultButton}>Default Settings</button>
