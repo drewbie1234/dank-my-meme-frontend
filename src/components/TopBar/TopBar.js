@@ -21,18 +21,15 @@ const TopBar = () => {
           <Link to="/">
             <img src={logoTitle} alt="Dank My Meme Title" className={styles.title} />
           </Link>
+          <div className={styles.navlinksContainer}>
+            <Link to="/submissions" className={styles.navButton}>Submits</Link>
+            <Link to="/" className={styles.navButton}>Contests</Link>
+            <Link to="/votes" className={styles.navButton}>Votes</Link>
+            <Link to="/create" className={styles.navButton}>Create</Link>
+          </div>
         </div>
         <div className={styles.loginContainer}>
           <LoginSection />
-        </div>
-      </div>
-
-      <div className={styles.navlinksContainer}>
-        <div className={styles.navButtonContainer}>
-          <Link to="/submissions" className={styles.navButton}>Submits</Link>
-          <Link to="/" className={styles.navButton}>Contests</Link>
-          <Link to="/votes" className={styles.navButton}>Votes</Link>
-          <Link to="/create" className={styles.navButton}>Create</Link>
         </div>
       </div>
     </div>

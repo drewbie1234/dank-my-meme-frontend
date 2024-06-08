@@ -1,6 +1,5 @@
 /* TopBar.module.css */
 .topbar {
-  height: 130px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,13 +9,29 @@
   box-sizing: border-box;
 }
 
-.logoContainer {
+.topbarContainer {
   display: flex;
-  flex-direction: column; /* Stack logo and deploy text vertically */
+  width: 100%;
+  height: 100px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  background-color: #822280;
+  box-sizing: border-box;
+}
+
+.logoContainer,
+.loginContainer,
+.titleContainer {
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  margin-top: 25px;
+  height: 100%; /* Ensure the containers take the full height */
+}
+
+.logoContainer {
+  flex-direction: column; /* Stack logo and deploy text vertically */
+  width: 100px; /* Fixed width */
 }
 
 .logo {
@@ -24,9 +39,9 @@
 }
 
 .titleContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex: 1; /* Take the remaining space */
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .title {
@@ -37,20 +52,7 @@
 }
 
 .loginContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  margin: 50px 0;
-}
-
-.topbarContainer {
-  height: 75px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding: 5px;
-  background-color: #822280;
+  width: 100px; /* Fixed width */
 }
 
 .navlinksContainer {
@@ -58,7 +60,6 @@
   align-items: center;
   justify-content: center;
   background-color: #822280;
-  position: relative;
 }
 
 .navButtonContainer {
