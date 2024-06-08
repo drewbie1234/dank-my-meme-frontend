@@ -15,8 +15,9 @@ const Dankify = () => {
   const [textInput, setTextInput] = useState('');
 
   const imageContainerRef = useRef(null);
+  const stageRef = useRef(null);
 
-  const imagePaths = Array.from({ length: 68 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
+  const imagePaths = Array.from({ length: 24 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -82,10 +83,41 @@ const Dankify = () => {
     }
   };
 
+  const copyToClipboard = () => {
+    const stage = stageRef.current.getStage();
+    stage.toDataURL({
+      mimeType: 'image/png',
+      callback: (dataUrl) => {
+        const img = new Image();
+        img.src = dataUrl;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob((blob) => {
+            const item = new ClipboardItem({ 'image/png': blob });
+            navigator.clipboard.write([item]);
+          });
+        };
+      },
+    });
+  };
+
+  const handleContextMenu = (e) => {
+    e.evt.preventDefault();
+    copyToClipboard();
+  };
+
   return (
     <div className={styles.dankifyContainer}>
       <h2>Dankify</h2>
-      
+      <div className={styles.toolsContainer}>
+        <button onClick={() => changeBackgroundColor('lightblue')}>Change Background Color</button>
+        <button onClick={openTextModal}>Add Text</button>
+        <button onClick={copyToClipboard}>Copy</button>
+      </div>
       <div className={styles.uploadContainer} {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
@@ -96,7 +128,13 @@ const Dankify = () => {
         <button className={styles.uploadButton}>Choose File</button>
       </div>
       <div className={styles.imageContainer} ref={imageContainerRef} style={{ backgroundColor }}>
-        <Stage width={imageDimensions.width} height={imageDimensions.height} onMouseDown={handleStageMouseDown}>
+        <Stage
+          width={imageDimensions.width}
+          height={imageDimensions.height}
+          onMouseDown={handleStageMouseDown}
+          onContextMenu={handleContextMenu}
+          ref={stageRef}
+        >
           <Layer>
             {uploadedImage && (
               <URLImage
@@ -150,9 +188,6 @@ const Dankify = () => {
             <p>No image uploaded yet</p>
           </div>
         )}
-      </div>
-      <div className={styles.toolsContainer}>
-        <button onClick={openTextModal}>Add Text</button>
       </div>
       <div className={styles.displayContainer}>
         <p>Drag these images to the canvas:</p>
