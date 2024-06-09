@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Stage, Layer } from 'react-konva';
+import { Stage, Layer, Text } from 'react-konva';
 import { useDropzone } from 'react-dropzone';
 import { HexColorPicker } from 'react-colorful';
 import { FaCopy } from 'react-icons/fa';
@@ -10,7 +10,6 @@ import DraggableText from '../DraggableText/DraggableText';
 import styles from './Dankify.module.css';
 
 const Dankify = () => {
-  // State declarations
   const [uploadedImage, setUploadedImage] = useState(null);
   const [items, setItems] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -18,12 +17,14 @@ const Dankify = () => {
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [isTextModalOpen, setIsTextModalOpen] = useState(false);
   const [textInput, setTextInput] = useState('');
-  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+  const [textColor, setTextColor] = useState('#000000');
+  const [fontSize, setFontSize] = useState(20);
+  const [fontStyle, setFontStyle] = useState('normal');
+  const [fontFamily, setFontFamily] = useState('Arial');
 
   const imageContainerRef = useRef(null);
   const stageRef = useRef(null);
 
-  // Stock images
   const stockImages = [
     '/dankifyImages/moon.jpg',
     '/dankifyImages/mars.jpg',
@@ -39,10 +40,8 @@ const Dankify = () => {
     '/dankifyImages/water.jpeg',
   ];
 
-  // Dynamically generate image paths
-  const imagePaths = Array.from({ length: 136 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
+  const imagePaths = Array.from({ length: 68 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
 
-  // Handle file drop
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
     const reader = new FileReader();
@@ -52,43 +51,40 @@ const Dankify = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  // Update item transform
   const handleTransform = (newAttrs) => {
     const { id, ...rest } = newAttrs;
     const newItems = items.map((item) => (item.id === id ? { ...item, ...rest } : item));
     setItems(newItems);
   };
 
-  // Add image to canvas
   const addImageToCanvas = (src) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     setItems([...items, { id, type: 'image', src, x: 50, y: 50, width: 100, height: 100, rotation: 0 }]);
   };
 
-  // Text modal handlers
   const openTextModal = () => setIsTextModalOpen(true);
   const closeTextModal = () => {
     setIsTextModalOpen(false);
     setTextInput('');
+    setTextColor('#000000');
+    setFontSize(20);
+    setFontStyle('normal');
+    setFontFamily('Arial');
   };
 
-  // Add text to canvas
   const addTextToCanvas = () => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
-    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: 20, width: 200 }]);
+    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: 100, fontStyle: fontStyle, fontFamily:fontFamily, fill: textColor, width: 200 }]);
     closeTextModal();
   };
 
-  // Background color change handler
   const changeBackgroundColor = (color) => setBackgroundColor(color);
 
-  // Clear canvas items
   const clearCanvasItems = () => {
     setItems([]);
     setUploadedImage(null);
   };
 
-  // Handle deletion of selected item
   const handleDeleteSelected = useCallback(() => {
     if (selectedId) {
       const newItems = items.filter((item) => item.id !== selectedId);
@@ -97,7 +93,6 @@ const Dankify = () => {
     }
   }, [selectedId, items]);
 
-  // Set image dimensions and add event listener for delete key
   useEffect(() => {
     if (imageContainerRef.current) {
       const { offsetWidth, offsetHeight } = imageContainerRef.current;
@@ -111,7 +106,6 @@ const Dankify = () => {
     return () => window.removeEventListener('keydown', handleDeleteSelected);
   }, [handleDeleteSelected]);
 
-  // Handle stage mouse down
   const handleStageMouseDown = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
     const clickedOnTransformer = e.target.getParent() && e.target.getParent().className === 'Transformer';
@@ -120,7 +114,6 @@ const Dankify = () => {
     }
   };
 
-  // Copy to clipboard handler
   const copyToClipboard = () => {
     const stage = stageRef.current.getStage();
     stage.toDataURL({
@@ -145,16 +138,13 @@ const Dankify = () => {
     });
   };
 
-  // Handle context menu
   const handleContextMenu = (e) => {
     e.evt.preventDefault();
     copyToClipboard();
   };
 
-  // Handle stock image click
   const handleStockImageClick = (src) => setUploadedImage(src);
 
-  // Touch event handlers
   const handleTouchStart = (e, src) => {
     e.target.setAttribute('data-drag-src', src);
   };
@@ -206,7 +196,7 @@ const Dankify = () => {
           width={imageDimensions.width}
           height={imageDimensions.height}
           onMouseDown={handleStageMouseDown}
-          onTouchStart={handleStageMouseDown}  // Added touch start handler
+          onTouchStart={handleStageMouseDown}
           onContextMenu={handleContextMenu}
           ref={stageRef}
         >
@@ -236,7 +226,7 @@ const Dankify = () => {
                     isSelected={item.id === selectedId}
                     onSelect={() => setSelectedId(item.id)}
                     onChange={handleTransform}
-                    onTouchStart={() => setSelectedId(item.id)}  // Ensure selection works on touch
+                    onTouchStart={() => setSelectedId(item.id)}
                   />
                 );
               } else if (item.type === 'text') {
@@ -248,11 +238,13 @@ const Dankify = () => {
                     y={item.y}
                     text={item.text}
                     fontSize={item.fontSize}
-                    width={item.width}
+                    fontStyle={item.fontStyle}
+                    fontFamily={item.fontFamily}
+                    fill={item.fill}
                     isSelected={item.id === selectedId}
                     onSelect={() => setSelectedId(item.id)}
                     onChange={handleTransform}
-                    onTouchStart={() => setSelectedId(item.id)}  // Ensure selection works on touch
+                    onTouchStart={() => setSelectedId(item.id)}
                   />
                 );
               }
@@ -294,7 +286,7 @@ const Dankify = () => {
               onDragEnd={(e) => addImageToCanvas(e.target.src)}
               onTouchStart={(e) => handleTouchStart(e, src)}
               onTouchEnd={handleTouchEnd}
-              onClick={() => addImageToCanvas(src)}  // Added click handler for PC
+              onClick={() => addImageToCanvas(src)}
             />
           ))}
         </div>
@@ -308,6 +300,40 @@ const Dankify = () => {
               onChange={(e) => setTextInput(e.target.value)}
               style={{ width: '100%', height: '100px' }}
             />
+            <div className={styles.textOptions}>
+              <label>
+                Font Size:
+                <select value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))}>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={30}>30</option>
+                  <option value={40}>40</option>
+                  <option value={50}>50</option>
+                </select>
+              </label>
+              <label>
+                Font Style:
+                <select value={fontStyle} onChange={(e) => setFontStyle(e.target.value)}>
+                  <option value="normal">Normal</option>
+                  <option value="bold">Bold</option>
+                  <option value="italic">Italic</option>
+                </select>
+              </label>
+              <label>
+                Font Family:
+                <select value={fontFamily} onChange={(e) => setFontFamily(e.target.value)}>
+                  <option value="Arial">Arial</option>
+                  <option value="Courier New">Courier New</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Times New Roman">Times New Roman</option>
+                  <option value="Verdana">Verdana</option>
+                </select>
+              </label>
+              <label>
+                Text Color:
+                <HexColorPicker color={textColor} onChange={setTextColor} />
+              </label>
+            </div>
             <button className={styles.uploadButton} onClick={addTextToCanvas}>Add Text</button>
             <button className={styles.uploadButton} onClick={closeTextModal}>Cancel</button>
           </div>

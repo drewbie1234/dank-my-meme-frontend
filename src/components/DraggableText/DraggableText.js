@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Text, Group, Transformer } from 'react-konva';
 
-const DraggableText = ({ id, x, y, text, fontSize, width, isSelected, onSelect, onChange }) => {
+const DraggableText = ({ id, x, y, text, fontSize, fontStyle, fontFamily, fill, width, isSelected, onSelect, onChange }) => {
   const textRef = useRef(null);
   const trRef = useRef(null);
   const [textWidth, setTextWidth] = useState(width);
@@ -21,7 +21,12 @@ const DraggableText = ({ id, x, y, text, fontSize, width, isSelected, onSelect, 
           x={x}
           y={y}
           text={text}
+
+          align="center"
           fontSize={fontSize}
+          fontStyle={fontStyle}
+          fontFamily={fontFamily}
+          fill={fill}
           width={textWidth}
           draggable
           onClick={onSelect}
