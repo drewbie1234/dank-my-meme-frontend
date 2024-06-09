@@ -87,8 +87,8 @@ const Dankify = () => {
   };
 
   // Handle deletion of selected item
-  const handleDeleteSelected = useCallback((e) => {
-    if (e.key === 'Delete' && selectedId) {
+  const handleDeleteSelected = useCallback(() => {
+    if (selectedId) {
       const newItems = items.filter((item) => item.id !== selectedId);
       setItems(newItems);
       setSelectedId(null);
@@ -101,7 +101,11 @@ const Dankify = () => {
       const { offsetWidth, offsetHeight } = imageContainerRef.current;
       setImageDimensions({ width: Math.min(offsetWidth, 500), height: offsetHeight });
     }
-    window.addEventListener('keydown', handleDeleteSelected);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Delete') {
+        handleDeleteSelected();
+      }
+    });
     return () => window.removeEventListener('keydown', handleDeleteSelected);
   }, [handleDeleteSelected]);
 
@@ -257,14 +261,19 @@ const Dankify = () => {
           </div>
         )}
       </div>
-      <div className={styles.toolsContainer}>
-        <button className={styles.uploadButton} onClick={openTextModal}>Add Text</button>
-      </div>
-      <div className={styles.toolsContainer}>
-        <button className={styles.uploadButton} onClick={copyToClipboard}> Copy <FaCopy /></button>
-      </div>
-      <div className={styles.toolsContainer}>
-        <button className={styles.uploadButton} onClick={clearCanvasItems}>Clear Images</button>
+      <div className={styles.buttonGrid}>
+        <div className={styles.toolsContainer}>
+          <button className={styles.uploadButton} onClick={openTextModal}>Text</button>
+        </div>
+        <div className={styles.toolsContainer}>
+          <button className={styles.uploadButton} onClick={copyToClipboard}>Copy <FaCopy /></button>
+        </div>
+        <div className={styles.toolsContainer}>
+          <button className={styles.uploadButton} onClick={clearCanvasItems}>Clear</button>
+        </div>
+        <div className={styles.toolsContainer}>
+          <button className={styles.uploadButton} onClick={handleDeleteSelected}>Delete</button>
+        </div>
       </div>
       <div className={styles.displayContainer}>
         <p>Drag these images to the canvas:</p>
