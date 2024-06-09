@@ -1,24 +1,46 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Stage, Layer } from 'react-konva';
 import { useDropzone } from 'react-dropzone';
+import { HexColorPicker } from 'react-colorful';
+import { FaCopy } from 'react-icons/fa';
 import URLImage from '../URLImage/URLImage';
 import DraggableText from '../DraggableText/DraggableText';
 import styles from './Dankify.module.css';
 
 const Dankify = () => {
+  // State declarations
   const [uploadedImage, setUploadedImage] = useState(null);
   const [items, setItems] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
-  const [backgroundColor, setBackgroundColor] = useState('white');
+  const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [isTextModalOpen, setIsTextModalOpen] = useState(false);
   const [textInput, setTextInput] = useState('');
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
   const imageContainerRef = useRef(null);
   const stageRef = useRef(null);
 
-  const imagePaths = Array.from({ length: 24 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
+  // Stock images
+  const stockImages = [
+    '/dankifyImages/moon.jpg',
+    '/dankifyImages/mars.jpg',
+    '/dankifyImages/pond.jpg',
+    '/dankifyImages/ring.jpg',
+    '/dankifyImages/sec.jpg',
+    '/dankifyImages/prison.jpg',
+    '/dankifyImages/whitehouse.jpeg',
+    '/dankifyImages/beach.jpeg',
+    '/dankifyImages/chart.jpg',
+    '/dankifyImages/chartdown.png',
+    '/dankifyImages/meadow.jpeg',
+    '/dankifyImages/water.jpeg',
+  ];
 
+  // Dynamically generate image paths
+  const imagePaths = Array.from({ length: 68 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
+
+  // Handle file drop
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
     const reader = new FileReader();
@@ -28,36 +50,46 @@ const Dankify = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  // Update item transform
   const handleTransform = (newAttrs) => {
     const { id, ...rest } = newAttrs;
     const newItems = items.map((item) => (item.id === id ? { ...item, ...rest } : item));
     setItems(newItems);
   };
 
+  // Add image to canvas
   const addImageToCanvas = (src) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
     setItems([...items, { id, type: 'image', src, x: 50, y: 50, width: 100, height: 100, rotation: 0 }]);
   };
 
-  const openTextModal = () => {
-    setIsTextModalOpen(true);
-  };
-
+  // Text modal handlers
+  const openTextModal = () => setIsTextModalOpen(true);
   const closeTextModal = () => {
     setIsTextModalOpen(false);
     setTextInput('');
   };
 
+  // Add text to canvas
   const addTextToCanvas = () => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
-    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: 20, width: 200 }]); // Set default width
+    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: 20, width: 200 }]);
     closeTextModal();
   };
 
-  const changeBackgroundColor = (color) => {
-    setBackgroundColor(color);
+  // Background color change handler
+  const changeBackgroundColor = (color) => setBackgroundColor(color);
+
+  // Reset background color to white
+  const resetBackgroundColor = () => setBackgroundColor('#ffffff');
+
+  // Clear canvas items
+  const clearCanvasItems = () => {
+    setItems([]);
+    setUploadedImage(null);
   };
 
+  // Handle deletion of selected item
   const handleDeleteSelected = useCallback((e) => {
     if (e.key === 'Delete' && selectedId) {
       const newItems = items.filter((item) => item.id !== selectedId);
@@ -66,6 +98,7 @@ const Dankify = () => {
     }
   }, [selectedId, items]);
 
+  // Set image dimensions and add event listener for delete key
   useEffect(() => {
     if (imageContainerRef.current) {
       const { offsetWidth, offsetHeight } = imageContainerRef.current;
@@ -75,6 +108,7 @@ const Dankify = () => {
     return () => window.removeEventListener('keydown', handleDeleteSelected);
   }, [handleDeleteSelected]);
 
+  // Handle stage mouse down
   const handleStageMouseDown = (e) => {
     const clickedOnEmpty = e.target === e.target.getStage();
     const clickedOnTransformer = e.target.getParent() && e.target.getParent().className === 'Transformer';
@@ -83,6 +117,7 @@ const Dankify = () => {
     }
   };
 
+  // Copy to clipboard handler
   const copyToClipboard = () => {
     const stage = stageRef.current.getStage();
     stage.toDataURL({
@@ -105,27 +140,47 @@ const Dankify = () => {
     });
   };
 
+  // Handle context menu
   const handleContextMenu = (e) => {
     e.evt.preventDefault();
     copyToClipboard();
   };
 
+  // Handle stock image click
+  const handleStockImageClick = (src) => setUploadedImage(src);
+
   return (
     <div className={styles.dankifyContainer}>
-      <h2>Dankify</h2>
-      <div className={styles.toolsContainer}>
-        <button onClick={() => changeBackgroundColor('lightblue')}>Change Background Color</button>
-        <button onClick={openTextModal}>Add Text</button>
-        <button onClick={copyToClipboard}>Copy</button>
-      </div>
-      <div className={styles.uploadContainer} {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        )}
-        <button className={styles.uploadButton}>Choose File</button>
+      <h2>Background</h2>
+      <div className={styles.backgroundContainer}>
+        <h3>Choose a Background Color</h3>
+        <div className={styles.toolsContainer}>
+          <HexColorPicker color={backgroundColor} onChange={changeBackgroundColor} />
+          </div>
+        <h3>Or</h3>
+        <h3>Select a Stock Image</h3>
+        <div className={styles.stockImageList}>
+          {stockImages.map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt={`stock-${index}`}
+              className={styles.thumbnail}
+              onClick={() => handleStockImageClick(src)}
+            />
+          ))}
+        </div>
+        <h3>Or</h3>
+        <h3>Upload a Custom Image</h3>
+        <div className={styles.uploadContainer} {...getRootProps()}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          )}
+          <button className={styles.uploadButton}>Choose File</button>
+        </div>
       </div>
       <div className={styles.imageContainer} ref={imageContainerRef} style={{ backgroundColor }}>
         <Stage
@@ -172,7 +227,7 @@ const Dankify = () => {
                     y={item.y}
                     text={item.text}
                     fontSize={item.fontSize}
-                    width={item.width} // Pass default width for wrapping
+                    width={item.width}
                     isSelected={item.id === selectedId}
                     onSelect={() => setSelectedId(item.id)}
                     onChange={handleTransform}
@@ -189,6 +244,18 @@ const Dankify = () => {
           </div>
         )}
       </div>
+      <div className={styles.toolsContainer}>
+        <button className={styles.uploadButton} onClick={openTextModal}>Add Text</button>
+      </div>
+      <div className={styles.toolsContainer}>
+        <button className={styles.uploadButton} onClick={copyToClipboard}> Copy <FaCopy /></button>
+      </div>
+      <div className={styles.toolsContainer}>
+        <button className={styles.uploadButton} onClick={clearCanvasItems}>Clear Images</button>
+      </div>
+        <div>
+        <button className={styles.uploadButton} onClick={resetBackgroundColor}>Clear Background</button>
+        </div> 
       <div className={styles.displayContainer}>
         <p>Drag these images to the canvas:</p>
         <div className={styles.imageList}>
@@ -215,8 +282,9 @@ const Dankify = () => {
               onChange={(e) => setTextInput(e.target.value)}
               style={{ width: '100%', height: '100px' }}
             />
-            <button onClick={addTextToCanvas}>Add Text</button>
-            <button onClick={closeTextModal}>Cancel</button>
+            <button className={styles.uploadButton} onClick={addTextToCanvas}>Add Text</button>
+            
+            <button className={styles.uploadButton} onClick={closeTextModal}>Cancel</button>
           </div>
         </div>
       )}

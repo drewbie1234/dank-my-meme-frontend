@@ -1,114 +1,170 @@
 .dankifyContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    min-width: 300px;
-    width: 100%;
-    margin: 20px auto;
-    box-sizing: border-box;
-  }
-  
-  .uploadContainer {
-    margin: 0 0 20px;
-    text-align: center;
-    padding: 20px;
-    border: 2px dashed #822280;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border-color 0.3s, background-color 0.3s;
-  }
-  
-  .uploadContainer:hover {
-    border-color: #ff007a;
-    background-color: #f9f9f9;
-  }
-  
-  .uploadButton {
-    padding: 10px 20px;
-    background-color: #822280;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-  
-  .uploadButton:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    background-color: #ff007a;
-  }
-  
-  .uploadButton:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .imageContainer {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 500px;
-    height: 400px;
-    position: relative;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
-    color: #999;
-    font-size: 18px;
-    border-radius: 8px;
-  }
-  
-  .displayContainer {
-    margin-top: 20px;
-  }
-  
-  .imageList {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .thumbnail {
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    object-fit: cover;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modalContent {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px;
-    text-align: center;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  min-width: 300px;
+  width: 100%;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+.backgroundContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.toolsContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.uploadContainer {
+  margin: 0 0 20px;
+  text-align: center;
+  padding: 20px;
+  border: 2px dashed #822280;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.uploadContainer:hover {
+  border-color: #ff007a;
+  background-color: #f9f9f9;
+}
+
+.uploadButton {
+  padding: 10px 20px;
+  background-color: #822280;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.uploadButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  background-color: #ff007a;
+}
+
+.uploadButton:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.imageContainer {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  color: #999;
+  font-size: 18px;
+  border-radius: 8px;
+}
+
+.displayContainer {
+  margin-top: 20px;
+}
+
+.imageList {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stockImageList {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+  text-align: center;
+}
+
+.selectedColorBox {
+  width: 30px;
+  height: 30px; /* Set the height to match the button */
+  border: 1px solid #000;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  border-radius: 20px;
+}
+
+.colorPickerPopover {
+  position: absolute;
+  z-index: 2;
+  margin-top: 10px; /* To ensure it appears below the button */
+}
+
+.backgroundColorButton {
+  padding: 8px;
+  width: 200px;
+  margin: 10px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #822280;
+  color: white;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.backgroundColorButton:hover {
+  background-color: #a73ea7;
+  transform: scale(1.02);
+}
