@@ -3,6 +3,8 @@ import { Stage, Layer } from 'react-konva';
 import { useDropzone } from 'react-dropzone';
 import { HexColorPicker } from 'react-colorful';
 import { FaCopy } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import URLImage from '../URLImage/URLImage';
 import DraggableText from '../DraggableText/DraggableText';
 import styles from './Dankify.module.css';
@@ -134,7 +136,9 @@ const Dankify = () => {
           ctx.drawImage(img, 0, 0);
           canvas.toBlob((blob) => {
             const item = new ClipboardItem({ 'image/png': blob });
-            navigator.clipboard.write([item]);
+            navigator.clipboard.write([item]).then(() => {
+              toast.success('Dank Meme copied 👌');
+            });
           });
         };
       },
@@ -165,6 +169,7 @@ const Dankify = () => {
 
   return (
     <div className={styles.dankifyContainer}>
+      <ToastContainer />
       <h2>Background</h2>
       <div className={styles.backgroundContainer}>
         <h3>Choose a Background Color</h3>
@@ -276,7 +281,7 @@ const Dankify = () => {
         </div>
       </div>
       <div className={styles.displayContainer}>
-        <p>Tap or click images to add to the canvas:</p>
+        <p>Drag or click these images to add to the canvas:</p>
         <div className={styles.imageList}>
           {imagePaths.map((src, index) => (
             <img

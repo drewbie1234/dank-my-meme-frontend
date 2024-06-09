@@ -27,6 +27,12 @@
   margin-top: 10px;
 }
 
+@media (min-width: 600px) {
+  .buttonGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .toolsContainer {
   display: flex;
   justify-content: center;
