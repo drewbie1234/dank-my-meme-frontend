@@ -276,7 +276,7 @@ const Dankify = () => {
         </div>
       </div>
       <div className={styles.displayContainer}>
-        <p>Drag these images to the canvas:</p>
+        <p>Tap or click images to add to the canvas:</p>
         <div className={styles.imageList}>
           {imagePaths.map((src, index) => (
             <img
@@ -289,6 +289,7 @@ const Dankify = () => {
               onDragEnd={(e) => addImageToCanvas(e.target.src)}
               onTouchStart={(e) => handleTouchStart(e, src)}
               onTouchEnd={handleTouchEnd}
+              onClick={() => addImageToCanvas(src)}  // Added click handler for PC
             />
           ))}
         </div>
