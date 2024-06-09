@@ -80,9 +80,6 @@ const Dankify = () => {
   // Background color change handler
   const changeBackgroundColor = (color) => setBackgroundColor(color);
 
-  // Reset background color to white
-  const resetBackgroundColor = () => setBackgroundColor('#ffffff');
-
   // Clear canvas items
   const clearCanvasItems = () => {
     setItems([]);
@@ -149,6 +146,19 @@ const Dankify = () => {
   // Handle stock image click
   const handleStockImageClick = (src) => setUploadedImage(src);
 
+  // Touch event handlers
+  const handleTouchStart = (e, src) => {
+    e.target.setAttribute('data-drag-src', src);
+  };
+
+  const handleTouchEnd = (e) => {
+    const src = e.target.getAttribute('data-drag-src');
+    if (src) {
+      addImageToCanvas(src);
+      e.target.removeAttribute('data-drag-src');
+    }
+  };
+
   return (
     <div className={styles.dankifyContainer}>
       <h2>Background</h2>
@@ -156,7 +166,7 @@ const Dankify = () => {
         <h3>Choose a Background Color</h3>
         <div className={styles.toolsContainer}>
           <HexColorPicker color={backgroundColor} onChange={changeBackgroundColor} />
-          </div>
+        </div>
         <h3>Or</h3>
         <h3>Select a Stock Image</h3>
         <div className={styles.stockImageList}>
@@ -187,6 +197,7 @@ const Dankify = () => {
           width={imageDimensions.width}
           height={imageDimensions.height}
           onMouseDown={handleStageMouseDown}
+          onTouchStart={handleStageMouseDown}  // Added touch start handler
           onContextMenu={handleContextMenu}
           ref={stageRef}
         >
@@ -216,6 +227,7 @@ const Dankify = () => {
                     isSelected={item.id === selectedId}
                     onSelect={() => setSelectedId(item.id)}
                     onChange={handleTransform}
+                    onTouchStart={() => setSelectedId(item.id)}  // Ensure selection works on touch
                   />
                 );
               } else if (item.type === 'text') {
@@ -231,6 +243,7 @@ const Dankify = () => {
                     isSelected={item.id === selectedId}
                     onSelect={() => setSelectedId(item.id)}
                     onChange={handleTransform}
+                    onTouchStart={() => setSelectedId(item.id)}  // Ensure selection works on touch
                   />
                 );
               }
@@ -253,9 +266,6 @@ const Dankify = () => {
       <div className={styles.toolsContainer}>
         <button className={styles.uploadButton} onClick={clearCanvasItems}>Clear Images</button>
       </div>
-        <div>
-        <button className={styles.uploadButton} onClick={resetBackgroundColor}>Clear Background</button>
-        </div> 
       <div className={styles.displayContainer}>
         <p>Drag these images to the canvas:</p>
         <div className={styles.imageList}>
@@ -268,11 +278,12 @@ const Dankify = () => {
               draggable
               onDragStart={(e) => e.dataTransfer.setData('text/plain', src)}
               onDragEnd={(e) => addImageToCanvas(e.target.src)}
+              onTouchStart={(e) => handleTouchStart(e, src)}
+              onTouchEnd={handleTouchEnd}
             />
           ))}
         </div>
       </div>
-
       {isTextModalOpen && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
@@ -283,7 +294,6 @@ const Dankify = () => {
               style={{ width: '100%', height: '100px' }}
             />
             <button className={styles.uploadButton} onClick={addTextToCanvas}>Add Text</button>
-            
             <button className={styles.uploadButton} onClick={closeTextModal}>Cancel</button>
           </div>
         </div>
