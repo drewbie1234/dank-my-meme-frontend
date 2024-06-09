@@ -40,7 +40,7 @@ const Dankify = () => {
   ];
 
   // Dynamically generate image paths
-  const imagePaths = Array.from({ length: 68 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
+  const imagePaths = Array.from({ length: 107 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
 
   // Handle file drop
   const onDrop = useCallback((acceptedFiles) => {
