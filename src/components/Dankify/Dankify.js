@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Stage, Layer, Text } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 import { useDropzone } from 'react-dropzone';
 import { HexColorPicker } from 'react-colorful';
 import { FaCopy } from 'react-icons/fa';
@@ -40,7 +40,7 @@ const Dankify = () => {
     '/dankifyImages/water.jpeg',
   ];
 
-  const imagePaths = Array.from({ length: 68 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
+  const imagePaths = Array.from({ length: 135 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -67,14 +67,14 @@ const Dankify = () => {
     setIsTextModalOpen(false);
     setTextInput('');
     setTextColor('#000000');
-    setFontSize(20);
+    setFontSize(10);
     setFontStyle('normal');
     setFontFamily('Arial');
   };
 
   const addTextToCanvas = () => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
-    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: 100, fontStyle: fontStyle, fontFamily:fontFamily, fill: textColor, width: 200 }]);
+    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: fontSize, fontStyle: fontStyle, fontFamily:fontFamily, fill: textColor, width: 200 }]);
     closeTextModal();
   };
 
@@ -303,12 +303,23 @@ const Dankify = () => {
             <div className={styles.textOptions}>
               <label>
                 Font Size:
+                <input
+                  type="number"
+                  value={fontSize}
+                  onChange={(e) => setFontSize(Number(e.target.value))}
+                  style={{ width: '60px' }}
+                />
                 <select value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))}>
                   <option value={10}>10</option>
                   <option value={20}>20</option>
                   <option value={30}>30</option>
                   <option value={40}>40</option>
                   <option value={50}>50</option>
+                  <option value={60}>60</option>
+                  <option value={70}>70</option>
+                  <option value={80}>80</option>
+                  <option value={90}>90</option>
+                  <option value={100}>100</option>
                 </select>
               </label>
               <label>
@@ -327,6 +338,12 @@ const Dankify = () => {
                   <option value="Georgia">Georgia</option>
                   <option value="Times New Roman">Times New Roman</option>
                   <option value="Verdana">Verdana</option>
+                  <option value="Tahoma">Tahoma</option>
+                  <option value="Trebuchet MS">Trebuchet MS</option>
+                  <option value="Impact">Impact</option>
+                  <option value="Comic Sans MS">Comic Sans MS</option>
+                  <option value="Lucida Console">Lucida Console</option>
+                  <option value="Palatino Linotype">Palatino Linotype</option>
                 </select>
               </label>
               <label>
