@@ -40,7 +40,7 @@ const Dankify = () => {
     '/dankifyImages/water.jpeg',
   ];
 
-  const imagePaths = Array.from({ length: 135 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
+  const imagePaths = Array.from({ length: 140 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
