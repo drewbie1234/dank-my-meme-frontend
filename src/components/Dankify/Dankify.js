@@ -21,6 +21,7 @@ const Dankify = () => {
   const [fontSize, setFontSize] = useState(20);
   const [fontStyle, setFontStyle] = useState('normal');
   const [fontFamily, setFontFamily] = useState('Arial');
+  const [dataUrl, setDataUrl] = useState(null);
 
   const imageContainerRef = useRef(null);
   const stageRef = useRef(null);
@@ -99,12 +100,16 @@ const Dankify = () => {
       const { offsetWidth, offsetHeight } = imageContainerRef.current;
       setImageDimensions({ width: Math.min(offsetWidth, 500), height: offsetHeight });
     }
-    window.addEventListener('keydown', (e) => {
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
       if (e.key === 'Delete') {
         handleDeleteSelected();
       }
-    });
-    return () => window.removeEventListener('keydown', handleDeleteSelected);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleDeleteSelected]);
 
   const handleStageMouseDown = (e) => {
@@ -177,6 +182,16 @@ const Dankify = () => {
       e.target.removeAttribute('data-drag-src');
     }
   };
+
+  useEffect(() => {
+    if (stageRef.current) {
+      const stage = stageRef.current.getStage();
+      stage.toDataURL({
+        mimeType: 'image/png',
+        callback: (dataUrl) => setDataUrl(dataUrl),
+      });
+    }
+  }, [items, uploadedImage, backgroundColor]);
 
   return (
     <div className={styles.dankifyContainer}>
@@ -278,6 +293,7 @@ const Dankify = () => {
             <p>No image uploaded yet</p>
           </div>
         )}
+        {dataUrl && <img src={dataUrl} alt="Canvas content" style={{ display: 'none' }} />}
       </div>
       <div className={styles.buttonGrid}>
         <div className={styles.toolsContainer}>
