@@ -74,7 +74,7 @@ const Dankify = () => {
 
   const addTextToCanvas = () => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
-    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: fontSize, fontStyle: fontStyle, fontFamily:fontFamily, fill: textColor, width: 200 }]);
+    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: fontSize, fontStyle: fontStyle, fontFamily: fontFamily, fill: textColor, width: 200 }]);
     closeTextModal();
   };
 
@@ -133,23 +133,30 @@ const Dankify = () => {
               navigator.clipboard.write([item]).then(() => {
                 toast.success('Dank Meme copied 👌');
               }).catch(() => {
-                toast.error('Failed to copy. Please try again.');
+                toast.error('Failed to copy. Try using the Save button.');
               });
             } else {
-              // Fallback for mobile devices or browsers that do not support Clipboard API
-              const dataUrl = canvas.toDataURL('image/png');
-              const downloadLink = document.createElement('a');
-              downloadLink.href = dataUrl;
-              downloadLink.download = 'dank-meme.png';
-              downloadLink.click();
-              toast.info('Image downloaded. Please use your gallery to share.');
+              toast.error('Clipboard API not supported. Try using the Save button.');
             }
           });
         };
       },
     });
   };
-  
+
+  const saveImage = () => {
+    const stage = stageRef.current.getStage();
+    stage.toDataURL({
+      mimeType: 'image/png',
+      callback: (dataUrl) => {
+        const link = document.createElement('a');
+        link.download = 'dank-meme.png';
+        link.href = dataUrl;
+        link.click();
+        toast.success('Image saved 👌');
+      },
+    });
+  };
 
   const handleContextMenu = (e) => {
     e.evt.preventDefault();
@@ -277,6 +284,9 @@ const Dankify = () => {
         </div>
         <div className={styles.toolsContainer}>
           <button className={styles.uploadButton} onClick={copyToClipboard}>Copy <FaCopy /></button>
+        </div>
+        <div className={styles.toolsContainer}>
+          <button className={styles.uploadButton} onClick={saveImage}>Save</button>
         </div>
         <div className={styles.toolsContainer}>
           <button className={styles.uploadButton} onClick={clearCanvasItems}>Clear</button>
