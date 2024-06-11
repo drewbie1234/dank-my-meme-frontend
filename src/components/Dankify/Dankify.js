@@ -31,13 +31,14 @@ const Dankify = () => {
     '/dankifyImages/pond.jpg',
     '/dankifyImages/ring.jpg',
     '/dankifyImages/sec.jpg',
-    '/dankifyImages/prison.jpg',
     '/dankifyImages/whitehouse.jpeg',
     '/dankifyImages/beach.jpeg',
     '/dankifyImages/chart.jpg',
     '/dankifyImages/chartdown.png',
     '/dankifyImages/meadow.jpeg',
     '/dankifyImages/water.jpeg',
+    '/dankifyImages/jail.jpeg',
+    '/dankifyImages/news.jpeg',
   ];
 
   const imagePaths = Array.from({ length: 140 }, (_, i) => `/dankifyImages/image${i + 1}.png`);
