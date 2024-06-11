@@ -128,15 +128,28 @@ const Dankify = () => {
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0);
           canvas.toBlob((blob) => {
-            const item = new ClipboardItem({ 'image/png': blob });
-            navigator.clipboard.write([item]).then(() => {
-              toast.success('Dank Meme copied 👌');
-            });
+            if (navigator.clipboard && navigator.clipboard.write) {
+              const item = new ClipboardItem({ 'image/png': blob });
+              navigator.clipboard.write([item]).then(() => {
+                toast.success('Dank Meme copied 👌');
+              }).catch(() => {
+                toast.error('Failed to copy. Please try again.');
+              });
+            } else {
+              // Fallback for mobile devices or browsers that do not support Clipboard API
+              const dataUrl = canvas.toDataURL('image/png');
+              const downloadLink = document.createElement('a');
+              downloadLink.href = dataUrl;
+              downloadLink.download = 'dank-meme.png';
+              downloadLink.click();
+              toast.info('Image downloaded. Please use your gallery to share.');
+            }
           });
         };
       },
     });
   };
+  
 
   const handleContextMenu = (e) => {
     e.evt.preventDefault();
