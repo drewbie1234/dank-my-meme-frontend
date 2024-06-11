@@ -73,12 +73,13 @@
 .imageContainer {
   margin-top: 20px;
   width: 100%;
-  max-width: 500px;
-  height: 400px;
+  max-width: 500px; /* Maximum width to maintain responsiveness */
+  aspect-ratio: 1; /* Keeps the container square */
   position: relative;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
+  background-color: #f0f0f0; /* Default background color */
 }
 
 .placeholder {
@@ -87,7 +88,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0f0;
   color: #999;
   font-size: 18px;
   border-radius: 8px;
@@ -197,5 +197,3 @@
   justify-content: space-between;
   align-items: center;
 }
-
-
