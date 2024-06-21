@@ -9,7 +9,7 @@ const PepeToPork = () => {
     greenDifference: 20,
     saturation: 120,
     brightness: 115,
-    pinkColor: '#fea7dd'  // Default pink color
+    targetColor: '#F7931A'  // Default target color
   };
 
   const [originalImage, setOriginalImage] = useState(null);
@@ -22,12 +22,12 @@ const PepeToPork = () => {
   const [brightness, setBrightness] = useState(defaultSettings.brightness);
   const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
   const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
-  const [pinkColor, setPinkColor] = useState(defaultSettings.pinkColor);
+  const [targetColor, setTargetColor] = useState(defaultSettings.targetColor);
+  const [pinkColor, setPinkColor] = useState(defaultSettings.targetColor);
   const [tweetText, setTweetText] = useState('');
   const [tweetUrl, setTweetUrl] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authUrl, setAuthUrl] = useState('');
-  const [targetColor, setTargetColor] = useState('green');
   const canvasRef = useRef(null);
   const copyCanvasRef = useRef(null);
 
@@ -44,7 +44,7 @@ const PepeToPork = () => {
 
   useEffect(() => {
     if (originalImage) {
-      convertColorToPink();
+      convertColorToTarget();
     }
   }, [greenThreshold, greenDifference, pinkColor, originalImage, targetColor]);
 
@@ -52,7 +52,7 @@ const PepeToPork = () => {
     applyFilters();
   }, [saturation, brightness]);
 
-  const convertColorToPink = () => {
+  const convertColorToTarget = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const image = new Image();
@@ -69,8 +69,8 @@ const PepeToPork = () => {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
 
-    // Convert the pinkColor from hex to RGB
-    const targetPink = hexToRgb(pinkColor);
+    // Convert the targetColor from hex to RGB
+    const targetRGB = hexToRgb(pinkColor);
 
     const clusters = findColorClusters(data, canvas.width, canvas.height);
     clusters.forEach((cluster) => {
@@ -81,9 +81,9 @@ const PepeToPork = () => {
         const b = data[index + 2];
         if (isTargetColor(r, g, b)) {
           const factor = getFactor(targetColor, r, g, b, dr, dg, db);
-          data[index] = Math.min(targetPink.r * factor, 255);
-          data[index + 1] = Math.min(targetPink.g * factor, 255);
-          data[index + 2] = Math.min(targetPink.b * factor, 255);
+          data[index] = Math.min(targetRGB.r * factor, 255);
+          data[index + 1] = Math.min(targetRGB.g * factor, 255);
+          data[index + 2] = Math.min(targetRGB.b * factor, 255);
         }
       });
     });
@@ -251,7 +251,7 @@ const PepeToPork = () => {
     setGreenDifference(defaultSettings.greenDifference);
     setSaturation(defaultSettings.saturation);
     setBrightness(defaultSettings.brightness);
-    setPinkColor(defaultSettings.pinkColor);
+    setPinkColor(defaultSettings.targetColor);
     setInputThreshold(defaultSettings.greenThreshold);
     setInputDifference(defaultSettings.greenDifference);
     applyFilters();
@@ -298,7 +298,7 @@ const PepeToPork = () => {
 
   return (
     <div className={styles.pepeToPink}>
-      <h2>Pepe to Pork</h2>
+      <h2>Color Converter</h2>
       <div className={styles.uploadContainer} {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (

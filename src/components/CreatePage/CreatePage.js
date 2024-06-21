@@ -28,7 +28,7 @@ const CreatePage = () => {
           className={`${styles.button} ${activeComponent === 'PepeToPork' ? styles.activeButton : styles.inactiveButton}`}
           onClick={() => setActiveComponent('PepeToPork')}
         >
-          Pepe to Pork
+          Color Converter
         </button>
         <button
           className={`${styles.button} ${activeComponent === 'PromptGenerator' ? styles.activeButton : styles.inactiveButton}`}
