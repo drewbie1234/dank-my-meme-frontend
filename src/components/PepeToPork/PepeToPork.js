@@ -1,16 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FaCopy } from 'react-icons/fa';
-import axios from 'axios';
 import styles from './PepeToPork.module.css';
 
 const PepeToPork = () => {
   const defaultSettings = {
     greenThreshold: 255,
     greenDifference: 20,
-    pinkLevel: 221,
     saturation: 120,
     brightness: 115,
+    pinkColor: '#fea7dd'  // Default pink color
   };
 
   const [originalImage, setOriginalImage] = useState(null);
@@ -19,12 +18,11 @@ const PepeToPork = () => {
   const [isProcessedEnlarged, setIsProcessedEnlarged] = useState(false);
   const [greenThreshold, setGreenThreshold] = useState(defaultSettings.greenThreshold);
   const [greenDifference, setGreenDifference] = useState(defaultSettings.greenDifference);
-  const [pinkLevel, setPinkLevel] = useState(defaultSettings.pinkLevel);
   const [saturation, setSaturation] = useState(defaultSettings.saturation);
   const [brightness, setBrightness] = useState(defaultSettings.brightness);
   const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
   const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
-  const [inputPinkLevel, setInputPinkLevel] = useState(defaultSettings.pinkLevel);
+  const [pinkColor, setPinkColor] = useState(defaultSettings.pinkColor);
   const [tweetText, setTweetText] = useState('');
   const [tweetUrl, setTweetUrl] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,7 +46,7 @@ const PepeToPork = () => {
     if (originalImage) {
       convertColorToPink();
     }
-  }, [greenThreshold, greenDifference, pinkLevel, originalImage, targetColor]);
+  }, [greenThreshold, greenDifference, pinkColor, originalImage, targetColor]);
 
   useEffect(() => {
     applyFilters();
@@ -70,7 +68,10 @@ const PepeToPork = () => {
     ctx.drawImage(image, 0, 0);
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
-    const targetPink = { r: 254, g: 167, b: pinkLevel };
+
+    // Convert the pinkColor from hex to RGB
+    const targetPink = hexToRgb(pinkColor);
+
     const clusters = findColorClusters(data, canvas.width, canvas.height);
     clusters.forEach((cluster) => {
       const [dr, dg, db] = getDominantColor(cluster, data);
@@ -89,6 +90,14 @@ const PepeToPork = () => {
 
     ctx.putImageData(imageData, 0, 0);
     setProcessedImage(canvas.toDataURL());
+  };
+
+  const hexToRgb = (hex) => {
+    const bigint = parseInt(hex.slice(1), 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return { r, g, b };
   };
 
   const getFactor = (color, r, g, b, dr, dg, db) => {
@@ -201,11 +210,6 @@ const PepeToPork = () => {
     setInputDifference(value);
   };
 
-  const updatePinkLevel = (value) => {
-    setPinkLevel(value);
-    setInputPinkLevel(value);
-  };
-
   const updateSaturation = (value) => {
     setSaturation(value);
     applyFilters();
@@ -228,12 +232,6 @@ const PepeToPork = () => {
     updateDifference(value);
   };
 
-  const handlePinkLevelChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    setInputPinkLevel(value);
-    updatePinkLevel(value);
-  };
-
   const handleSaturationChange = (e) => {
     const value = parseInt(e.target.value, 10);
     updateSaturation(value);
@@ -244,15 +242,18 @@ const PepeToPork = () => {
     updateBrightness(value);
   };
 
+  const handlePinkColorChange = (e) => {
+    setPinkColor(e.target.value);
+  };
+
   const resetToDefaultSettings = () => {
     setGreenThreshold(defaultSettings.greenThreshold);
     setGreenDifference(defaultSettings.greenDifference);
-    setPinkLevel(defaultSettings.pinkLevel);
     setSaturation(defaultSettings.saturation);
     setBrightness(defaultSettings.brightness);
+    setPinkColor(defaultSettings.pinkColor);
     setInputThreshold(defaultSettings.greenThreshold);
     setInputDifference(defaultSettings.greenDifference);
-    setInputPinkLevel(defaultSettings.pinkLevel);
     applyFilters();
   };
 
@@ -384,14 +385,13 @@ const PepeToPork = () => {
         </div>
         <div className={styles.formGroup}>
           <div className={styles.labelColorContainer}>
-            <label>Pink Level: {inputPinkLevel}</label>
-            <div className={styles.colorDisplay} style={{ backgroundColor: `rgb(254, 167, ${inputPinkLevel})` }}></div>
-          </div>
-          <div className={styles.controlsContainer}>
-            <input type="range" min="0" max="255" value={inputPinkLevel} onChange={handlePinkLevelChange} className={styles.slider} />
-            <input type="number" value={inputPinkLevel} onChange={handlePinkLevelChange} className={styles.input} />
-            <button onClick={() => updatePinkLevel(pinkLevel + 1)} className={styles.button}>+</button>
-            <button onClick={() => updatePinkLevel(pinkLevel - 1)} className={styles.button}>-</button>
+            <label>Pink Color:</label>
+            <input
+              type="color"
+              value={pinkColor}
+              onChange={handlePinkColorChange}
+              className={styles.colorInput}
+            />
           </div>
         </div>
         <div className={styles.formGroup}>

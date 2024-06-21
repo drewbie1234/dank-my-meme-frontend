@@ -5,7 +5,7 @@ import PromptGenerator from '../PromptGenerator/PromptGenerator';
 import Dankify from '../Dankify/Dankify'; // Assuming this component exists
 
 const CreatePage = () => {
-  const [activeComponent, setActiveComponent] = useState('Dankify');
+  const [activeComponent, setActiveComponent] = useState('Pepe');
 
   const renderActiveComponent = () => {
     switch (activeComponent) {
