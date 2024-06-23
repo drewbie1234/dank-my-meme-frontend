@@ -194,6 +194,7 @@
 
 .leftAlign {
   text-align: left;
+  align-content: center;
   flex: 1;
 }
 
@@ -254,4 +255,8 @@
 .icon {
   font-size: 12px; /* Adjust the size of the icon */
   margin-left: 5px; /* Add some space between the text and the icon */
+}
+
+.hovered {
+  color: #ff007a; /* Pink color when hovered */
 }

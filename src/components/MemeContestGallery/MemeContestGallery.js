@@ -19,6 +19,7 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     const [copiedSubmissionId, setCopiedSubmissionId] = useState(null);
     const [showTooltip, setShowTooltip] = useState(false);
+    const [hovered, setHovered] = useState(false); // Add state for hover
 
     const swipeHandlers = useSwipeable({
         onSwipedLeft: () => scrollByOneImage("right"),
@@ -152,6 +153,14 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         window.open(`https://gateway.pinata.cloud/ipfs/${submission.image}`, '_blank');
     };
 
+    const handleMouseEnter = () => {
+        setHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setHovered(false);
+    };
+
     return (
         <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>
             {loading ? (
@@ -192,9 +201,9 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                 <div className={styles.bottomGalleryBar}>
                                     <p className={styles.leftAlign}># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</p>
                                     <div 
-                                        className={styles.imageButton} 
-                                        onMouseEnter={() => setShowTooltip(true)} 
-                                        onMouseLeave={() => setShowTooltip(false)} 
+                                        className={`${styles.imageButton} ${hovered ? styles.hovered : ''}`} 
+                                        onMouseEnter={handleMouseEnter} 
+                                        onMouseLeave={handleMouseLeave} 
                                         onClick={() => handleImageButtonClick(submission)}
                                     >
                                         <span>IPFS</span>
