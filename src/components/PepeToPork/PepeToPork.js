@@ -9,7 +9,7 @@ const PepeToPork = () => {
     greenDifference: 20,
     saturation: 120,
     brightness: 115,
-    targetColor: '#F7931A'  // Default target color
+    targetColor: 'green'  // Default target color
   };
 
   const [originalImage, setOriginalImage] = useState(null);
@@ -23,7 +23,7 @@ const PepeToPork = () => {
   const [inputThreshold, setInputThreshold] = useState(defaultSettings.greenThreshold);
   const [inputDifference, setInputDifference] = useState(defaultSettings.greenDifference);
   const [targetColor, setTargetColor] = useState(defaultSettings.targetColor);
-  const [pinkColor, setPinkColor] = useState(defaultSettings.targetColor);
+  const [pinkColor, setPinkColor] = useState('#fea7dd'); // Default pink color for replacement
   const [tweetText, setTweetText] = useState('');
   const [tweetUrl, setTweetUrl] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -251,9 +251,10 @@ const PepeToPork = () => {
     setGreenDifference(defaultSettings.greenDifference);
     setSaturation(defaultSettings.saturation);
     setBrightness(defaultSettings.brightness);
-    setPinkColor(defaultSettings.targetColor);
+    setPinkColor('#fea7dd');
     setInputThreshold(defaultSettings.greenThreshold);
     setInputDifference(defaultSettings.greenDifference);
+    setTargetColor(defaultSettings.targetColor);
     applyFilters();
   };
 
@@ -361,6 +362,17 @@ const PepeToPork = () => {
         </div>
         <div className={styles.formGroup}>
           <div className={styles.labelColorContainer}>
+            <label>Conversion Color:</label>
+            <input
+              type="color"
+              value={pinkColor}
+              onChange={handlePinkColorChange}
+              className={styles.colorInput}
+            />
+          </div>
+        </div>
+        <div className={styles.formGroup}>
+          <div className={styles.labelColorContainer}>
             <label>Target Threshold: {inputThreshold}</label>
             <div className={styles.colorDisplay} style={{ backgroundColor: targetColor === 'green' ? `rgb(0, ${inputThreshold}, 0)` : targetColor === 'red' ? `rgb(${inputThreshold}, 0, 0)` : `rgb(0, 0, ${inputThreshold})` }}></div>
           </div>
@@ -381,17 +393,6 @@ const PepeToPork = () => {
             <input type="number" value={inputDifference} onChange={handleDifferenceChange} className={styles.input} />
             <button onClick={() => updateDifference(greenDifference + 1)} className={styles.button}>+</button>
             <button onClick={() => updateDifference(greenDifference - 1)} className={styles.button}>-</button>
-          </div>
-        </div>
-        <div className={styles.formGroup}>
-          <div className={styles.labelColorContainer}>
-            <label>Pink Color:</label>
-            <input
-              type="color"
-              value={pinkColor}
-              onChange={handlePinkColorChange}
-              className={styles.colorInput}
-            />
           </div>
         </div>
         <div className={styles.formGroup}>

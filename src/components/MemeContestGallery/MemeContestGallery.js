@@ -5,7 +5,7 @@ import leftSlider from "../../svgs/leftSlider.svg";
 import rightSlider from "../../svgs/rightSlider.svg";
 import { fetchSubmissions } from "../../utils/fetchSubmissions";
 import { shortenAddress } from "../../utils/shortenAddress";
-
+import { FaLink } from "react-icons/fa"; // Importing Font Awesome link icon
 
 const GWK = 'AMVTo16ddMxP42u7zyVkDn1ckRGXeKEAZ0N8_5qp3YEzcQl3yiATgfUpDD5tSdZj';
 
@@ -148,6 +148,10 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
         window.open(`https://www.dankmymeme.xyz/submissions/${submissionId}`, '_blank');
     };
 
+    const handleImageButtonClick = (submission) => {
+        window.open(`https://gateway.pinata.cloud/ipfs/${submission.image}`, '_blank');
+    };
+
     return (
         <div {...swipeHandlers} className={styles.memeContestGalleryWrapper}>
             {loading ? (
@@ -168,11 +172,13 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                         {submissions.map((submission, index) => (
                             <div key={submission._id} className={styles.submissionDetail} onClick={() => scrollToCenter(index)} ref={el => imageRefs.current[index] = el}>
                                 <div className={styles.entryBar}>
-                                    <div className={styles.middleSection}><div className={styles.etherScanLink}>
+                                    <div className={styles.middleSection}>
+                                        <div className={styles.etherScanLink}>
                                             <a href={`https://magmascan.org/address/${submission.wallet}`} target="_blank" rel="noopener noreferrer">
-                                                {(shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet))}
+                                                {shortenAddress(walletAddresses[submission.wallet]) || shortenAddress(submission.wallet)}
                                             </a>
-                                        </div></div>
+                                        </div>
+                                    </div>
                                     <div className={styles.leftSection}>
                                         <div className={styles.circleID} onClick={() => handleSubmissionIdClick(submission._id)}>SHARE</div>
                                     </div>
@@ -184,8 +190,22 @@ const MemeContestGallery = ({ contest, onSelectedSubmissionChange }) => {
                                     <img src={`https://crimson-rear-vole-353.mypinata.cloud/ipfs/${submission.image}?pinataGatewayToken=${GWK}`} className={styles.memeImage} alt='' loading="lazy" />
                                 </div>
                                 <div className={styles.bottomGalleryBar}>
-                                    <p># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</p>
-                                    <p>{timeRemaining}</p>
+                                    <p className={styles.leftAlign}># {String(index + 1).padStart(3, '0')}/{String(submissions.length).padStart(3, '0')}</p>
+                                    <div 
+                                        className={styles.imageButton} 
+                                        onMouseEnter={() => setShowTooltip(true)} 
+                                        onMouseLeave={() => setShowTooltip(false)} 
+                                        onClick={() => handleImageButtonClick(submission)}
+                                    >
+                                        <span>IPFS</span>
+                                        <FaLink className={styles.icon} />
+                                        {showTooltip && (
+                                            <div className={styles.tooltip}>
+                                                {submission.image}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <p className={styles.rightAlign}>{timeRemaining}</p>
                                 </div>
                             </div>
                         ))}
