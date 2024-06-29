@@ -310,8 +310,11 @@ const Dankify = () => {
               onDragStart={(e) => e.dataTransfer.setData('text/plain', src)}
               onDragEnd={(e) => addImageToCanvas(e.target.src)}
               onTouchStart={(e) => handleTouchStart(e, src)}
-              onTouchEnd={handleTouchEnd}
-              onClick={() => addImageToCanvas(src)}
+              onTouchEnd={(e) => handleTouchEnd(e)}
+              onClick={(e) => {
+                e.preventDefault(); // Prevent the click event from firing
+                addImageToCanvas(src);
+              }}
             />
           ))}
         </div>
