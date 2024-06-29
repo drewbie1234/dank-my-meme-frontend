@@ -60,7 +60,7 @@ const Dankify = () => {
 
   const addImageToCanvas = (src) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
-    setItems([...items, { id, type: 'image', src, x: 50, y: 50, width: 100, height: 100, rotation: 0 }]);
+    setItems([...items, { id, type: 'image', src, x: 50, y: 50, width: 100, height: 100, rotation: 0, draggable: true }]);
   };
 
   const openTextModal = () => setIsTextModalOpen(true);
@@ -75,7 +75,7 @@ const Dankify = () => {
 
   const addTextToCanvas = () => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
-    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: fontSize, fontStyle: fontStyle, fontFamily: fontFamily, fill: textColor, width: 200 }]);
+    setItems([...items, { id, type: 'text', x: 50, y: 50, text: textInput, fontSize: fontSize, fontStyle: fontStyle, fontFamily: fontFamily, fill: textColor, width: 200, draggable: true }]);
     closeTextModal();
   };
 
@@ -244,7 +244,7 @@ const Dankify = () => {
                     width={item.width}
                     height={item.height}
                     rotation={item.rotation}
-                    draggable
+                    draggable={item.draggable}
                     isSelected={item.id === selectedId}
                     onSelect={() => setSelectedId(item.id)}
                     onChange={handleTransform}
@@ -263,6 +263,7 @@ const Dankify = () => {
                     fontStyle={item.fontStyle}
                     fontFamily={item.fontFamily}
                     fill={item.fill}
+                    draggable={item.draggable}
                     isSelected={item.id === selectedId}
                     onSelect={() => setSelectedId(item.id)}
                     onChange={handleTransform}
@@ -298,7 +299,7 @@ const Dankify = () => {
         </div>
       </div>
       <div className={styles.displayContainer}>
-        <p>Drag or click these images to add to the canvas:</p>
+        <p>Click these images to add to the canvas:</p>
         <div className={styles.imageList}>
           {imagePaths.map((src, index) => (
             <img
@@ -306,11 +307,8 @@ const Dankify = () => {
               src={src}
               alt={`display-${index}`}
               className={styles.thumbnail}
-              draggable
-              onDragStart={(e) => e.dataTransfer.setData('text/plain', src)}
-              onDragEnd={(e) => addImageToCanvas(e.target.src)}
               onTouchStart={(e) => handleTouchStart(e, src)}
-              onTouchEnd={(e) => handleTouchEnd(e)}
+              onTouchEnd={handleTouchEnd}
               onClick={(e) => {
                 e.preventDefault(); // Prevent the click event from firing
                 addImageToCanvas(src);
