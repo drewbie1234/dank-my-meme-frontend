@@ -99,12 +99,13 @@ const Dankify = () => {
       const { offsetWidth, offsetHeight } = imageContainerRef.current;
       setImageDimensions({ width: Math.min(offsetWidth, 500), height: offsetHeight });
     }
-    window.addEventListener('keydown', (e) => {
+    const handleKeyDown = (e) => {
       if (e.key === 'Delete') {
         handleDeleteSelected();
       }
-    });
-    return () => window.removeEventListener('keydown', handleDeleteSelected);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleDeleteSelected]);
 
   const handleStageMouseDown = (e) => {
