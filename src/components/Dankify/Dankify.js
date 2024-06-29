@@ -167,10 +167,6 @@ const Dankify = () => {
 
   const handleStockImageClick = (src) => setUploadedImage(src);
 
-  const handleTouchStart = (e, src) => {
-    e.target.setAttribute('data-drag-src', src);
-  };
-
   const handleTouchEnd = (e) => {
     const src = e.target.getAttribute('data-drag-src');
     if (src) {
@@ -307,7 +303,7 @@ const Dankify = () => {
               src={src}
               alt={`display-${index}`}
               className={styles.thumbnail}
-              onTouchStart={(e) => handleTouchStart(e, src)}
+        
               onTouchEnd={handleTouchEnd}
               onClick={(e) => {
                 e.preventDefault(); // Prevent the click event from firing
